@@ -38,6 +38,10 @@ def export_data(data, name):
     with open(f"data/output/{name}.json", 'w') as outfile:
         json.dump(data, outfile)
 
+def export_metadata():
+    metadata_json = {"regions": REGIONS}
+    with open(f"data/output/regionales_metadata.json", 'w') as outfile:
+        json.dump(metadata_json, outfile)
 
 def get_regions_polls():
     for region in REGIONS:
@@ -47,6 +51,7 @@ def get_regions_polls():
         data_output = get_all_results(data)
         data_output = compute_rolling_means(data_output)
         export_data(data=data_output, name=name)
+        export_metadata()
 
 
 if __name__ == '__main__':
