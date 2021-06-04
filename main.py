@@ -18,9 +18,10 @@ def get_all_results(data):
                         tete_liste = liste["tete_liste"]
                         if tete_liste is None:
                             tete_liste = "".join(liste["parti"])
-                        data_output[tete_liste] = data_output.get(tete_liste, {})
-                        data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
-                        data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
+                        if sondage["fin_enquete"]>"2021-02-01":
+                            data_output[tete_liste] = data_output.get(tete_liste, {})
+                            data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
+                            data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
     return data_output
 
 

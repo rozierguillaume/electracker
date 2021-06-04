@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div style="max-width: 50%;">
+    <canvas id="myChart" width="400" height="200"></canvas>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+<script>
+    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_PACA.json';
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+      var data = request.response;
+      build_chart(data);
+    }
+    function compare(a, b) {
+      if (a.x<b.x)
+         return -1;
+      if (a.x>b.x)
+         return 1;
+      // a doit être égal à b
+      return 0;
+}
+    function build_chart_dataset(data){
+        var datasets = [];
+        for (var candidat in data) {
+            var data_dataset = data[candidat]["dates"].map((value, idx) => ({x: value, y: data[candidat]["intentions"][idx]}))
+            data_dataset.sort(compare)
+            let dataset = {
+                label: candidat,
+                data: data_dataset,
+            }
+            datasets.push(dataset)
+        }
+        return datasets
+    }
+    function build_chart(data) {
+        let chart_dataset = build_chart_dataset(data)
+        console.log(chart_dataset)
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: chart_dataset
+            },
+            options: {
+                scales: {
+
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        type: 'timeseries',
+                        distribution: 'linear',
+                    },
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
