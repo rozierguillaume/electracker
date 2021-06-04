@@ -36,7 +36,7 @@
             var data_dataset = data[candidat]["dates"].map((value, idx) => ({x: value, y: data[candidat]["intentions"][idx]}))
             data_dataset.sort(compare)
             let dataset = {
-                label: candidat,
+                label: candidat + " (" + data[candidat]["parti"] + ")",
                 data: data_dataset,
             }
             datasets.push(dataset)

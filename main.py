@@ -24,7 +24,7 @@ def get_all_results(data):
                             data_output[tete_liste] = data_output.get(tete_liste, {})
                             data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
                             data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
-                            data_output[tete_liste]["parti"] = data_output[tete_liste].get("dates", []) + ["".join(liste["parti"])]
+                            data_output[tete_liste]["parti"] = "".join(liste["parti"])
     return data_output
 
 
