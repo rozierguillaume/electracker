@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<h1>ElecTracker</h1>
+Sondages des élections régionales. <a href="https://github.com/nsppolls/nsppolls">Source des données</a>.
 
 <div id="charts-regions" style="max-width: 50%;">
 
@@ -43,7 +45,6 @@
          return -1;
       if (a.x>b.x)
          return 1;
-      // a doit être égal à b
       return 0;
 }
     function build_chart_dataset(data){
@@ -61,7 +62,11 @@
     }
 
     function update_html(region){
-        document.getElementById("charts-regions").innerHTML += `<canvas id="chart-${region}" width="400" height="200"></canvas>`
+        document.getElementById("charts-regions").innerHTML += `
+            <h2>{region}</h2><br>
+            <canvas id="chart-${region}" width="400" height="200"></canvas>
+            <br><br>
+            `.replace("{region}", region)
     }
 
     function build_chart(data, region) {

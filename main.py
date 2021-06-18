@@ -20,7 +20,7 @@ def get_all_results(data):
                         tete_liste = liste["tete_liste"]
                         if tete_liste is None:
                             tete_liste = "".join(liste["parti"])
-                        if sondage["fin_enquete"]>"2021-04-01":
+                        if sondage["fin_enquete"]>"2021-05-01":
                             data_output[tete_liste] = data_output.get(tete_liste, {})
                             data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
                             data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
@@ -59,6 +59,7 @@ def get_regions_polls():
         data_output = get_all_results(data)
         #data_output = clean_small_candidates(data_output)
         data_output = compute_rolling_means(data_output)
+        print(data_output)
         export_data(data=data_output, name=name)
         export_metadata()
 
