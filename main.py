@@ -2,8 +2,8 @@ import urllib.request, json
 import pandas as pd
 import numpy as np
 
-REGIONS = ["PACA", "%20BZH", "ARA", "CVL", "GE", "HDF", "IDF", "N", "NA", "OCC", "PDL"]
-REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azeur",
+REGIONS = ["ARA", "%20BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL"]
+REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
                "%20BZH":"Bretagne",
                 "ARA":"Auvergne Rhône Alpes",
                 "CVL":"Centre Val de Loire",

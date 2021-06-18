@@ -51,12 +51,12 @@
     request.send();
     request.onload = function() {
       var metadata = request.response;
-      metadata.regions.map((region) => download_data_and_build_chart(region))
+      metadata.regions.map((region) => download_data_and_build_chart(region, metadata))
       ;
     }
 
-    function download_data_and_build_chart(region) {
-        update_html(region);
+    function download_data_and_build_chart(region, metadata) {
+        update_html(region, metadata);
         var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_${region}.json`;
         var request = new XMLHttpRequest();
         request.open('GET', requestURL);
@@ -64,7 +64,7 @@
         request.send();
         request.onload = function () {
             var data = request.response;
-            build_chart(data, region);
+            build_chart(data, region, metadata);
         }
     }
 
@@ -91,12 +91,12 @@
         return datasets
     }
 
-    function update_html(region){
+    function update_html(region, metadata){
         document.getElementById("charts-regions").innerHTML += `
             <h2>{region}</h2><br>
             <canvas id="chart-${region}" width="400" height="200"></canvas>
             <br><br>
-            `.replace("{region}", region)
+            `.replace("{region}", metadata["regions_noms"][region])
     }
 
     function build_chart(data, region) {
