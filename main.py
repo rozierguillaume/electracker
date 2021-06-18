@@ -53,10 +53,11 @@ def construire_liste_ordonnee_candidats(data):
     candidats = list(data.keys())
     intentions_rolling_mean = [round(data[candidat]["intentions_rolling_mean"][-1], 1) for candidat in candidats]
     indices_tries = np.argsort(-np.array(intentions_rolling_mean))
+    print(intentions_rolling_mean)
     return np.array(candidats)[indices_tries].tolist(), (np.array(intentions_rolling_mean)[indices_tries]).tolist()
 
 def get_all_results(data):
-    print(data)
+    #print(data)
     data_output = {"data": {}}
     for sondage in data["sondages"]:
         for tour in sondage["tours"]:
