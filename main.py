@@ -1,10 +1,11 @@
 import urllib.request, json
 import pandas as pd
 import numpy as np
+import re
 
-REGIONS = ["ARA", "%20BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL"]
+REGIONS = ["ARA", "BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL"]
 REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
-               "%20BZH":"Bretagne",
+               "BZH":"Bretagne",
                 "ARA":"Auvergne Rhône Alpes",
                 "CVL":"Centre Val de Loire",
                 "GE":"Grand Est",
@@ -81,6 +82,7 @@ def compute_rolling_means(data_output):
 
 
 def export_data(data, name):
+    name = re.sub("[.*%20.*]", "", name)
     with open(f"data/output/{name}.json", 'w') as outfile:
         json.dump(data, outfile)
 
@@ -99,6 +101,8 @@ def clean_small_candidates(data):
 
 def get_regions_polls():
     for region in REGIONS:
+        if region=="BZH":
+            region="%20BZH"
         name = f"regionales_{region}"
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
         data_output = get_all_results(data)

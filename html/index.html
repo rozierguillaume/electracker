@@ -64,7 +64,7 @@
         request.send();
         request.onload = function () {
             var data = request.response;
-            build_chart(data, region, metadata);
+            build_chart(data["data"], region, metadata);
         }
     }
 
