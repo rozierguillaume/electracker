@@ -79,6 +79,7 @@
     function build_chart_dataset(data){
         var datasets = [];
         for (var candidat in data) {
+            console.log(data)
             var data_dataset = data[candidat]["dates"].map((value, idx) => ({x: value, y: data[candidat]["intentions"][idx]}))
             data_dataset.sort(compare)
             let dataset = {
