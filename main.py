@@ -30,13 +30,13 @@ def get_color_candidate(team):
         return "black"
     if "les républicains" in team:
         return "darkblue"
-    if "LREM" in team:
+    if ("LREM" in team) or ("LRM" in team):
         return "blue"
     if "écologie" in team:
         return "green"
     if "lutte ouvrière" in team:
         return "red"
-    if "EE-LV" in team:
+    if "ee-lv" in team:
         return "green"
     if ("communiste" in team) or ("insoumis" in team):
         return "red"
@@ -56,7 +56,7 @@ def construire_liste_ordonnee_candidats(data):
 
 def get_all_results(data):
     print(data)
-    data_output = {}
+    data_output = {"data": {}}
     for sondage in data["sondages"]:
         for tour in sondage["tours"]:
             if tour["tour"] == "Premier tour":
@@ -66,17 +66,17 @@ def get_all_results(data):
                         if tete_liste is None:
                             tete_liste = "".join(liste["parti"])
                         if sondage["fin_enquete"]>"2021-05-15":
-                            data_output[tete_liste] = data_output.get(tete_liste, {})
-                            data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
-                            data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
-                            data_output[tete_liste]["parti"] = get_team(liste["parti"])
-                            data_output[tete_liste]["couleur"] = get_color_candidate(team=data_output[tete_liste]["parti"])
+                            data_output["data"][tete_liste] = data_output["data"].get(tete_liste, {})
+                            data_output["data"][tete_liste]["intentions"] = data_output["data"][tete_liste].get("intentions", []) + [liste["intentions"]]
+                            data_output["data"][tete_liste]["dates"] = data_output["data"][tete_liste].get("dates", []) + [sondage["fin_enquete"]]
+                            data_output["data"][tete_liste]["parti"] = get_team(liste["parti"])
+                            data_output["data"][tete_liste]["couleur"] = get_color_candidate(team=data_output["data"][tete_liste]["parti"])
     return data_output
 
 
 def compute_rolling_means(data_output):
-    for candidat in data_output:
-        data_output[candidat]["intentions_rolling_mean"] = pd.Series(data_output[candidat]["intentions"]).rolling(window=3).mean().fillna(0).to_list()
+    for candidat in data_output["data"]:
+        data_output["data"][candidat]["intentions_rolling_mean"] = pd.Series(data_output["data"][candidat]["intentions"]).rolling(window=3).mean().fillna(0).to_list()
     return data_output
 
 
@@ -103,7 +103,7 @@ def get_regions_polls():
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
         data_output = get_all_results(data)
         data_output = compute_rolling_means(data_output)
-        #data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output)
+        data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output["data"])
         #print(data_output)
         export_data(data=data_output, name=name)
         export_metadata()
