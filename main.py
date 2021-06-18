@@ -51,9 +51,9 @@ def get_team(parti):
 
 def construire_liste_ordonnee_candidats(data):
     candidats = list(data.keys())
-    intentions = [data[candidat]["intentions"][-1] for candidat in candidats]
-    indices_tries = np.argsort(-np.array(intentions))
-    return np.array(candidats)[indices_tries].tolist(), (np.array(intentions)[indices_tries]).tolist()
+    intentions_rolling_mean = [data[candidat]["intentions_rolling_mean"][-1] for candidat in candidats]
+    indices_tries = np.argsort(-np.array(intentions_rolling_mean))
+    return np.array(candidats)[indices_tries].tolist(), (np.array(intentions_rolling_mean)[indices_tries]).tolist()
 
 def get_all_results(data):
     print(data)

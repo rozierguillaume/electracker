@@ -19,9 +19,9 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Régions
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">PACA</a>
-          <a class="dropdown-item" href="#">AURA</a>
+        <div id="dropdown-menu" class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#about">À propos</a>
@@ -35,7 +35,7 @@
     </div>
 
     <h2 id="about">À propos</h2>
-    Sondages des élections régionales. <a href="https://github.com/nsppolls/nsppolls">Source des données</a>.
+    ElecTracker aggrège les sondages des élections régionales en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
     <br><br>
 </div>
 
@@ -51,8 +51,8 @@
     request.send();
     request.onload = function() {
       var metadata = request.response;
-      metadata.regions.map((region) => download_data_and_build_chart(region, metadata))
-      ;
+      update_dropdown(metadata);
+      metadata["regions"].map((region) => download_data_and_build_chart(region, metadata));
     }
 
     function download_data_and_build_chart(region, metadata) {
@@ -64,10 +64,17 @@
         request.send();
         request.onload = function () {
             var data = request.response;
-            build_chart(data["data"], region, metadata);
+            build_chart(data["data"], region);
+            update_intro(data, region);
         }
     }
 
+    function update_dropdown(metadata){
+        metadata["regions"].map((region) => {
+            region_name = metadata["regions_noms"][region]
+            document.getElementById("dropdown-menu").innerHTML += `<a class="dropdown-item" href="#${region}">${region_name}</a>`
+        })
+    }
     function compare(a, b) {
       if (a.x<b.x)
          return -1;
@@ -78,7 +85,6 @@
     function build_chart_dataset(data){
         var datasets = [];
         for (var candidat in data) {
-            console.log(data)
             var data_dataset = data[candidat]["dates"].map((value, idx) => ({x: value, y: data[candidat]["intentions"][idx]}))
             data_dataset.sort(compare)
             let dataset = {
@@ -93,14 +99,27 @@
 
     function update_html(region, metadata){
         document.getElementById("charts-regions").innerHTML += `
-            <h2>{region}</h2><br>
+            <h2 id="${region}">{region}</h2><br>
+            <div id="${region}-intro"></div>
             <canvas id="chart-${region}" width="400" height="200"></canvas>
             <br><br>
             `.replace("{region}", metadata["regions_noms"][region])
     }
 
-    function build_chart(data, region) {
+    function update_intro(data, region){
+        string_to_display = "Quatre premiers dans les sondages :<br>";
 
+        for (let i = 0; i < 4; i++) {
+            candidat = data["candidats_ordonnes"][i];
+            string_to_display += `• <b>${data["intentions_ordonnees"][i]} %</b> `
+            string_to_display += `${candidat}`
+            string_to_display += ` (${data["data"][candidat]["parti"]})<br>`
+        }
+
+        document.getElementById(`${region}-intro`).innerHTML += `${string_to_display}<br><br>`
+    }
+
+    function build_chart(data, region) {
         let chart_dataset = build_chart_dataset(data)
         let ctx = document.getElementById(`chart-${region}`).getContext('2d');
         let chart = new Chart(ctx, {
