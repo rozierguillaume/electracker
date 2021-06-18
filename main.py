@@ -1,5 +1,6 @@
 import urllib.request, json
 import pandas as pd
+import numpy as np
 
 REGIONS = ["PACA", "%20BZH", "ARA", "CVL", "GE", "HDF", "IDF", "N", "NA", "OCC", "PACA", "PDL"]
 
@@ -35,6 +36,12 @@ def get_team(parti):
         return parti
     else:
         return ", ".join(list(parti))
+
+def construire_liste_ordonnee_candidats(data):
+    candidats = list(data.keys())
+    intentions = [data[candidat]["intentions"][-1] for candidat in candidats]
+    indices_tries = np.argsort(-np.array(intentions))
+    return np.array(candidats)[indices_tries].tolist(), (np.array(intentions)[indices_tries]).tolist()
 
 def get_all_results(data):
     data_output = {}
@@ -83,8 +90,8 @@ def get_regions_polls():
         name = f"regionales_{region}"
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
         data_output = get_all_results(data)
-        #data_output = clean_small_candidates(data_output)
         data_output = compute_rolling_means(data_output)
+        data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output)
         print(data_output)
         export_data(data=data_output, name=name)
         export_metadata()
