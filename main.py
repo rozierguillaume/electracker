@@ -10,6 +10,8 @@ def download_data(url):
     return data[0]
 
 def get_color_candidate(team):
+    team = team.lower()
+
     if "socialiste" in team:
         return "pink"
     if "rassemblement national" in team:
@@ -18,7 +20,21 @@ def get_color_candidate(team):
         return "darkblue"
     if "LREM" in team:
         return "blue"
+    if "écologie" in team:
+        return "green"
+    if "lutte ouvrière" in team:
+        return "red"
+    if "EE-LV" in team:
+        return "green"
+    if ("communiste" in team) or ("insoumis" in team):
+        return "red"
     return "grey"
+
+def get_team(parti):
+    if(type(parti) is str):
+        return parti
+    else:
+        return ", ".join(list(parti))
 
 def get_all_results(data):
     data_output = {}
@@ -34,7 +50,7 @@ def get_all_results(data):
                             data_output[tete_liste] = data_output.get(tete_liste, {})
                             data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
                             data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
-                            data_output[tete_liste]["parti"] = "".join(liste["parti"])
+                            data_output[tete_liste]["parti"] = get_team(liste["parti"])
                             data_output[tete_liste]["couleur"] = get_color_candidate(team=data_output[tete_liste]["parti"])
     return data_output
 
@@ -65,7 +81,6 @@ def clean_small_candidates(data):
 def get_regions_polls():
     for region in REGIONS:
         name = f"regionales_{region}"
-        print(name)
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
         data_output = get_all_results(data)
         #data_output = clean_small_candidates(data_output)
