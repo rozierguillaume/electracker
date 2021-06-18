@@ -9,6 +9,16 @@ def download_data(url):
         data = json.loads(url_object.read().decode())
     return data[0]
 
+def get_color_candidate(team):
+    if "socialiste" in team:
+        return "pink"
+    if "rassemblement national" in team:
+        return "black"
+    if "les républicains" in team:
+        return "darkblue"
+    if "LREM" in team:
+        return "blue"
+    return "grey"
 
 def get_all_results(data):
     data_output = {}
@@ -20,11 +30,12 @@ def get_all_results(data):
                         tete_liste = liste["tete_liste"]
                         if tete_liste is None:
                             tete_liste = "".join(liste["parti"])
-                        if sondage["fin_enquete"]>"2021-05-01":
+                        if sondage["fin_enquete"]>"2021-05-15":
                             data_output[tete_liste] = data_output.get(tete_liste, {})
                             data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
                             data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
                             data_output[tete_liste]["parti"] = "".join(liste["parti"])
+                            data_output[tete_liste]["couleur"] = get_color_candidate(team=data_output[tete_liste]["parti"])
     return data_output
 
 
