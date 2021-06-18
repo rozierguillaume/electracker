@@ -1,16 +1,19 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+
 import urllib.request, json
 import pandas as pd
 import numpy as np
 import re
 
 REGIONS = ["ARA", "BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL"]
-REGIONS_NOMS = {"PACA":"Provence Alpes CÃ´te d'Azur",
+REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
                "BZH":"Bretagne",
-                "ARA":"Auvergne RhÃ´ne Alpes",
+                "ARA":"Auvergne Rhône Alpes",
                 "CVL":"Centre Val de Loire",
                 "GE":"Grand Est",
                 "HDF":"Hauts-de-France",
-                "IDF":"Ãle-de-France",
+                "IDF":"Île-de-France",
                 "N":"Nord",
                 "NA":"Nouvelle Aquitaine",
                 "OCC":"Occitanie",
@@ -29,13 +32,13 @@ def get_color_candidate(team):
         return "pink"
     if "rassemblement national" in team:
         return "black"
-    if "les rÃ©publicains" in team:
+    if "les républicains" in team:
         return "darkblue"
     if ("LREM" in team) or ("LRM" in team):
         return "blue"
-    if "Ã©cologie" in team:
+    if "écologie" in team:
         return "green"
-    if "lutte ouvriÃ¨re" in team:
+    if "lutte ouvrière" in team:
         return "red"
     if "ee-lv" in team:
         return "green"
@@ -77,7 +80,11 @@ def get_all_results(data):
 
 def compute_rolling_means(data_output):
     for candidat in data_output["data"]:
-        data_output["data"][candidat]["intentions_rolling_mean"] = pd.Series(data_output["data"][candidat]["intentions"]).rolling(window=3).mean().fillna(0).to_list()
+        if len(data_output["data"][candidat]["intentions"]) >=3:
+            data_output["data"][candidat]["intentions_rolling_mean"] = pd.Series(data_output["data"][candidat]["intentions"]).rolling(window=3).mean().fillna(0).to_list()
+        else:
+            data_output["data"][candidat]["intentions_rolling_mean"] = data_output["data"][candidat]["intentions"]
+
     return data_output
 
 
