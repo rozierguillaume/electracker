@@ -20,7 +20,7 @@ def get_all_results(data):
                         tete_liste = liste["tete_liste"]
                         if tete_liste is None:
                             tete_liste = "".join(liste["parti"])
-                        if sondage["fin_enquete"]>"2021-02-01":
+                        if sondage["fin_enquete"]>"2021-04-01":
                             data_output[tete_liste] = data_output.get(tete_liste, {})
                             data_output[tete_liste]["intentions"] = data_output[tete_liste].get("intentions", []) + [liste["intentions"]]
                             data_output[tete_liste]["dates"] = data_output[tete_liste].get("dates", []) + [sondage["fin_enquete"]]
@@ -43,12 +43,21 @@ def export_metadata():
     with open(f"data/output/regionales_metadata.json", 'w') as outfile:
         json.dump(metadata_json, outfile)
 
+
+def clean_small_candidates(data):
+    return data
+    #for candidat in data:
+        #if candidat["intentions"] < 3:
+
+
+
 def get_regions_polls():
     for region in REGIONS:
         name = f"regionales_{region}"
         print(name)
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
         data_output = get_all_results(data)
+        #data_output = clean_small_candidates(data_output)
         data_output = compute_rolling_means(data_output)
         export_data(data=data_output, name=name)
         export_metadata()

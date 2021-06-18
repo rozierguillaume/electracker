@@ -6,22 +6,38 @@
 </head>
 <body>
 
-<div style="max-width: 50%;">
-    <canvas id="myChart" width="400" height="200"></canvas>
+<div id="charts-regions" style="max-width: 50%;">
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
 <script>
-    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_ARA.json';
+
+    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_metadata.json';
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
     request.send();
     request.onload = function() {
-      var data = request.response;
-      build_chart(data);
+      var metadata = request.response;
+      metadata.regions.map((region) => download_data_and_build_chart(region))
+      ;
     }
+
+    function download_data_and_build_chart(region) {
+        update_html(region);
+        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_${region}.json`;
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function () {
+            var data = request.response;
+            build_chart(data, region);
+        }
+    }
+
     function compare(a, b) {
       if (a.x<b.x)
          return -1;
@@ -43,11 +59,16 @@
         }
         return datasets
     }
-    function build_chart(data) {
+
+    function update_html(region){
+        document.getElementById("charts-regions").innerHTML += `<canvas id="chart-${region}" width="400" height="200"></canvas>`
+    }
+
+    function build_chart(data, region) {
+
         let chart_dataset = build_chart_dataset(data)
-        console.log(chart_dataset)
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
+        let ctx = document.getElementById(`chart-${region}`).getContext('2d');
+        let chart = new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: chart_dataset
@@ -66,6 +87,7 @@
             }
         });
     }
+
 </script>
 </body>
 </html>
