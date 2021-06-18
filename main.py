@@ -51,7 +51,7 @@ def get_team(parti):
 
 def construire_liste_ordonnee_candidats(data):
     candidats = list(data.keys())
-    intentions_rolling_mean = [data[candidat]["intentions_rolling_mean"][-1] for candidat in candidats]
+    intentions_rolling_mean = [round(data[candidat]["intentions_rolling_mean"][-1], 1) for candidat in candidats]
     indices_tries = np.argsort(-np.array(intentions_rolling_mean))
     return np.array(candidats)[indices_tries].tolist(), (np.array(intentions_rolling_mean)[indices_tries]).tolist()
 
