@@ -51,7 +51,8 @@
     request.send();
     request.onload = function() {
       var metadata = request.response;
-      metadata.regions.map((region) => download_data_and_build_chart(region))
+      //metadata.regions.map((region) => download_data_and_build_chart(region))
+        download_data_and_build_chart("PACA")
       ;
     }
 

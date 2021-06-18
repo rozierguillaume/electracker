@@ -91,7 +91,7 @@ def get_regions_polls():
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
         data_output = get_all_results(data)
         data_output = compute_rolling_means(data_output)
-        data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output)
+        #data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output)
         print(data_output)
         export_data(data=data_output, name=name)
         export_metadata()
