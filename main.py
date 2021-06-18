@@ -2,7 +2,18 @@ import urllib.request, json
 import pandas as pd
 import numpy as np
 
-REGIONS = ["PACA", "%20BZH", "ARA", "CVL", "GE", "HDF", "IDF", "N", "NA", "OCC", "PACA", "PDL"]
+REGIONS = ["PACA", "%20BZH", "ARA", "CVL", "GE", "HDF", "IDF", "N", "NA", "OCC", "PDL"]
+REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azeur",
+               "%20BZH":"Bretagne",
+                "ARA":"Auvergne Rhône Alpes",
+                "CVL":"Centre Val de Loire",
+                "GE":"Grand Est",
+                "HDF":"Hauts-de-France",
+                "IDF":"Île-de-France",
+                "N":"Nord",
+                "NA":"Nouvelle Aquitaine",
+                "OCC":"Occitanie",
+                "PDL":"Pays-de-Loire"}
 
 def download_data(url):
     data = []
@@ -44,6 +55,7 @@ def construire_liste_ordonnee_candidats(data):
     return np.array(candidats)[indices_tries].tolist(), (np.array(intentions)[indices_tries]).tolist()
 
 def get_all_results(data):
+    print(data)
     data_output = {}
     for sondage in data["sondages"]:
         for tour in sondage["tours"]:
@@ -73,7 +85,7 @@ def export_data(data, name):
         json.dump(data, outfile)
 
 def export_metadata():
-    metadata_json = {"regions": REGIONS}
+    metadata_json = {"regions": REGIONS, "regions_noms": REGIONS_NOMS}
     with open(f"data/output/regionales_metadata.json", 'w') as outfile:
         json.dump(metadata_json, outfile)
 
@@ -92,7 +104,7 @@ def get_regions_polls():
         data_output = get_all_results(data)
         data_output = compute_rolling_means(data_output)
         #data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output)
-        print(data_output)
+        #print(data_output)
         export_data(data=data_output, name=name)
         export_metadata()
 

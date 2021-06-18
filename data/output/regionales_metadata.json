@@ -1,1 +1,1 @@
-{"regions": ["PACA", "%20BZH", "ARA", "CVL", "GE", "HDF", "IDF", "N", "NA", "OCC", "PACA", "PDL"]}
+{"regions": ["PACA", "%20BZH", "ARA", "CVL", "GE", "HDF", "IDF", "N", "NA", "OCC", "PDL"], "regions_noms": {"PACA": "Provence Alpes C\u00f4te d'Azeur", "%20BZH": "Bretagne", "ARA": "Auvergne Rh\u00f4ne Alpes", "CVL": "Centre Val de Loire", "GE": "Grand Est", "HDF": "Hauts-de-France", "IDF": "\u00cele-de-France", "N": "Nord", "NA": "Nouvelle Aquitaine", "OCC": "Occitanie", "PDL": "Pays-de-Loire"}}
