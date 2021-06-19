@@ -34,7 +34,7 @@ def get_color_candidate(team):
         return "black"
     if "les républicains" in team:
         return "darkblue"
-    if ("LREM" in team) or ("LRM" in team):
+    if ("lrem" in team) or ("lrm" in team):
         return "blue"
     if "écologie" in team:
         return "green"

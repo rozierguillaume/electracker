@@ -10,32 +10,41 @@
     <title>Title</title>
 </head>
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">ElecTracker</a>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Régions
-        </a>
-        <div id="dropdown-menu" class="dropdown-menu" aria-labelledby="navbarDropdown">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="max-width:1200px">
+      <a class="navbar-brand" href="#">ElecTracker</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
-
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#about">À propos</a>
-      </li>
-    </ul>
-  </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Régions
+                    </a>
+                    <div id="dropdown-menu" class="dropdown-menu" aria-labelledby="navbarDropdown">
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">À propos</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="https://github.com/rozierguillaume/electracker">Code source</a>
+              </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <div class="container" style="padding-top: 30px;">
+    <br>
+    <b>ElecTracker, agrégateur de sondages électoraux.</b><br>
+    Quels sont les sondages des élections régionales dans chaque région ? ElecTracker est une plateforme citoyenne qui agrège les sondages des élections régionales en France.<br>
+
     <div id="charts-regions">
     </div>
 
     <h2 id="about">À propos</h2>
-    ElecTracker aggrège les sondages des élections régionales en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
+    ElecTracker agrège les sondages des élections régionales en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
     <br><br>
 </div>
 
@@ -91,6 +100,7 @@
                 label: candidat + " (" + data[candidat]["parti"] + ")",
                 data: data_dataset,
                 borderColor: data[candidat]["couleur"],
+                borderWidth: 4
             }
             datasets.push(dataset)
         }
@@ -99,7 +109,7 @@
 
     function update_html(region, metadata){
         document.getElementById("charts-regions").innerHTML += `
-            <h2 id="${region}">{region}</h2><br>
+            <h2 style="padding-top: 45px;" id="${region}">{region}</h2><br>
             <div id="${region}-intro"></div>
             <canvas id="chart-${region}" width="400" height="200"></canvas>
             <br><br>
@@ -107,7 +117,7 @@
     }
 
     function update_intro(data, region){
-        string_to_display = "Quatre premiers dans les sondages :<br>";
+        string_to_display = "Sondages du premier tour :<br>";
 
         for (let i = 0; i < 4; i++) {
             candidat = data["candidats_ordonnes"][i];
@@ -118,6 +128,7 @@
 
         document.getElementById(`${region}-intro`).innerHTML += `${string_to_display}<br><br>`
     }
+
 
     function build_chart(data, region) {
         let chart_dataset = build_chart_dataset(data)
@@ -134,8 +145,8 @@
                         beginAtZero: true
                     },
                     x: {
-                        type: 'timeseries',
-                        distribution: 'linear',
+                        type: 'time',
+                        //distribution: 'linear',
                     },
                 }
             }
