@@ -7,11 +7,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ElecTracker : sondages et résultats des élections régionales 2021</title>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid" style="max-width:1200px">
       <a class="navbar-brand" href="#">ElecTracker</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -37,11 +37,11 @@
 
 <div class="container" style="padding-top: 30px;">
     <br>
-    <b>ElecTracker, agrégateur de sondages électoraux.</b><br>
-    Quels sont les sondages des élections régionales dans chaque région ? ElecTracker est une plateforme citoyenne qui agrège les sondages des élections régionales en France.<br>
+    <h2>ElecTracker, agrégateur de sondages électoraux</h2><br>
+    <p>Quels sont les sondages des élections régionales dans chaque région ? Quels sont les résultats des régionales 2021 ? Quels sont les candidats aux élections régionales ? ElecTracker est une plateforme citoyenne qui agrège les sondages des élections régionales en France.</p><br>
 
-    <div id="charts-regions">
-    </div>
+    <h2>Sondages des élections régionales 2021</h2>
+    <div id="charts-regions"></div>
 
     <h2 id="about">À propos</h2>
     ElecTracker agrège les sondages des élections régionales en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
@@ -109,7 +109,7 @@
 
     function update_html(region, metadata){
         document.getElementById("charts-regions").innerHTML += `
-            <h2 style="padding-top: 45px;" id="${region}">{region}</h2><br>
+            <h3 style="padding-top: 45px;" id="${region}">{region}</h3><br>
             <div id="${region}-intro"></div>
             <canvas id="chart-${region}" width="400" height="200"></canvas>
             <br><br>
