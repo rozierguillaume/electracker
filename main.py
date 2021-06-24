@@ -58,12 +58,16 @@ def construire_liste_ordonnee_candidats(data):
     indices_tries = np.argsort(-np.array(intentions_rolling_mean))
     return np.array(candidats)[indices_tries].tolist(), (np.array(intentions_rolling_mean)[indices_tries]).tolist()
 
-def get_all_results(data):
-    #print(data)
+def get_all_results(data, premier_tour=True):
+    if premier_tour:
+        filter = "Premier tour"
+    else:
+        filter = "Deuxième tour"
+
     data_output = {"data": {}}
     for sondage in data["sondages"]:
         for tour in sondage["tours"]:
-            if tour["tour"] == "Premier tour":
+            if tour["tour"] == filter:
                 for hypothese in tour["hypotheses"]:
                     for liste in hypothese["tetes_liste"]:
                         tete_liste = liste["tete_liste"]
@@ -88,9 +92,13 @@ def compute_rolling_means(data_output):
     return data_output
 
 
-def export_data(data, name):
+def export_data(data, name, premier_tour):
+    suffix = "second_tour"
+    if premier_tour:
+        suffix = "premier_tour"
+
     name = re.sub("[.*%20.*]", "", name)
-    with open(f"data/output/{name}.json", 'w') as outfile:
+    with open(f"data/output/sondages_{name}_{suffix}.json", 'w') as outfile:
         json.dump(data, outfile)
 
 def export_metadata():
@@ -112,12 +120,14 @@ def get_regions_polls():
             region="%20BZH"
         name = f"regionales_{region}"
         data = download_data(f"https://raw.githubusercontent.com/nsppolls/nsppolls/master/{name}.json")
-        data_output = get_all_results(data)
-        data_output = compute_rolling_means(data_output)
-        data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output["data"])
-        #print(data_output)
-        export_data(data=data_output, name=name)
-        export_metadata()
+
+        for premier_tour in [True, False]:
+            data_output = get_all_results(data, premier_tour=premier_tour)
+            data_output = compute_rolling_means(data_output)
+            data_output["candidats_ordonnes"], data_output["intentions_ordonnees"] = construire_liste_ordonnee_candidats(data_output["data"])
+            export_data(data=data_output, name=name, premier_tour=premier_tour)
+
+    export_metadata()
 
 
 if __name__ == '__main__':
