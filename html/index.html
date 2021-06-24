@@ -81,10 +81,10 @@
                     <div class="container">
                           <div class="row">
                             <div class="col">
-                              <div id="${region}-intro"></div>
+                              <div id="${region}-intro-premier"></div>
                             </div>
                             <div class="col">
-                              <div style=""><canvas id="chart-${region}" width="400" height="300"></canvas></div>
+                              <div style=""><canvas id="chart-${region}-premier" width="400" height="300"></canvas></div>
                             </div>
                           </div>
                       </div>
@@ -111,10 +111,18 @@
 
               <div class="tab-content" id="pills-tabContent">
                   <div class="tab-pane fade show active" id="pills-home-resultats-${region}" role="tabpanel" aria-labelledby="pills-home-tab">
-                    <div id="${region}-intro"></div>
-                    <div style="padding: 25px;">...</div>
+                     <div class="container">
+                          <div class="row">
+                            <div class="col">
+                              <div id="${region}-intro-second"></div>
+                            </div>
+                            <div class="col">
+                              <div style=""><canvas id="chart-${region}-second" width="400" height="300"></canvas></div>
+                            </div>
+                          </div>
+                     </div>
                   </div>
-                  <div class="tab-pane fade" id="pills-profile-resultats-${region}" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+                  <div class="tab-pane fade" id="pills-profile-resultats-${region}" role="tabpanel" aria-labelledby="pills-profile-tab"><br>Les estimations des résultats du second tour seront disponibles dimanche 27 juin à partir de 20h.<br></div>
               </div>
             </div>
 
@@ -131,20 +139,37 @@
     request.onload = function() {
       var metadata = request.response;
       update_dropdown(metadata);
-      metadata["regions"].map((region) => download_data_and_build_chart(region, metadata));
+      metadata["regions"].map((region) => {
+          download_data_and_build_chart_premier_tour(region, metadata)
+          download_data_and_build_chart_second_tour(region, metadata)
+      });
     }
 
-    function download_data_and_build_chart(region, metadata) {
+    function download_data_and_build_chart_premier_tour(region, metadata) {
         update_html(region, metadata);
-        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_${region}.json`;
+        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/sondages_regionales_${region}_premier_tour.json`;
         var request = new XMLHttpRequest();
         request.open('GET', requestURL);
         request.responseType = 'json';
         request.send();
         request.onload = function () {
             var data = request.response;
-            build_chart(data["data"], region);
-            update_intro(data, region);
+            build_chart(data["data"], region, "premier");
+            update_intro(data, region, "premier");
+        }
+    }
+
+    function download_data_and_build_chart_second_tour(region, metadata) {
+
+        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/sondages_regionales_${region}_second_tour.json`;
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function () {
+            var data = request.response;
+            build_chart(data["data"], region, "second");
+            update_intro(data, region, "second");
         }
     }
 
@@ -185,7 +210,7 @@
             `.replace("{region}", metadata["regions_noms"][region])
     }
 
-    function update_intro(data, region){
+    function update_intro(data, region, tour){
         string_to_display = "Moyenne des derniers sondages :<br>";
 
         for (let i = 0; i < data["candidats_ordonnes"].length; i++) {
@@ -195,13 +220,13 @@
             string_to_display += ` (${data["data"][candidat]["parti"]})<br>`
         }
 
-        document.getElementById(`${region}-intro`).innerHTML += `${string_to_display}<br><br>`
+        document.getElementById(`${region}-intro-${tour}`).innerHTML += `${string_to_display}<br><br>`
     }
 
 
-    function build_chart(data, region) {
+    function build_chart(data, region, tour) {
         let chart_dataset = build_chart_dataset(data)
-        let ctx = document.getElementById(`chart-${region}`).getContext('2d');
+        let ctx = document.getElementById(`chart-${region}-${tour}`).getContext('2d');
         let chart = new Chart(ctx, {
             type: 'line',
             data: {
