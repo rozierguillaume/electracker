@@ -8,21 +8,31 @@
 <head>
     <meta charset="UTF-8">
     <title>ElecTracker : sondages et résultats des élections régionales 2021</title>
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@guillaumerozier" />
+    <meta name="twitter:creator" content="@guillaumerozier" />
+    <meta property="og:url" content="http://electracker.fr" />
+    <meta property="og:title" content="ElecTracker : sondages et résultats des élections" />
+    <meta property="og:description" content="ElecTracker est une plateforme citoyenne permettant de consulter les sondages et résultats des élections en France." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/rozierguillaume/electracker/main/img/electracker_logo.jpeg" />
+
 </head>
 <body>
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid" style="max-width:1200px">
-      <a class="navbar-brand" href="#">ElecTracker</a>
+      <a class="navbar-brand" href="#"><img src="../img/electracker_logo_transparent.png" alt="" width="31" height="30" style="margin-right: 10px;">ElecTracker</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Régions
                     </a>
-                    <div id="dropdown-menu" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#about">À propos</a>
@@ -38,10 +48,9 @@
 
 <div class="container" style="padding-top: 30px;">
     <br>
-    <h2>ElecTracker, agrégateur de sondages électoraux</h2><br>
+    <h1>Sondages des élections régionales 2021</h1><br>
     <p>Quels sont les sondages des élections régionales dans chaque région ? Quels sont les résultats des régionales 2021 ? Quels sont les candidats aux élections régionales ? ElecTracker est une plateforme citoyenne qui agrège les sondages des élections régionales en France.</p><br>
 
-    <h2>Sondages des élections régionales 2021</h2>
     <div id="charts-regions"></div>
 
     <h2 id="about">À propos</h2>
@@ -81,7 +90,7 @@
                     <div class="container">
                           <div class="row">
                             <div class="col">
-                              <div id="${region}-intro-premier"></div>
+                              <div id="${region}-intro-premier-sondages"></div>
                             </div>
                             <div class="col">
                               <div style=""><canvas id="chart-${region}-premier" width="400" height="300"></canvas></div>
@@ -92,7 +101,6 @@
 
                   </div>
                   <div class="tab-pane fade" id="pills-profile-${region}" role="tabpanel" aria-labelledby="pills-profile-tab">
-                  Résultats du premier tour :<br>
                         <div class="container">
                           <div class="row">
                             <div class="col">
@@ -127,7 +135,7 @@
                      <div class="container">
                           <div class="row">
                             <div class="col">
-                              <div id="${region}-intro-second"></div>
+                              <div id="${region}-intro-second-sondages"></div>
                             </div>
                             <div class="col">
                               <div style=""><canvas id="chart-${region}-second" width="400" height="300"></canvas></div>
@@ -169,12 +177,11 @@
         request.onload = function () {
             var data = request.response;
             build_chart(data["data"], region, "premier");
-            update_intro(data, region, "premier");
+            update_intro(data, region, "premier", "sondages");
         }
     }
 
     function download_data_and_build_chart_resultats_premier_tour(region, metadata) {
-        update_html(region, metadata);
         var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/resultats_regionales_${region}_premier_tour.json`;
         var request = new XMLHttpRequest();
         request.open('GET', requestURL);
@@ -183,7 +190,7 @@
         request.onload = function () {
             var data = request.response;
             build_chart_resultats(data, region, "premier");
-            //update_intro(data, region, "premier");
+            update_intro_resultats(data, region, "premier", "resultats");
         }
     }
 
@@ -197,14 +204,14 @@
         request.onload = function () {
             var data = request.response;
             build_chart(data["data"], region, "second");
-            update_intro(data, region, "second");
+            update_intro(data, region, "second", "sondages");
         }
     }
 
     function update_dropdown(metadata){
         metadata["regions"].map((region) => {
             region_name = metadata["regions_noms"][region]
-            document.getElementById("dropdown-menu").innerHTML += `<a class="dropdown-item" href="#${region}">${region_name}</a>`
+            document.getElementById("dropdown-menu").innerHTML += `<li><a class="dropdown-item" href="#${region}">${region_name}</a></li>`
         })
     }
     function compare(a, b) {
@@ -231,16 +238,14 @@
     }
 
     function build_chart_dataset_resultats(data){
-        console.log(data)
-        var data_dataset = data.keys.map((candidat) => ({x: candidat, y: data[candidat]["score"]}))
-        //data_dataset.sort(compare)
+        var data_dataset = Object.keys(data).map((candidat) => ({y: candidat, x: data[candidat]["score"]}))
         let dataset = {
-            label: candidat + " (" + data[candidat]["parti"] + ")",
+            label: "candidats",
             data: data_dataset,
-            borderColor: "black",
-            borderWidth: 4
+            //borderColor: "black",
+            //borderWidth: 4
         }
-        return data_dataset
+        return [dataset]
     }
 
 
@@ -252,7 +257,7 @@
             `.replace("{region}", metadata["regions_noms"][region])
     }
 
-    function update_intro(data, region, tour){
+    function update_intro(data, region, tour, type){
         string_to_display = "Moyenne des derniers sondages :<br>";
 
         for (let i = 0; i < data["candidats_ordonnes"].length; i++) {
@@ -262,7 +267,20 @@
             string_to_display += ` (${data["data"][candidat]["parti"]})<br>`
         }
 
-        document.getElementById(`${region}-intro-${tour}`).innerHTML += `${string_to_display}<br><br>`
+        document.getElementById(`${region}-intro-${tour}-${type}`).innerHTML += `${string_to_display}<br><br>`
+    }
+
+    function update_intro_resultats(data, region, tour, type){
+        string_to_display = "Résultats :<br>";
+        let candidats = Object.keys(data);
+        for (let i = 0; i < candidats.length; i++) {
+            candidat = candidats[i];
+            string_to_display += `• <b>${data[candidat]["score"]} %</b> `
+            string_to_display += `${candidat}`
+            string_to_display += ` (${data[candidat]["parti"]})<br>`
+        }
+
+        document.getElementById(`${region}-intro-${tour}-${type}`).innerHTML += `${string_to_display}<br><br>`
     }
 
 
@@ -291,22 +309,22 @@
 
     function build_chart_resultats(data, region, tour) {
         let chart_dataset = build_chart_dataset_resultats(data)
-        console.log(chart_dataset)
-        let ctx = document.getElementById(`chart-${region}-${tour}-resultats`).getContext('2d');
+        let ctx = document.getElementById(`chart-${region}-premier-resultats`).getContext('2d');
         let chart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 datasets: chart_dataset
             },
             options: {
+                plugins:{
+                    legend: {
+                    display: false,
+                    }
+                },
+                indexAxis: 'y',
                 scales: {
-
-                    y: {
-                        beginAtZero: true
-                    },
                     x: {
-                        type: 'time',
-                        //distribution: 'linear',
+                        beginAtZero: true
                     },
                 }
             }
