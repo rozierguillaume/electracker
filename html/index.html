@@ -246,7 +246,7 @@
     function build_chart_dataset_resultats(data){
         var data_dataset = Object.keys(data).map((candidat) => ({y: candidat, x: data[candidat]["score"]}))
         let dataset = {
-            label: "candidats",
+            label: "Résultat ",
             data: data_dataset,
             //borderColor: "black",
             //borderWidth: 4
