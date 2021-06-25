@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import re
 
-REGIONS = ["ARA", "BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL"]
+REGIONS = ["ARA", "BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL", "BFC"]
 REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
                "BZH":"Bretagne",
                 "ARA":"Auvergne Rhône Alpes",
@@ -14,10 +14,11 @@ REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
                 "GE":"Grand Est",
                 "HDF":"Hauts-de-France",
                 "IDF":"Île-de-France",
-                "N":"Nord",
+                "N":"Normandie",
                 "NA":"Nouvelle Aquitaine",
                 "OCC":"Occitanie",
-                "PDL":"Pays-de-Loire"}
+                "PDL":"Pays-de-Loire",
+                "BFC":"Bourgogne-Franche-Comté"}
 
 def download_data(url):
     data = []
