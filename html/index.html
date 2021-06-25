@@ -91,7 +91,20 @@
 
 
                   </div>
-                  <div class="tab-pane fade" id="pills-profile-${region}" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
+                  <div class="tab-pane fade" id="pills-profile-${region}" role="tabpanel" aria-labelledby="pills-profile-tab">
+                  Résultats du premier tour :<br>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col">
+                              <div id="${region}-intro-premier-resultats"></div>
+                            </div>
+                            <div class="col">
+                              <div style=""><canvas id="chart-${region}-premier-resultats" width="400" height="300"></canvas></div>
+                            </div>
+                          </div>
+                      </div>
+
+                  </div>
               </div>
             </div>
 
@@ -140,12 +153,13 @@
       var metadata = request.response;
       update_dropdown(metadata);
       metadata["regions"].map((region) => {
-          download_data_and_build_chart_premier_tour(region, metadata)
-          download_data_and_build_chart_second_tour(region, metadata)
+          download_data_and_build_chart_sondages_premier_tour(region, metadata)
+          download_data_and_build_chart_resultats_premier_tour(region, metadata)
+          download_data_and_build_chart_sondages_second_tour(region, metadata)
       });
     }
 
-    function download_data_and_build_chart_premier_tour(region, metadata) {
+    function download_data_and_build_chart_sondages_premier_tour(region, metadata) {
         update_html(region, metadata);
         var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/sondages_regionales_${region}_premier_tour.json`;
         var request = new XMLHttpRequest();
@@ -159,7 +173,21 @@
         }
     }
 
-    function download_data_and_build_chart_second_tour(region, metadata) {
+    function download_data_and_build_chart_resultats_premier_tour(region, metadata) {
+        update_html(region, metadata);
+        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/resultats_regionales_${region}_premier_tour.json`;
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function () {
+            var data = request.response;
+            build_chart_resultats(data, region, "premier");
+            //update_intro(data, region, "premier");
+        }
+    }
+
+    function download_data_and_build_chart_sondages_second_tour(region, metadata) {
 
         var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/sondages_regionales_${region}_second_tour.json`;
         var request = new XMLHttpRequest();
@@ -202,6 +230,20 @@
         return datasets
     }
 
+    function build_chart_dataset_resultats(data){
+        console.log(data)
+        var data_dataset = data.keys.map((candidat) => ({x: candidat, y: data[candidat]["score"]}))
+        //data_dataset.sort(compare)
+        let dataset = {
+            label: candidat + " (" + data[candidat]["parti"] + ")",
+            data: data_dataset,
+            borderColor: "black",
+            borderWidth: 4
+        }
+        return data_dataset
+    }
+
+
     function update_html(region, metadata){
         document.getElementById("charts-regions").innerHTML += `
             <h3 style="padding-top: 45px;" id="${region}">{region}</h3><br>
@@ -227,6 +269,30 @@
     function build_chart(data, region, tour) {
         let chart_dataset = build_chart_dataset(data)
         let ctx = document.getElementById(`chart-${region}-${tour}`).getContext('2d');
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: chart_dataset
+            },
+            options: {
+                scales: {
+
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        type: 'time',
+                        //distribution: 'linear',
+                    },
+                }
+            }
+        });
+    }
+
+    function build_chart_resultats(data, region, tour) {
+        let chart_dataset = build_chart_dataset_resultats(data)
+        console.log(chart_dataset)
+        let ctx = document.getElementById(`chart-${region}-${tour}-resultats`).getContext('2d');
         let chart = new Chart(ctx, {
             type: 'line',
             data: {

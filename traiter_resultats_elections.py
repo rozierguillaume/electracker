@@ -24,7 +24,7 @@ def get_data(region, tour):
 
 def data_to_dic(data):
     data = data.set_index("candidat")
-    return data.to_json(orient="index")
+    return json.loads(data.to_json(orient="index"))
 
 def export_data(dic_data, region, tour):
     with open(f"data/output/resultats_regionales_{region}_{tour}_tour.json", 'w') as outfile:
