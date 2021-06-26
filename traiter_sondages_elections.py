@@ -59,6 +59,13 @@ def construire_liste_ordonnee_candidats(data):
     indices_tries = np.argsort(-np.array(intentions_rolling_mean))
     return np.array(candidats)[indices_tries].tolist(), (np.array(intentions_rolling_mean)[indices_tries]).tolist()
 
+def sondage_le_plus_recent(date_sondage, dates):
+    if len(dates) == 0:
+        return True
+    if date_sondage >= max(dates):
+        return True
+    return False
+
 def get_all_results(data, premier_tour=True):
     if premier_tour:
         filter = "Premier tour"
@@ -78,7 +85,8 @@ def get_all_results(data, premier_tour=True):
                             data_output["data"][tete_liste] = data_output["data"].get(tete_liste, {})
                             data_output["data"][tete_liste]["intentions"] = data_output["data"][tete_liste].get("intentions", []) + [liste["intentions"]]
                             data_output["data"][tete_liste]["dates"] = data_output["data"][tete_liste].get("dates", []) + [sondage["fin_enquete"]]
-                            data_output["data"][tete_liste]["parti"] = get_team(liste["parti"])
+                            if sondage_le_plus_recent(sondage["fin_enquete"], data_output["data"][tete_liste]["dates"]):
+                                data_output["data"][tete_liste]["parti"] = get_team(liste["parti"])
                             data_output["data"][tete_liste]["couleur"] = get_color_candidate(team=data_output["data"][tete_liste]["parti"])
     return data_output
 
