@@ -1,1 +1,21 @@
-{"source": "Estimations temporaires (20h00)", "data": {"Christelle MORAN\u00c7AIS": {"parti": "LUCD", "score": 0}, "Matthieu ORPHELIN": {"parti": "LUGE", "score": 0}, "Herv\u00e9 JUVIN": {"parti": "LRN", "score": 0}, "Fran\u00e7ois DE RUGY": {"parti": "LUC", "score": 0}}}
+{
+    "source": "Le Monde",
+    "data": {
+        "Christelle MORAN\u00c7AIS": {
+            "parti": "LUCD",
+            "score": 46.30
+        },
+        "Matthieu ORPHELIN": {
+            "parti": "LUGE",
+            "score": 34.60
+        },
+        "Herv\u00e9 JUVIN": {
+            "parti": "LRN",
+            "score": 10.80
+        },
+        "Fran\u00e7ois DE RUGY": {
+            "parti": "LUC",
+            "score": 8.30
+        }
+    }
+}

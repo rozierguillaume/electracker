@@ -1,1 +1,25 @@
-{"source": "Estimations temporaires (20h00)", "data": {"Alain ROUSSET": {"parti": "LUG", "score": 0}, "Edwige DIAZ": {"parti": "LRN", "score": 0}, "Genevi\u00e8ve DARRIEUSSECQ": {"parti": "LUC", "score": 0}, "Nicolas FLORIAN": {"parti": "LLR", "score": 0}, "Nicolas THIERRY": {"parti": "LECO", "score": 0}}}
+{
+    "source": "Le Monde",
+    "data": {
+        "Alain ROUSSET": {
+            "parti": "LUG",
+            "score": 39.30
+        },
+        "Edwige DIAZ": {
+            "parti": "LRN",
+            "score": 18.90
+        },
+        "Genevi\u00e8ve DARRIEUSSECQ": {
+            "parti": "LUC",
+            "score": 13.20
+        },
+        "Nicolas FLORIAN": {
+            "parti": "LLR",
+            "score": 14.30
+        },
+        "Nicolas THIERRY": {
+            "parti": "LECO",
+            "score": 14.30
+        }
+    }
+}

@@ -1,1 +1,21 @@
-{"source": "Estimations temporaires (20h00)", "data": {"Marie-Guite DUFAY": {"parti": "LDVG", "score": 0}, "Julien ODOUL": {"parti": "LRN", "score": 0}, "Gilles PLATRET": {"parti": "LLR", "score": 0}, "Denis THURIOT": {"parti": "LREM", "score": 0}}}
+{
+    "source": "Le Monde",
+    "data": {
+        "Marie-Guite DUFAY": {
+            "parti": "LDVG",
+            "score": 42.50
+        },
+        "Julien ODOUL": {
+            "parti": "LRN",
+            "score": 23.70
+        },
+        "Gilles PLATRET": {
+            "parti": "LLR",
+            "score": 24.40
+        },
+        "Denis THURIOT": {
+            "parti": "LREM",
+            "score": 9.40
+        }
+    }
+}

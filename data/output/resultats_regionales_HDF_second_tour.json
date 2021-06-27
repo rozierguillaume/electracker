@@ -1,1 +1,17 @@
-{"source": "Estimations temporaires (20h00)", "data": {"Xavier BERTRAND": {"parti": "LUD", "score": 0}, "S\u00e9bastien CHENU": {"parti": "LRN", "score": 0}, "Karima DELLI": {"parti": "LUGE", "score": 0}}}
+{
+    "source": "Le Monde",
+    "data": {
+        "Xavier BERTRAND": {
+            "parti": "LUD",
+            "score": 53.00
+        },
+        "S\u00e9bastien CHENU": {
+            "parti": "LRN",
+            "score": 25.60
+        },
+        "Karima DELLI": {
+            "parti": "LUGE",
+            "score": 21.40
+        }
+    }
+}

@@ -1,1 +1,13 @@
-{"source": "Estimations temporaires (20h00)", "data": {"Thierry MARIANI": {"parti": "LRN", "score": 0}, "Renaud MUSELIER": {"parti": "LLR", "score": 0}}}
+{
+    "source": "Le Monde",
+    "data": {
+        "Thierry MARIANI": {
+            "parti": "LRN",
+            "score": 42.30
+        },
+        "Renaud MUSELIER": {
+            "parti": "LLR",
+            "score": 57.70
+        }
+    }
+}

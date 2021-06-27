@@ -1,1 +1,21 @@
-{"source": "Estimations temporaires (20h00)", "data": {"Jean ROTTNER": {"parti": "LUCD", "score": 0}, "Laurent JACOBELLI": {"parti": "LRN", "score": 0}, "Eliane ROMANI": {"parti": "LUGE", "score": 0}, "Brigitte KLINKERT": {"parti": "LDVC", "score": 0}}}
+{
+    "source": "Le Monde",
+    "data": {
+        "Jean ROTTNER": {
+            "parti": "LUCD",
+            "score": 39.00
+        },
+        "Laurent JACOBELLI": {
+            "parti": "LRN",
+            "score": 27.10
+        },
+        "Eliane ROMANI": {
+            "parti": "LUGE",
+            "score": 21.10
+        },
+        "Brigitte KLINKERT": {
+            "parti": "LDVC",
+            "score": 12.80
+        }
+    }
+}
