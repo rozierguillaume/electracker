@@ -15,6 +15,7 @@
     ],
     "regions_noms": {
         "PACA": "Provence Alpes C\u00f4te d'Azur",
+        "BFC": "Bourgogne-Franche-Comt\u00e9",
         "BZH": "Bretagne",
         "ARA": "Auvergne Rh\u00f4ne Alpes",
         "CVL": "Centre Val de Loire",
@@ -24,7 +25,6 @@
         "N": "Normandie",
         "NA": "Nouvelle Aquitaine",
         "OCC": "Occitanie",
-        "PDL": "Pays-de-Loire",
-        "BFC": "Bourgogne-Franche-Comt\u00e9"
+        "PDL": "Pays-de-Loire"
     }
 }
