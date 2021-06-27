@@ -57,8 +57,10 @@
     <h1>Sondages des élections régionales 2021</h1><br>
     <p>Quels sont les sondages des élections régionales dans chaque région ? Quels sont les résultats des régionales 2021 ? Quels sont les candidats aux élections régionales ? ElecTracker est une plateforme citoyenne qui agrège les sondages des élections régionales en France.</p><br>
 
-    <h2>Abstention</h2>
+    <h2>Participation au second tour</h2>
+    Participation nationale aux élections régionales, à 12h, 17h et à la fin du scrutin, de 2004 à 2021.
     <canvas id="chart-abstention" width="200" height="100"></canvas>
+    © ElecTracker.fr - Données : Ministère de l'Intérieur
 
     <div id="charts-regions"></div>
 
@@ -70,52 +72,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@1"></script>
 
 <script>
-    var ctx = document.getElementById("chart-abstention").getContext("2d");
-
-    var data = {
-      labels: ["12h", "17h", "Fin scrutin"],
-      datasets: [
-          {
-        label: "2004",
-        backgroundColor: "blue",
-        data: [3, 7, 4]
-      },
-          {
-        label: "2010",
-        backgroundColor: "blue",
-        data: [3, 7, 4]
-      }, {
-        label: "2015",
-        backgroundColor: "red",
-        data: [4, 3, 5]
-      }, {
-        label: "2021",
-        backgroundColor: "green",
-        data: [7, 2, 6]
-      }]
-    };
-
-    var myBarChart = new Chart(ctx, {
-      type: 'bar',
-      data: data,
-      options: {
-        barValueSpacing: 20,
-        scales: {
-          yAxes: [{
-            ticks: {
-              min: 0,
-            }
-          }]
-        }
-      }
-    });
-
-</script>
-
-<script>
-
     function div_region(region){
         return `
         <nav>
@@ -385,5 +344,65 @@
     }
 
 </script>
+
+<script>
+    download_data()
+    function download_data() {
+        var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/participation.json';
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function () {
+            var participation = request.response;
+            graphique_participation(participation)
+        }
+    }
+
+    function graphique_participation(participation) {
+        var ctx = document.getElementById("chart-abstention").getContext("2d");
+        console.log(participation)
+
+        var data = {
+            labels: ["À 12h", "À 17h", "À la fin du scrutin"],
+            datasets: [
+                {
+                    label: "2004",
+                    backgroundColor: "#8ba8d6",
+                    data: [participation["2004"]["12h"], participation["2004"]["17h"], participation["2004"]["fin"]]
+                },
+                {
+                    label: "2010",
+                    backgroundColor: "#5687d6",
+                    data: [participation["2010"]["12h"], participation["2010"]["17h"], participation["2010"]["fin"]]
+                }, {
+                    label: "2015",
+                    backgroundColor: "#155fd6",
+                    data: [participation["2015"]["12h"], participation["2015"]["17h"], participation["2015"]["fin"]]
+                }, {
+                    label: "2021",
+                    backgroundColor: "black",
+                    data: [participation["2021"]["12h"], participation["2021"]["17h"], participation["2021"]["fin"]]
+                }]
+        };
+
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                barValueSpacing: 20,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+</script>
+
 </body>
 </html>
