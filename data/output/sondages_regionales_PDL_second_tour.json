@@ -1,1 +1,92 @@
-{"data": {"Christelle Moran\u00e7ais": {"intentions": [25, 25], "dates": ["2021-06-07", "2021-06-07"], "parti": "Les R\u00e9publicains", "couleur": "darkblue", "intentions_rolling_mean": [25, 25]}, "Fran\u00e7ois de Rugy": {"intentions": [22, 22], "dates": ["2021-06-07", "2021-06-07"], "parti": "LRM, Modem", "couleur": "blue", "intentions_rolling_mean": [22, 22]}, "Guillaume Garot": {"intentions": [32], "dates": ["2021-06-07"], "parti": "EE-LV, G\u00e9n\u00e9ration\u00b7s, G\u00e9n\u00e9ration \u00e9cologie, Parti socialiste, Parti communiste, Parti radical de gauche", "couleur": "pink", "intentions_rolling_mean": [32]}, "Herv\u00e9 Juvin": {"intentions": [21, 21], "dates": ["2021-06-07", "2021-06-07"], "parti": "Rassemblement national", "couleur": "black", "intentions_rolling_mean": [21, 21]}, "Matthieu Orphelin": {"intentions": [32], "dates": ["2021-06-07"], "parti": "EE-LV, G\u00e9n\u00e9ration\u00b7s, G\u00e9n\u00e9ration \u00e9cologie, Parti socialiste, Parti communiste, Parti radical de gauche", "couleur": "pink", "intentions_rolling_mean": [32]}}, "candidats_ordonnes": ["Guillaume Garot", "Matthieu Orphelin", "Christelle Moran\u00e7ais", "Fran\u00e7ois de Rugy", "Herv\u00e9 Juvin"], "intentions_ordonnees": [32, 32, 25, 22, 21]}
+{
+    "data": {
+        "Christelle Moran\u00e7ais": {
+            "intentions": [
+                25,
+                25
+            ],
+            "dates": [
+                "2021-06-07",
+                "2021-06-07"
+            ],
+            "parti": "Les R\u00e9publicains",
+            "couleur": "darkblue",
+            "intentions_rolling_mean": [
+                25,
+                25
+            ]
+        },
+        "Fran\u00e7ois de Rugy": {
+            "intentions": [
+                22,
+                22
+            ],
+            "dates": [
+                "2021-06-07",
+                "2021-06-07"
+            ],
+            "parti": "LRM, Modem",
+            "couleur": "blue",
+            "intentions_rolling_mean": [
+                22,
+                22
+            ]
+        },
+        "Guillaume Garot": {
+            "intentions": [
+                32
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "EE-LV, G\u00e9n\u00e9ration\u00b7s, G\u00e9n\u00e9ration \u00e9cologie, Parti socialiste, Parti communiste, Parti radical de gauche",
+            "couleur": "pink",
+            "intentions_rolling_mean": [
+                32
+            ]
+        },
+        "Herv\u00e9 Juvin": {
+            "intentions": [
+                21,
+                21
+            ],
+            "dates": [
+                "2021-06-07",
+                "2021-06-07"
+            ],
+            "parti": "Rassemblement national",
+            "couleur": "black",
+            "intentions_rolling_mean": [
+                21,
+                21
+            ]
+        },
+        "Matthieu Orphelin": {
+            "intentions": [
+                32
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "EE-LV, G\u00e9n\u00e9ration\u00b7s, G\u00e9n\u00e9ration \u00e9cologie, Parti socialiste, Parti communiste, Parti radical de gauche",
+            "couleur": "pink",
+            "intentions_rolling_mean": [
+                32
+            ]
+        }
+    },
+    "candidats_ordonnes": [
+        "Guillaume Garot",
+        "Matthieu Orphelin",
+        "Christelle Moran\u00e7ais",
+        "Fran\u00e7ois de Rugy",
+        "Herv\u00e9 Juvin"
+    ],
+    "intentions_ordonnees": [
+        32,
+        32,
+        25,
+        22,
+        21
+    ]
+}

@@ -1,1 +1,38 @@
-{"Thierry MARIANI": {"parti": "LRN", "score": 36.38}, "Renaud MUSELIER": {"parti": "LLR", "score": 31.91}, "Jean-Laurent FELIZIA": {"parti": "LUGE", "score": 16.89}, "Jean-Marc GOVERNATORI": {"parti": "LECO", "score": 5.28}, "Isabelle BONNET": {"parti": "LEXG", "score": 2.76}, "No\u00ebl CHUISANO": {"parti": "LDSV", "score": 2.7}, "Herv\u00e9 GUERRERA": {"parti": "LREG", "score": 2.18}, "Val\u00e9rie LAUPIES": {"parti": "LDSV", "score": 1.66}, "Mikael VINCENZI": {"parti": "LDIV", "score": 0.25}}
+{
+    "Thierry MARIANI": {
+        "parti": "LRN",
+        "score": 36.38
+    },
+    "Renaud MUSELIER": {
+        "parti": "LLR",
+        "score": 31.91
+    },
+    "Jean-Laurent FELIZIA": {
+        "parti": "LUGE",
+        "score": 16.89
+    },
+    "Jean-Marc GOVERNATORI": {
+        "parti": "LECO",
+        "score": 5.28
+    },
+    "Isabelle BONNET": {
+        "parti": "LEXG",
+        "score": 2.76
+    },
+    "No\u00ebl CHUISANO": {
+        "parti": "LDSV",
+        "score": 2.7
+    },
+    "Herv\u00e9 GUERRERA": {
+        "parti": "LREG",
+        "score": 2.18
+    },
+    "Val\u00e9rie LAUPIES": {
+        "parti": "LDSV",
+        "score": 1.66
+    },
+    "Mikael VINCENZI": {
+        "parti": "LDIV",
+        "score": 0.25
+    }
+}

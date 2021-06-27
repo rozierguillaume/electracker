@@ -1,1 +1,221 @@
-{"data": {"Andr\u00e9a Kotarac": {"intentions": [29, 21, 47, 22, 22, 24, 23, 23, 23, 22, 23, 13], "dates": ["2021-05-21", "2021-05-21", "2021-05-21", "2021-06-13", "2021-06-13", "2021-06-01", "2021-06-07", "2021-06-07", "2021-06-04", "2021-06-04", "2021-06-07", "2021-06-23"], "parti": "Rassemblement national", "couleur": "black", "intentions_rolling_mean": [0.0, 0.0, 32.333333333333336, 30.0, 30.333333333333332, 22.666666666666668, 23.0, 23.333333333333332, 23.0, 22.666666666666668, 22.666666666666668, 19.333333333333332]}, "Laurent Wauquiez": {"intentions": [71, 38, 31, 40, 39, 38, 37, 37, 47, 37, 38, 58], "dates": ["2021-05-21", "2021-05-21", "2021-05-21", "2021-06-13", "2021-06-13", "2021-06-01", "2021-06-07", "2021-06-07", "2021-06-04", "2021-06-04", "2021-06-07", "2021-06-23"], "parti": "Les R\u00e9publicains, UDI", "couleur": "darkblue", "intentions_rolling_mean": [0.0, 0.0, 46.666666666666664, 36.333333333333336, 36.666666666666664, 39.0, 38.0, 37.333333333333336, 40.333333333333336, 40.333333333333336, 40.666666666666664, 44.333333333333336]}, "Bruno Bonnell": {"intentions": [15, 16, 16, 15, 18, 16, 15, 15], "dates": ["2021-05-21", "2021-06-13", "2021-06-13", "2021-06-01", "2021-06-07", "2021-06-07", "2021-06-04", "2021-06-07"], "parti": "LRM, Modem, Agir", "couleur": "blue", "intentions_rolling_mean": [0.0, 0.0, 15.666666666666666, 15.666666666666666, 16.333333333333332, 16.333333333333332, 16.333333333333332, 15.333333333333334]}, "Fabienne Gr\u00e9bert et Najat Vallaud-Belkacem": {"intentions": [26, 22], "dates": ["2021-05-21", "2021-05-21"], "parti": "EE-LV, G\u00e9n\u00e9ration\u00b7s, Parti socialiste, Parti radical de gauche, Parti communiste, France insoumise", "couleur": "pink", "intentions_rolling_mean": [26, 22]}, "Fabienne Gr\u00e9bert": {"intentions": [22, 23, 22, 24, 29], "dates": ["2021-06-13", "2021-06-01", "2021-06-07", "2021-06-07", "2021-06-23"], "parti": "EE-LV, France insoumise, Parti communiste, Parti radical de gauche", "couleur": "green", "intentions_rolling_mean": [0.0, 0.0, 22.333333333333332, 23.0, 25.0]}, "Najat Vallaud-Belkacem": {"intentions": [23, 24], "dates": ["2021-06-13", "2021-06-07"], "parti": "Parti socialiste, Parti radical de gauche, Parti communiste, France insoumise, EE-LV, G\u00e9n\u00e9ration\u00b7s", "couleur": "pink", "intentions_rolling_mean": [23, 24]}, "Najat Vallaud-Belkacem et Fabienne Gr\u00e9bert": {"intentions": [30, 26], "dates": ["2021-06-04", "2021-06-04"], "parti": "Parti communiste, France insoumise, Parti radical de gauche, Parti socialiste, G\u00e9n\u00e9ration\u00b7s, EE-LV", "couleur": "pink", "intentions_rolling_mean": [30, 26]}}, "candidats_ordonnes": ["Laurent Wauquiez", "Najat Vallaud-Belkacem et Fabienne Gr\u00e9bert", "Fabienne Gr\u00e9bert", "Najat Vallaud-Belkacem", "Fabienne Gr\u00e9bert et Najat Vallaud-Belkacem", "Andr\u00e9a Kotarac", "Bruno Bonnell"], "intentions_ordonnees": [44.3, 26.0, 25.0, 24.0, 22.0, 19.3, 15.3]}
+{
+    "data": {
+        "Andr\u00e9a Kotarac": {
+            "intentions": [
+                29,
+                21,
+                47,
+                22,
+                22,
+                24,
+                23,
+                23,
+                23,
+                22,
+                23,
+                13
+            ],
+            "dates": [
+                "2021-05-21",
+                "2021-05-21",
+                "2021-05-21",
+                "2021-06-13",
+                "2021-06-13",
+                "2021-06-01",
+                "2021-06-07",
+                "2021-06-07",
+                "2021-06-04",
+                "2021-06-04",
+                "2021-06-07",
+                "2021-06-23"
+            ],
+            "parti": "Rassemblement national",
+            "couleur": "black",
+            "intentions_rolling_mean": [
+                0.0,
+                0.0,
+                32.333333333333336,
+                30.0,
+                30.333333333333332,
+                22.666666666666668,
+                23.0,
+                23.333333333333332,
+                23.0,
+                22.666666666666668,
+                22.666666666666668,
+                19.333333333333332
+            ]
+        },
+        "Laurent Wauquiez": {
+            "intentions": [
+                71,
+                38,
+                31,
+                40,
+                39,
+                38,
+                37,
+                37,
+                47,
+                37,
+                38,
+                58
+            ],
+            "dates": [
+                "2021-05-21",
+                "2021-05-21",
+                "2021-05-21",
+                "2021-06-13",
+                "2021-06-13",
+                "2021-06-01",
+                "2021-06-07",
+                "2021-06-07",
+                "2021-06-04",
+                "2021-06-04",
+                "2021-06-07",
+                "2021-06-23"
+            ],
+            "parti": "Les R\u00e9publicains, UDI",
+            "couleur": "darkblue",
+            "intentions_rolling_mean": [
+                0.0,
+                0.0,
+                46.666666666666664,
+                36.333333333333336,
+                36.666666666666664,
+                39.0,
+                38.0,
+                37.333333333333336,
+                40.333333333333336,
+                40.333333333333336,
+                40.666666666666664,
+                44.333333333333336
+            ]
+        },
+        "Bruno Bonnell": {
+            "intentions": [
+                15,
+                16,
+                16,
+                15,
+                18,
+                16,
+                15,
+                15
+            ],
+            "dates": [
+                "2021-05-21",
+                "2021-06-13",
+                "2021-06-13",
+                "2021-06-01",
+                "2021-06-07",
+                "2021-06-07",
+                "2021-06-04",
+                "2021-06-07"
+            ],
+            "parti": "LRM, Modem, Agir",
+            "couleur": "blue",
+            "intentions_rolling_mean": [
+                0.0,
+                0.0,
+                15.666666666666666,
+                15.666666666666666,
+                16.333333333333332,
+                16.333333333333332,
+                16.333333333333332,
+                15.333333333333334
+            ]
+        },
+        "Fabienne Gr\u00e9bert et Najat Vallaud-Belkacem": {
+            "intentions": [
+                26,
+                22
+            ],
+            "dates": [
+                "2021-05-21",
+                "2021-05-21"
+            ],
+            "parti": "EE-LV, G\u00e9n\u00e9ration\u00b7s, Parti socialiste, Parti radical de gauche, Parti communiste, France insoumise",
+            "couleur": "pink",
+            "intentions_rolling_mean": [
+                26,
+                22
+            ]
+        },
+        "Fabienne Gr\u00e9bert": {
+            "intentions": [
+                22,
+                23,
+                22,
+                24,
+                29
+            ],
+            "dates": [
+                "2021-06-13",
+                "2021-06-01",
+                "2021-06-07",
+                "2021-06-07",
+                "2021-06-23"
+            ],
+            "parti": "EE-LV, France insoumise, Parti communiste, Parti radical de gauche",
+            "couleur": "green",
+            "intentions_rolling_mean": [
+                0.0,
+                0.0,
+                22.333333333333332,
+                23.0,
+                25.0
+            ]
+        },
+        "Najat Vallaud-Belkacem": {
+            "intentions": [
+                23,
+                24
+            ],
+            "dates": [
+                "2021-06-13",
+                "2021-06-07"
+            ],
+            "parti": "Parti socialiste, Parti radical de gauche, Parti communiste, France insoumise, EE-LV, G\u00e9n\u00e9ration\u00b7s",
+            "couleur": "pink",
+            "intentions_rolling_mean": [
+                23,
+                24
+            ]
+        },
+        "Najat Vallaud-Belkacem et Fabienne Gr\u00e9bert": {
+            "intentions": [
+                30,
+                26
+            ],
+            "dates": [
+                "2021-06-04",
+                "2021-06-04"
+            ],
+            "parti": "Parti communiste, France insoumise, Parti radical de gauche, Parti socialiste, G\u00e9n\u00e9ration\u00b7s, EE-LV",
+            "couleur": "pink",
+            "intentions_rolling_mean": [
+                30,
+                26
+            ]
+        }
+    },
+    "candidats_ordonnes": [
+        "Laurent Wauquiez",
+        "Najat Vallaud-Belkacem et Fabienne Gr\u00e9bert",
+        "Fabienne Gr\u00e9bert",
+        "Najat Vallaud-Belkacem",
+        "Fabienne Gr\u00e9bert et Najat Vallaud-Belkacem",
+        "Andr\u00e9a Kotarac",
+        "Bruno Bonnell"
+    ],
+    "intentions_ordonnees": [
+        44.3,
+        26.0,
+        25.0,
+        24.0,
+        22.0,
+        19.3,
+        15.3
+    ]
+}

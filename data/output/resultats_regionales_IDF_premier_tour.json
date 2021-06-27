@@ -1,1 +1,46 @@
-{"Val\u00e9rie P\u00c9CRESSE": {"parti": "LUD", "score": 36.18}, "Jordan BARDELLA": {"parti": "LRN", "score": 13.14}, "Julien BAYOU": {"parti": "LECO", "score": 12.97}, "Laurent SAINT-MARTIN": {"parti": "LUC", "score": 11.79}, "Audrey PULVAR": {"parti": "LUG", "score": 11.07}, "Cl\u00e9mentine AUTAIN": {"parti": "LUG", "score": 10.23}, "Victor PAILHAC": {"parti": "LECO", "score": 1.8}, "Nathalie ARTHAUD": {"parti": "LEXG", "score": 1.49}, "\u00c9ric BERLINGEN": {"parti": "LDIV", "score": 0.6}, "Lionel BROT": {"parti": "LDIV", "score": 0.54}, "Fabiola CONTI": {"parti": "LDIV", "score": 0.19}}
+{
+    "Val\u00e9rie P\u00c9CRESSE": {
+        "parti": "LUD",
+        "score": 36.18
+    },
+    "Jordan BARDELLA": {
+        "parti": "LRN",
+        "score": 13.14
+    },
+    "Julien BAYOU": {
+        "parti": "LECO",
+        "score": 12.97
+    },
+    "Laurent SAINT-MARTIN": {
+        "parti": "LUC",
+        "score": 11.79
+    },
+    "Audrey PULVAR": {
+        "parti": "LUG",
+        "score": 11.07
+    },
+    "Cl\u00e9mentine AUTAIN": {
+        "parti": "LUG",
+        "score": 10.23
+    },
+    "Victor PAILHAC": {
+        "parti": "LECO",
+        "score": 1.8
+    },
+    "Nathalie ARTHAUD": {
+        "parti": "LEXG",
+        "score": 1.49
+    },
+    "\u00c9ric BERLINGEN": {
+        "parti": "LDIV",
+        "score": 0.6
+    },
+    "Lionel BROT": {
+        "parti": "LDIV",
+        "score": 0.54
+    },
+    "Fabiola CONTI": {
+        "parti": "LDIV",
+        "score": 0.19
+    }
+}
