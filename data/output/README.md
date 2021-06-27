@@ -1,2 +1,2 @@
 # Contribuer 
-Ce dimanche 27 juin à partir de 20h, vous pouvez mettre à jour les fichiers des résultats des régionales avec les estimations des instituts. Les fichiers sont nommés `resultats_regionales_XXX_second_tour.json`, avec XXX le code de la région.
+Ce dimanche 27 juin à partir de 20h, vous pouvez mettre à jour les fichiers des résultats des régionales avec les estimations des instituts. Les fichiers sont nommés `resultats_regionales_XXX_second_tour.json`, avec XXX le code de la région. N'oubliez pas de modifier l'heure (attribut "source" des fichiers). Vous pouvez aussi y indiquer l'institut de sondage à l'origine de l'estimation. Le contenu de cet attribut est affiché sur electracker.fr.
