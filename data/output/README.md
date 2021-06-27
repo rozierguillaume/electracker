@@ -1,0 +1,2 @@
+# Contribuer 
+Ce dimanche 27 juin à partir de 20h, vous pouvez mettre à jour les fichiers des résultats des régionales avec les estimations des instituts. Les fichiers sont nommés `resultats_regionales_XXX_second_tour.json`, avec XXX le code de la région.

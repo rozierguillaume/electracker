@@ -1,4 +1,59 @@
 
+<style>
+    .blinking {
+  -webkit-animation: 1s blink ease infinite;
+  -moz-animation: 1s blink ease infinite;
+  -ms-animation: 1s blink ease infinite;
+  -o-animation: 1s blink ease infinite;
+  animation: 1s blink ease infinite;
+
+}
+
+@keyframes "blink" {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+</style>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -164,7 +219,19 @@
                           </div>
                      </div>
                   </div>
-                  <div class="tab-pane fade" id="pills-profile-resultats-${region}" role="tabpanel" aria-labelledby="pills-profile-tab"><br>Les estimations des résultats du second tour seront disponibles dimanche 27 juin à partir de 20h.<br></div>
+                  <div class="tab-pane fade" id="pills-profile-resultats-${region}" role="tabpanel" aria-labelledby="pills-profile-tab"><br>Les estimations des résultats du second tour seront disponibles dimanche 27 juin à partir de 20h.<br><br>
+                    <div class="container">
+                          <div class="row">
+                            <div class="col">
+                              <div id="${region}-intro-second-resultats"></div>
+                            </div>
+                            <div class="col">
+                              <div style=""><canvas id="chart-${region}-second-resultats" width="400" height="300"></canvas></div>
+                            </div>
+                          </div>
+                      </div>
+                      .
+                  </div>
               </div>
             </div>
 
@@ -185,6 +252,7 @@
           download_data_and_build_chart_sondages_premier_tour(region, metadata)
           download_data_and_build_chart_resultats_premier_tour(region, metadata)
           download_data_and_build_chart_sondages_second_tour(region, metadata)
+          //download_data_and_build_chart_resultats_second_tour(region, metadata)
       });
     }
 
@@ -212,6 +280,19 @@
             var data = request.response;
             build_chart_resultats(data, region, "premier");
             update_intro_resultats(data, region, "premier", "resultats");
+        }
+    }
+
+    function download_data_and_build_chart_resultats_second_tour(region, metadata) {
+        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/resultats_regionales_${region}_premier_tour.json`;
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function () {
+            var data = request.response;
+            build_chart_resultats(data, region, "second");
+            update_intro_resultats(data, region, "second", "resultats", `<svg height="30" width="30" class="blinking"><circle cx="15" cy="15" r="10" fill="red" /></svg> <span style="color:red;">LIVE</span>`+"")
         }
     }
 
@@ -291,8 +372,8 @@
         document.getElementById(`${region}-intro-${tour}-${type}`).innerHTML += `${string_to_display}<br><br>`
     }
 
-    function update_intro_resultats(data, region, tour, type){
-        string_to_display = "Résultats :<br>";
+    function update_intro_resultats(data, region, tour, type, titre="Résultats :"){
+        string_to_display = `${titre}<br>`;
         let candidats = Object.keys(data);
         for (let i = 0; i < candidats.length; i++) {
             candidat = candidats[i];
@@ -330,7 +411,7 @@
 
     function build_chart_resultats(data, region, tour) {
         let chart_dataset = build_chart_dataset_resultats(data)
-        let ctx = document.getElementById(`chart-${region}-premier-resultats`).getContext('2d');
+        let ctx = document.getElementById(`chart-${region}-${tour}-resultats`).getContext('2d');
         let chart = new Chart(ctx, {
             type: 'bar',
             data: {
