@@ -8,7 +8,8 @@ import re
 
 REGIONS = ["ARA", "BZH", "CVL", "GE", "HDF", "IDF", "NA", "N", "OCC", "PACA", "PDL", "BFC"]
 REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
-               "BZH":"Bretagne",
+                "BFC":"Bourgogne-Franche-Comté",
+                "BZH":"Bretagne",
                 "ARA":"Auvergne Rhône Alpes",
                 "CVL":"Centre Val de Loire",
                 "GE":"Grand Est",
@@ -17,8 +18,8 @@ REGIONS_NOMS = {"PACA":"Provence Alpes Côte d'Azur",
                 "N":"Normandie",
                 "NA":"Nouvelle Aquitaine",
                 "OCC":"Occitanie",
-                "PDL":"Pays-de-Loire",
-                "BFC":"Bourgogne-Franche-Comté"}
+                "PDL":"Pays-de-Loire"
+                }
 
 def download_data(url):
     data = []
