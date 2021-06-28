@@ -296,6 +296,14 @@
         }
     }
 
+    function get_status(source) {
+        if (source.includes("Estimation")) {
+            return `<svg height="30" width="30" class="blinking"><circle cx="15" cy="15" r="10" fill="red" /></svg> <span style="color:red;">LIVE</span>`
+        } else {
+            return `<svg height="30" width="30" class=""><circle cx="15" cy="15" r="10" fill="green" /></svg> <span style="color:GREEN;">TERMINÉ</span>`
+        }
+    }
+
     function download_data_and_build_chart_resultats_second_tour(region, metadata) {
         var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/resultats_regionales_${region}_second_tour.json`;
         var request = new XMLHttpRequest();
@@ -305,7 +313,8 @@
         request.onload = function () {
             var data = request.response;
             build_chart_resultats(data["data"], region, "second");
-            update_intro_resultats(data["data"], region, "second", "resultats", `<svg height="30" width="30" class="blinking"><circle cx="15" cy="15" r="10" fill="red" /></svg> <span style="color:red;">LIVE</span>` + " - " + data["source"])
+            status = get_status(data["source"])
+            update_intro_resultats(data["data"], region, "second", "resultats", status + " - " + data["source"])
         }
     }
 
