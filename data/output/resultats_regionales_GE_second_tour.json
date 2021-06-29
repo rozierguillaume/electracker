@@ -1,1 +1,21 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Jean ROTTNER": {"parti": "LUCD", "score": 40.30}, "Laurent JACOBELLI": {"parti": "LRN", "score": 26.30}, "Eliane ROMANI": {"parti": "LUGE", "score": 21.22}, "Brigitte KLINKERT": {"parti": "LDVC", "score": 12.17}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Jean ROTTNER": {
+            "parti": "LUCD",
+            "score": 40.30
+        },
+        "Laurent JACOBELLI": {
+            "parti": "LRN",
+            "score": 26.30
+        },
+        "Eliane ROMANI": {
+            "parti": "LUGE",
+            "score": 21.22
+        },
+        "Brigitte KLINKERT": {
+            "parti": "LDVC",
+            "score": 12.17
+        }
+    }
+}

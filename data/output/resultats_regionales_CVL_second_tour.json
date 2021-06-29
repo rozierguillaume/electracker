@@ -1,1 +1,21 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Fran\u00e7ois BONNEAU": {"parti": "LUGE", "score": 39.15}, "Aleksandar NIKOLIC": {"parti": "LRN", "score": 22.24}, "Nicolas FORISSIER": {"parti": "LUCD", "score": 22.61}, "Marc FESNEAU": {"parti": "LUC", "score": 16.00}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Fran\u00e7ois BONNEAU": {
+            "parti": "LUGE",
+            "score": 39.15
+        },
+        "Aleksandar NIKOLIC": {
+            "parti": "LRN",
+            "score": 22.24
+        },
+        "Nicolas FORISSIER": {
+            "parti": "LUCD",
+            "score": 22.61
+        },
+        "Marc FESNEAU": {
+            "parti": "LUC",
+            "score": 16.00
+        }
+    }
+}

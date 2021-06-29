@@ -1,1 +1,21 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Christelle MORAN\u00c7AIS": {"parti": "LUCD", "score": 46.45}, "Matthieu ORPHELIN": {"parti": "LUGE", "score": 34.87}, "Herv\u00e9 JUVIN": {"parti": "LRN", "score": 10.48}, "Fran\u00e7ois DE RUGY": {"parti": "LUC", "score": 8.20}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Christelle MORAN\u00c7AIS": {
+            "parti": "LUCD",
+            "score": 46.45
+        },
+        "Matthieu ORPHELIN": {
+            "parti": "LUGE",
+            "score": 34.87
+        },
+        "Herv\u00e9 JUVIN": {
+            "parti": "LRN",
+            "score": 10.48
+        },
+        "Fran\u00e7ois DE RUGY": {
+            "parti": "LUC",
+            "score": 8.20
+        }
+    }
+}

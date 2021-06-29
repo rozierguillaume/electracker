@@ -1,1 +1,17 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Xavier BERTRAND": {"parti": "LUD", "score": 52.37}, "S\u00e9bastien CHENU": {"parti": "LRN", "score": 25.64}, "Karima DELLI": {"parti": "LUGE", "score": 21.98}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Xavier BERTRAND": {
+            "parti": "LUD",
+            "score": 52.37
+        },
+        "S\u00e9bastien CHENU": {
+            "parti": "LRN",
+            "score": 25.64
+        },
+        "Karima DELLI": {
+            "parti": "LUGE",
+            "score": 21.98
+        }
+    }
+}

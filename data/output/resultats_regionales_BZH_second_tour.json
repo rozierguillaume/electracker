@@ -1,1 +1,25 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Lo\u00efg CHESNAIS-GIRARD": {"parti": "LUG", "score": 29.84}, "Isabelle LE CALLENNEC": {"parti": "LLR", "score": 21.98}, "Thierry BURLOT": {"parti": "LUC", "score": 14.75}, "Claire DESMARES-POIRRIER": {"parti": "LUGE", "score": 20.22}, "Gilles PENNELLE": {"parti": "LRN", "score": 13.22}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Lo\u00efg CHESNAIS-GIRARD": {
+            "parti": "LUG",
+            "score": 29.84
+        },
+        "Isabelle LE CALLENNEC": {
+            "parti": "LLR",
+            "score": 21.98
+        },
+        "Thierry BURLOT": {
+            "parti": "LUC",
+            "score": 14.75
+        },
+        "Claire DESMARES-POIRRIER": {
+            "parti": "LUGE",
+            "score": 20.22
+        },
+        "Gilles PENNELLE": {
+            "parti": "LRN",
+            "score": 13.22
+        }
+    }
+}

@@ -1,1 +1,113 @@
-{"data": {"Julien Odoul": {"intentions": [8], "dates": ["2021-06-07"], "parti": "Rassemblement national", "couleur": "black", "intentions_rolling_mean": [8]}, "Denis Thuriot": {"intentions": [16], "dates": ["2021-06-07"], "parti": "LRM, Modem", "couleur": "blue", "intentions_rolling_mean": [16]}, "Bastien Faudot": {"intentions": [4], "dates": ["2021-06-07"], "parti": "France insoumise, G\u00e9n\u00e9ration\u00b7s", "couleur": "red", "intentions_rolling_mean": [4]}, "Claire Rocher": {"intentions": [2], "dates": ["2021-06-07"], "parti": "Lutte ouvri\u00e8re", "couleur": "red", "intentions_rolling_mean": [2]}, "St\u00e9phanie Modde": {"intentions": [8], "dates": ["2021-06-07"], "parti": "EE-LV", "couleur": "green", "intentions_rolling_mean": [8]}, "Marie-Guite Dufay": {"intentions": [21], "dates": ["2021-06-07"], "parti": "Parti socialiste, Parti communiste", "couleur": "pink", "intentions_rolling_mean": [21]}, "Gilles Platret": {"intentions": [21], "dates": ["2021-06-07"], "parti": "Les R\u00e9publicains, UDI, Les Centristes, Debout la France", "couleur": "darkblue", "intentions_rolling_mean": [21]}}, "candidats_ordonnes": ["Marie-Guite Dufay", "Gilles Platret", "Denis Thuriot", "Julien Odoul", "St\u00e9phanie Modde", "Bastien Faudot", "Claire Rocher"], "intentions_ordonnees": [21, 21, 16, 8, 8, 4, 2]}
+{
+    "data": {
+        "Julien Odoul": {
+            "intentions": [
+                8
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "Rassemblement national",
+            "couleur": "black",
+            "intentions_rolling_mean": [
+                8
+            ]
+        },
+        "Denis Thuriot": {
+            "intentions": [
+                16
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "LRM, Modem",
+            "couleur": "blue",
+            "intentions_rolling_mean": [
+                16
+            ]
+        },
+        "Bastien Faudot": {
+            "intentions": [
+                4
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "France insoumise, G\u00e9n\u00e9ration\u00b7s",
+            "couleur": "red",
+            "intentions_rolling_mean": [
+                4
+            ]
+        },
+        "Claire Rocher": {
+            "intentions": [
+                2
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "Lutte ouvri\u00e8re",
+            "couleur": "red",
+            "intentions_rolling_mean": [
+                2
+            ]
+        },
+        "St\u00e9phanie Modde": {
+            "intentions": [
+                8
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "EE-LV",
+            "couleur": "green",
+            "intentions_rolling_mean": [
+                8
+            ]
+        },
+        "Marie-Guite Dufay": {
+            "intentions": [
+                21
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "Parti socialiste, Parti communiste",
+            "couleur": "pink",
+            "intentions_rolling_mean": [
+                21
+            ]
+        },
+        "Gilles Platret": {
+            "intentions": [
+                21
+            ],
+            "dates": [
+                "2021-06-07"
+            ],
+            "parti": "Les R\u00e9publicains, UDI, Les Centristes, Debout la France",
+            "couleur": "darkblue",
+            "intentions_rolling_mean": [
+                21
+            ]
+        }
+    },
+    "candidats_ordonnes": [
+        "Marie-Guite Dufay",
+        "Gilles Platret",
+        "Denis Thuriot",
+        "Julien Odoul",
+        "St\u00e9phanie Modde",
+        "Bastien Faudot",
+        "Claire Rocher"
+    ],
+    "intentions_ordonnees": [
+        21,
+        21,
+        16,
+        8,
+        8,
+        4,
+        2
+    ]
+}

@@ -1,1 +1,21 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Val\u00e9rie P\u00c9CRESSE": {"parti": "LUD", "score": 45.92}, "Jordan BARDELLA": {"parti": "LRN", "score": 10.79}, "Julien BAYOU": {"parti": "LECO", "score": 33.68}, "Laurent SAINT-MARTIN": {"parti": "LUC", "score": 9.62}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Val\u00e9rie P\u00c9CRESSE": {
+            "parti": "LUD",
+            "score": 45.92
+        },
+        "Jordan BARDELLA": {
+            "parti": "LRN",
+            "score": 10.79
+        },
+        "Julien BAYOU": {
+            "parti": "LECO",
+            "score": 33.68
+        },
+        "Laurent SAINT-MARTIN": {
+            "parti": "LUC",
+            "score": 9.62
+        }
+    }
+}

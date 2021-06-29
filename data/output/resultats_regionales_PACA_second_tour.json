@@ -1,1 +1,13 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Thierry MARIANI": {"parti": "LRN", "score": 42.70}, "Renaud MUSELIER": {"parti": "LLR", "score": 57.30}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Thierry MARIANI": {
+            "parti": "LRN",
+            "score": 42.70
+        },
+        "Renaud MUSELIER": {
+            "parti": "LLR",
+            "score": 57.30
+        }
+    }
+}

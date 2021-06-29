@@ -1,1 +1,21 @@
-{"source": "Résultats définitifs (Ministère de l'Intérieur)", "data": {"Herv\u00e9 MORIN": {"parti": "LUCD", "score": 44.26}, "Nicolas BAY": {"parti": "LRN", "score": 19.52}, "M\u00e9lanie BOULANGER": {"parti": "LUGE", "score": 26.18}, "Laurent BONNATERRE": {"parti": "LUC", "score": 10.04}}}
+{
+    "source": "Résultats définitifs (Ministère de l'Intérieur)",
+    "data": {
+        "Herv\u00e9 MORIN": {
+            "parti": "LUCD",
+            "score": 44.26
+        },
+        "Nicolas BAY": {
+            "parti": "LRN",
+            "score": 19.52
+        },
+        "M\u00e9lanie BOULANGER": {
+            "parti": "LUGE",
+            "score": 26.18
+        },
+        "Laurent BONNATERRE": {
+            "parti": "LUC",
+            "score": 10.04
+        }
+    }
+}
