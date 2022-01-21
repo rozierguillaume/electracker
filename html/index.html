@@ -89,6 +89,7 @@
       gtag('config', 'G-HFY7GK6QCP');
     </script>
     <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 
@@ -115,7 +116,7 @@
     <br>
     <h1>Sondages de l'élection présidentielle 2022</h1><br>
     <p></p><br>
-    <div id="myDiv"></div>
+    <div id="myDiv" style="width: 90vw; height: 80vw; max-height: 700px; max-width: 1100px;"></div>
 
     <h2 id="about">À propos</h2>
     ElecTracker agrège les sondages des élections présidentielles en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
@@ -142,17 +143,80 @@
     function construireGraphique(){
       var traces = [];
       for (var candidat in intentionsCandidatsMoyenneMobile14Jours){
+          let y = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["valeur"];
           traces.push({
-            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["fin_enquete"],
-            y: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"],
+            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
+            y: y,
+            name: candidat,
+            line: {color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"], width: 3, 'shape': 'spline'},
+            legendgroup: candidat,
             mode: 'lines',
             type: 'scatter'
           })
+
+          traces.push({
+            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"]["fin_enquete"],
+            y: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"]["valeur"],
+            name: candidat,
+            marker: {size: 4, color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"]},
+            legendgroup: candidat,
+            mode: 'markers',
+            opacity: 0.2,
+            type: 'scatter'
+          })
+
+          traces.push({
+            x : intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"].slice(-1),
+            y : y.slice(-1),
+            mode: 'markers+text',
+            text: candidat + " (" + y.slice(-1)[0].toFixed(0) + "%)",
+            textfont: {color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"]},
+            textposition: 'middle right',
+            marker: {color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"], size: 10},
+            legendgroup: candidat,
+            showlegend: false  
+          })
       }
-      console.log(traces)
+
       var data = traces;
 
-      Plotly.newPlot('myDiv', data);
+      var layout = {
+        showlegend: false,
+        margin: {t: 0, r: 0, l: 0,},
+        legend: {"orientation": "h"},
+        xaxis: {
+          range: ["2021-10-01", "2022-04-14"] //moment().add(20, 'days').format("YYYY-MM-DD")
+        },
+        shapes: [
+          {
+              type: 'line',
+              x0: "2022-04-10",
+              y0: 0,
+              x1: "2022-04-10",
+              y1: 30,
+              line:{
+                  color: 'rgb(0, 0, 0)',
+                  width: 2,
+                  dash:'dot'
+              }
+          }
+        ],
+        annotations: [
+          {
+            x: "2022-04-10",
+            y: 29,
+            text: "1er Tour",
+            xanchor: "right",
+            ax: -30,
+            ay: 0,
+            showarrow: true,
+            arrowsize: 0.8
+          }
+        ]
+	    };
+      var config = {responsive: true}
+
+      Plotly.newPlot('myDiv', data, layout, config);
 
     }
 
