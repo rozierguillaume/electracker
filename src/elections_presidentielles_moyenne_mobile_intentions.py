@@ -32,8 +32,9 @@ for candidat in CANDIDATS:
                               "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
                               "couleur": CANDIDATS[candidat]["couleur"]}
 
-dict_candidats["dernier_sondage"] = df["fin_enquete"].max()
-dict_candidats["mise_a_jour"] = datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M")
+dict_donnees = {"dernier_sondage": df["fin_enquete"].max(), 
+                "mise_a_jour": datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M"),
+                "candidats": dict_candidats}
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
-        json.dump(dict_candidats, outfile)
+        json.dump(dict_donnees, outfile)
