@@ -140,16 +140,17 @@
     }
 
     function construireGraphique(){
-      console.log(intentionsCandidatsMoyenneMobile14Jours["Emmanuel Macron"]["fin_enquete"])
-
-      var trace1 = {
-        x: intentionsCandidatsMoyenneMobile14Jours["Emmanuel Macron"]["fin_enquete"],
-        y: intentionsCandidatsMoyenneMobile14Jours["Emmanuel Macron"]["intentions"],
-        mode: 'lines',
-        type: 'scatter'
-      };
-
-      var data = [trace1];
+      var traces = [];
+      for (var candidat in intentionsCandidatsMoyenneMobile14Jours){
+          traces.push({
+            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["fin_enquete"],
+            y: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"],
+            mode: 'lines',
+            type: 'scatter'
+          })
+      }
+      console.log(traces)
+      var data = traces;
 
       Plotly.newPlot('myDiv', data);
 

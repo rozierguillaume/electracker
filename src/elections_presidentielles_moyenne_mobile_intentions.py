@@ -10,7 +10,7 @@ CANDIDATS = ["Marine Le Pen", "Emmanuel Macron", "Yannick Jadot", "Olivier Faure
 
 dict_candidats = {}
 for candidat in CANDIDATS:
-  df_temp = df[df["candidat"] == "Marine Le Pen"]
+  df_temp = df[df["candidat"] == candidat]
   df_temp.index = pd.to_datetime(df_temp["fin_enquete"])
   df_temp = df_temp.resample("1d").mean()
   df_temp_rolling = round(df_temp[["intentions"]].rolling('14d', min_periods=1).mean().dropna(), 2)
