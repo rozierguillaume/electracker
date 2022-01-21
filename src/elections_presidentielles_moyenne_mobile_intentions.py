@@ -4,6 +4,7 @@ import pandas as pd
 df = pd.read_csv("https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv")
 df = df[df["tour"] == "Premier tour"]
 df = df.sort_values(by="fin_enquete")
+df = df[df["fin_enquete"]>"2021-09-01"]
 
 CANDIDATS = ["Marine Le Pen", "Emmanuel Macron", "Yannick Jadot", "Olivier Faure", "Jean-Luc Mélenchon", "Fabien Roussel", "Valérie Pécresse", "Anne Hidalgo", "Christiane Taubira", "Eric Zemmour"]
 

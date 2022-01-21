@@ -88,6 +88,7 @@
 
       gtag('config', 'G-HFY7GK6QCP');
     </script>
+    <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
 </head>
 <body>
 
@@ -98,13 +99,6 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Régions
-                    </a>
-                    <ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
-              </li>
               <li class="nav-item">
                 <a class="nav-link" href="#about">À propos</a>
               </li>
@@ -119,19 +113,12 @@
 
 <div class="container" style="padding-top: 30px;">
     <br>
-    <h1>Sondages des élections régionales 2021</h1><br>
-    <p>Quels sont les sondages des élections régionales dans chaque région ? Quels sont les résultats des régionales 2021 ? Quels sont les candidats aux élections régionales ? ElecTracker est une plateforme citoyenne qui agrège les sondages des élections régionales en France.</p><br>
-
-    <h2>Participation au second tour</h2>
-    Participation nationale aux élections régionales, à 12h, 17h et à la fin du scrutin, de 2004 à 2021.
-    <canvas id="chart-abstention" width="200" height="100"></canvas>
-    © ElecTracker.fr - Données : Ministère de l'Intérieur
-
-    <div id="charts-regions">
-        <h2 style="margin-top: 70px;">Résultats régionales</h2></div>
+    <h1>Sondages de l'élection présidentielle 2022</h1><br>
+    <p></p><br>
+    <div id="myDiv"></div>
 
     <h2 id="about">À propos</h2>
-    ElecTracker agrège les sondages des élections régionales en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
+    ElecTracker agrège les sondages des élections présidentielles en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
     <br><br>
 </div>
 
@@ -140,392 +127,32 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
 
 <script>
-    function div_region(region){
-        return `
-        <nav>
-          <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link" id="nav-home-tab-${region}" data-bs-toggle="tab" data-bs-target="#nav-home-${region}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">✅ Premier tour</button>
-            <button class="nav-link active" id="nav-profile-tab-${region}" data-bs-toggle="tab" data-bs-target="#nav-profile-${region}" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">✅ Second tour</button>
-          </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-
-          <div class="tab-pane border fade" id="nav-home-${region}" role="tabpanel" aria-labelledby="nav-home-tab">
-
-            <div style="padding: 10px">
-              <ul class="nav nav-pills mb-3" id="pills-tab-${region}" role="tablist">
-                  <li class="nav-item" role="presentation">
-                      <button class="nav-link active" id="pills-home-tab-${region}" data-bs-toggle="pill" data-bs-target="#pills-home-${region}" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Sondages</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                      <button class="nav-link" id="pills-profile-tab-${region}" data-bs-toggle="pill" data-bs-target="#pills-profile-${region}" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Résultats</button>
-                  </li>
-              </ul>
-
-              <div class="tab-content" id="pills-tabContent">
-                  <div class="tab-pane fade show active" id="pills-home-${region}" role="tabpanel" aria-labelledby="pills-home-tab">
-                    <div class="container">
-                          <div class="row">
-                            <div class="col">
-                              <div id="${region}-intro-premier-sondages"></div>
-                            </div>
-                            <div class="col">
-                              <div style=""><canvas id="chart-${region}-premier" width="400" height="300"></canvas></div>
-                            </div>
-                          </div>
-                      </div>
-
-
-                  </div>
-                  <div class="tab-pane fade" id="pills-profile-${region}" role="tabpanel" aria-labelledby="pills-profile-tab">
-                        <div class="container">
-                          <div class="row">
-                            <div class="col">
-                              <div id="${region}-intro-premier-resultats"></div>
-                            </div>
-                            <div class="col">
-                              <div style=""><canvas id="chart-${region}-premier-resultats" width="400" height="300"></canvas></div>
-                            </div>
-                          </div>
-                      </div>
-
-                  </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="tab-pane border fade show active" id="nav-profile-${region}" role="tabpanel" aria-labelledby="nav-profile-tab">
-
-            <div style="padding: 10px">
-              <ul class="nav nav-pills mb-3" id="pills-tab-${region}" role="tablist">
-                  <li class="nav-item" role="presentation">
-                      <button class="nav-link" id="pills-home-tab-resultats-${region}" data-bs-toggle="pill" data-bs-target="#pills-home-resultats-${region}" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Sondages</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                      <button class="nav-link active" id="pills-profile-tab-resultats-${region}" data-bs-toggle="pill" data-bs-target="#pills-profile-resultats-${region}" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Résultats</button>
-                  </li>
-              </ul>
-
-              <div class="tab-content" id="pills-tabContent">
-                  <div class="tab-pane fade" id="pills-home-resultats-${region}" role="tabpanel" aria-labelledby="pills-home-tab">
-                     <div class="container">
-                          <div class="row">
-                            <div class="col">
-                              <div id="${region}-intro-second-sondages"></div>
-                            </div>
-                            <div class="col">
-                              <div style=""><canvas id="chart-${region}-second" width="400" height="300"></canvas></div>
-                            </div>
-                          </div>
-                     </div>
-                  </div>
-                  <div class="tab-pane fade show active" id="pills-profile-resultats-${region}" role="tabpanel" aria-labelledby="pills-profile-tab"><br>Les estimations des résultats du second tour seront disponibles dimanche 27 juin à partir de 20h.<br><br>
-                    <div class="container">
-                          <div class="row">
-                            <div class="col">
-                              <div id="${region}-intro-second-resultats"></div>
-                            </div>
-                            <div class="col">
-                              <div style=""><canvas id="chart-${region}-second-resultats" width="400" height="300"></canvas></div>
-                            </div>
-                          </div>
-                      </div>
-                      .
-                  </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-    `
-    }
-
-    var LISTES = {
-        "LUD": {"nom": "Union de la droite", "couleur": "blue"},
-        "LRN": {"nom": "Rassemblement National", "couleur": "black"},
-        "LECO": {"nom": "Ecologie", "couleur": "green"},
-        "LUC": {"nom": "Union du centre", "couleur": "lightblue"},
-        "LUG": {"nom": "Union de la gauche", "couleur": "pink"},
-        "LLR": {"nom": "Les Républicains", "couleur": "blue"},
-        "LUGE": {"nom": "Union Gauche Écologie", "couleur": "pink"},
-        "LDVC": {"nom": "Divers Centre", "couleur": "grey"},
-        "LUCD": {"nom": "Union Droite et Centre", "couleur": "blue"},
-        "LDVG": {"nom": "Divers Gauche", "couleur": "pink"},
-    }
-    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/regionales_metadata.json';
+    var intentionsCandidatsMoyenneMobile14Jours;
+    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/intentionsCandidatsMoyenneMobile14Jours.json';
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
     request.send();
     request.onload = function() {
-      var metadata = request.response;
-      update_dropdown(metadata);
-      metadata["regions"].map((region) => {
-          download_data_and_build_chart_sondages_premier_tour(region, metadata)
-          download_data_and_build_chart_resultats_premier_tour(region, metadata)
-          download_data_and_build_chart_sondages_second_tour(region, metadata)
-          download_data_and_build_chart_resultats_second_tour(region, metadata)
-      });
+      intentionsCandidatsMoyenneMobile14Jours = request.response;
+      construireGraphique();
+      
     }
 
-    function download_data_and_build_chart_sondages_premier_tour(region, metadata) {
-        update_html(region, metadata);
-        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/sondages_regionales_${region}_premier_tour.json`;
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
-        request.onload = function () {
-            var data = request.response;
-            build_chart(data["data"], region, "premier");
-            update_intro(data, region, "premier", "sondages");
-        }
-    }
+    function construireGraphique(){
+      console.log(intentionsCandidatsMoyenneMobile14Jours["Emmanuel Macron"]["fin_enquete"])
 
-    function download_data_and_build_chart_resultats_premier_tour(region, metadata) {
-        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/resultats_regionales_${region}_premier_tour.json`;
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
-        request.onload = function () {
-            var data = request.response;
-            build_chart_resultats(data, region, "premier");
-            update_intro_resultats(data, region, "premier", "resultats");
-        }
-    }
+      var trace1 = {
+        x: intentionsCandidatsMoyenneMobile14Jours["Emmanuel Macron"]["fin_enquete"],
+        y: intentionsCandidatsMoyenneMobile14Jours["Emmanuel Macron"]["intentions"],
+        mode: 'lines',
+        type: 'scatter'
+      };
 
-    function get_status(source) {
-        if (source.includes("Estimation")) {
-            return `<svg height="30" width="30" class="blinking"><circle cx="15" cy="15" r="10" fill="red" /></svg> <span style="color:red;">LIVE</span>`
-        } else {
-            return `<svg height="30" width="30" class=""><circle cx="15" cy="15" r="10" fill="green" /></svg> <span style="color:GREEN;">TERMINÉ</span>`
-        }
-    }
+      var data = [trace1];
 
-    function download_data_and_build_chart_resultats_second_tour(region, metadata) {
-        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/resultats_regionales_${region}_second_tour.json`;
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
-        request.onload = function () {
-            var data = request.response;
-            build_chart_resultats(data["data"], region, "second");
-            status = get_status(data["source"])
-            update_intro_resultats(data["data"], region, "second", "resultats", status + " - " + data["source"])
-        }
-    }
+      Plotly.newPlot('myDiv', data);
 
-    function download_data_and_build_chart_sondages_second_tour(region, metadata) {
-
-        var requestURL = `https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/sondages_regionales_${region}_second_tour.json`;
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
-        request.onload = function () {
-            var data = request.response;
-            build_chart(data["data"], region, "second");
-            update_intro(data, region, "second", "sondages");
-        }
-    }
-
-    function update_dropdown(metadata){
-        metadata["regions"].map((region) => {
-            region_name = metadata["regions_noms"][region]
-            document.getElementById("dropdown-menu").innerHTML += `<li><a class="dropdown-item" href="#${region}">${region_name}</a></li>`
-        })
-    }
-    function compare(a, b) {
-      if (a.x<b.x)
-         return -1;
-      if (a.x>b.x)
-         return 1;
-      return 0;
-}
-    function build_chart_dataset(data){
-        var datasets = [];
-        for (var candidat in data) {
-            var data_dataset = data[candidat]["dates"].map((value, idx) => ({x: value, y: data[candidat]["intentions"][idx]}))
-            data_dataset.sort(compare)
-            let dataset = {
-                label: candidat + " (" + data[candidat]["parti"] + ")",
-                data: data_dataset,
-                borderColor: data[candidat]["couleur"],
-                borderWidth: 4
-            }
-            datasets.push(dataset)
-        }
-        return datasets
-    }
-
-    function build_chart_dataset_resultats(data){
-        var data_dataset = Object.keys(data).map((candidat) => ({y: candidat, x: data[candidat]["score"]}))
-        couleurs = []
-        Object.keys(data).map((candidat) => {
-            if (data[candidat]["parti"] in LISTES){
-                couleurs.push(LISTES[data[candidat]["parti"]]["couleur"])
-            } else {
-                couleurs.push("grey")
-            }
-
-        })
-        let dataset = {
-            label: "Résultat ",
-            data: data_dataset,
-            backgroundColor: couleurs,
-            //borderColor: "black",
-            //borderWidth: 4
-        }
-        return [dataset]
-    }
-
-
-    function update_html(region, metadata){
-        document.getElementById("charts-regions").innerHTML += `
-            <h3 style="padding-top: 45px;" id="${region}">{region}</h3><br>
-            ${div_region(region)}
-            <br>
-            `.replace("{region}", metadata["regions_noms"][region])
-    }
-
-    function update_intro(data, region, tour, type){
-        string_to_display = "Moyenne des derniers sondages :<br>";
-
-        for (let i = 0; i < data["candidats_ordonnes"].length; i++) {
-            candidat = data["candidats_ordonnes"][i];
-            string_to_display += `• <b>${data["intentions_ordonnees"][i]} %</b> `
-            string_to_display += `${candidat}`
-            string_to_display += ` (${data["data"][candidat]["parti"]})<br>`
-        }
-
-        document.getElementById(`${region}-intro-${tour}-${type}`).innerHTML += `${string_to_display}<br><br>`
-    }
-
-    function update_intro_resultats(data, region, tour, type, titre="Résultats :"){
-        string_to_display = `${titre}<br>`;
-        let candidats = Object.keys(data);
-        for (let i = 0; i < candidats.length; i++) {
-            candidat = candidats[i];
-            parti = data[candidat]["parti"];
-            if (parti in LISTES){
-                parti = LISTES[parti]["nom"]
-            }
-            string_to_display += `• <b>${data[candidat]["score"]} %</b> `
-            string_to_display += `${candidat}`
-            string_to_display += ` (${parti})<br>`
-        }
-
-        document.getElementById(`${region}-intro-${tour}-${type}`).innerHTML += `${string_to_display}<br><br>`
-    }
-
-
-    function build_chart(data, region, tour) {
-        let chart_dataset = build_chart_dataset(data)
-        let ctx = document.getElementById(`chart-${region}-${tour}`).getContext('2d');
-        let chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                datasets: chart_dataset
-            },
-            options: {
-                scales: {
-
-                    y: {
-                        beginAtZero: true
-                    },
-                    x: {
-                        type: 'time',
-                        //distribution: 'linear',
-                    },
-                }
-            }
-        });
-    }
-
-    function build_chart_resultats(data, region, tour) {
-        let chart_dataset = build_chart_dataset_resultats(data)
-        let ctx = document.getElementById(`chart-${region}-${tour}-resultats`).getContext('2d');
-        let chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                datasets: chart_dataset
-            },
-            options: {
-                plugins:{
-                    legend: {
-                    display: false,
-                    }
-                },
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                }
-            }
-        });
-    }
-
-</script>
-
-<script>
-    download_data()
-    function download_data() {
-        var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/participation.json';
-        var request = new XMLHttpRequest();
-        request.open('GET', requestURL);
-        request.responseType = 'json';
-        request.send();
-        request.onload = function () {
-            var participation = request.response;
-            graphique_participation(participation)
-        }
-    }
-
-    function graphique_participation(participation) {
-        var ctx = document.getElementById("chart-abstention").getContext("2d");
-        console.log(participation)
-
-        var data = {
-            labels: ["À 12h", "À 17h", "À la fin du scrutin"],
-            datasets: [
-                {
-                    label: "2004",
-                    backgroundColor: "#8ba8d6",
-                    data: [participation["2004"]["12h"], participation["2004"]["17h"], participation["2004"]["fin"]]
-                },
-                {
-                    label: "2010",
-                    backgroundColor: "#5687d6",
-                    data: [participation["2010"]["12h"], participation["2010"]["17h"], participation["2010"]["fin"]]
-                }, {
-                    label: "2015",
-                    backgroundColor: "#155fd6",
-                    data: [participation["2015"]["12h"], participation["2015"]["17h"], participation["2015"]["fin"]]
-                }, {
-                    label: "2021",
-                    backgroundColor: "black",
-                    data: [participation["2021"]["12h"], participation["2021"]["17h"], participation["2021"]["fin"]]
-                }]
-        };
-
-        var myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                barValueSpacing: 20,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                        }
-                    }]
-                }
-            }
-        });
     }
 
 </script>
