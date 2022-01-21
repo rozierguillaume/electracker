@@ -117,7 +117,7 @@
     <br>
     <h1>Sondages élection présidentielle 2022</h1>
     <h2>Moyenne des sondages</h2>
-    <p>Moyenne des sondages sur 14 jours.</p><br>
+    <p>Moyenne des sondages sur 14 jours.</p>
     <p>Dernier sondage : <span id="dernier_sondage">-/-</span>. Mise à jour : <span id="mise_a_jour">-/-</span>.</p>
     <div id="myDiv" style="width: 90vw; height: 80vw; max-height: 700px; max-width: 1100px;"></div>
 
@@ -147,30 +147,27 @@
         throw new Error('Bad Hex');
     }
 
-    var intentionsCandidatsMoyenneMobile14Jours;
+    var donnees;
     var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/intentionsCandidatsMoyenneMobile14Jours.json';
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
     request.send();
     request.onload = function() {
-      intentionsCandidatsMoyenneMobile14Jours = request.response;
+      donnees = request.response;
       construireGraphique();
-      //mettre_a_jour_dates();
+      mettre_a_jour_dates();
       
     }
 
     function construireGraphique(){
       var traces = [];
-      for (var candidat in intentionsCandidatsMoyenneMobile14Jours){
-
-          console.log(candidat)
-          console.log(intentionsCandidatsMoyenneMobile14Jours)
-          let y = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["valeur"];
-          let y_std = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["std"];
-          let color = intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"];
+      for (var candidat in donnees["candidats"]){
+          let y = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"];
+          let y_std = donnees["candidats"][candidat]["intentions_moy_14d"]["std"];
+          let color = donnees["candidats"][candidat]["couleur"];
           traces.push({
-            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
+            x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
             y: y,
             name: candidat,
             line: {color: color, width: 3, 'shape': 'spline'},
@@ -180,8 +177,8 @@
           })
 
           traces.push({
-            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"]["fin_enquete"],
-            y: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"]["valeur"],
+            x: donnees["candidats"][candidat]["intentions"]["fin_enquete"],
+            y: donnees["candidats"][candidat]["intentions"]["valeur"],
             name: candidat,
             marker: {size: 4, color: color},
             legendgroup: candidat,
@@ -191,7 +188,7 @@
           })
 
           traces.push({
-            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
+            x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
             y: y_std.map((value, idx) => value+y[idx]),
             name: candidat,
             line: {color: color, width: 0, 'shape': 'spline'},
@@ -202,7 +199,7 @@
           })
 
           traces.push({
-            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
+            x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
             y: y_std.map((value, idx) => -value+y[idx]),
             name: candidat,
             line: {color: color, width: 0, 'shape': 'spline'},
@@ -214,7 +211,7 @@
           })
 
           traces.push({
-            x : intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"].slice(-1),
+            x : donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"].slice(-1),
             y : y.slice(-1),
             mode: 'markers+text',
             text: candidat + " (" + y.slice(-1)[0].toFixed(0) + "%)",
@@ -273,8 +270,8 @@
     }
 
 function mettre_a_jour_dates(){
-  document.getElementById("dernier_sondage").innerHTML = "1"
-  document.getElementById("mise_a_jour").innerHTML = "2"
+  document.getElementById("dernier_sondage").innerHTML = donnees["dernier_sondage"];
+  document.getElementById("mise_a_jour").innerHTML = donnees["mise_a_jour"];
 }
 </script>
 
