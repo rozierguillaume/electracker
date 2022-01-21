@@ -118,6 +118,7 @@
     <h1>Sondages élection présidentielle 2022</h1>
     <h2>Moyenne des sondages</h2>
     <p>Moyenne des sondages sur 14 jours.</p><br>
+    <p>Dernier sondage : <span id="dernier_sondage">-/-</span>. Mise à jour : <span id="mise_a_jour">-/-</span>.</p>
     <div id="myDiv" style="width: 90vw; height: 80vw; max-height: 700px; max-width: 1100px;"></div>
 
     <h2>Derniers sondages</h2>
@@ -155,6 +156,7 @@
     request.onload = function() {
       intentionsCandidatsMoyenneMobile14Jours = request.response;
       construireGraphique();
+      //mettre_a_jour_dates();
       
     }
 
@@ -162,6 +164,7 @@
       var traces = [];
       for (var candidat in intentionsCandidatsMoyenneMobile14Jours){
 
+          console.log(candidat)
           let y = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["valeur"];
           let y_std = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["std"];
           let color = intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"];
@@ -268,6 +271,10 @@
 
     }
 
+function mettre_a_jour_dates(){
+  document.getElementById("dernier_sondage").innerHTML = "1"
+  document.getElementById("mise_a_jour").innerHTML = "2"
+}
 </script>
 
 </body>

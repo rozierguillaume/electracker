@@ -30,10 +30,10 @@ for candidat in CANDIDATS:
   
   dict_candidats[candidat] = {"intentions_moy_14d": {"fin_enquete": df_temp_rolling.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp_rolling.intentions.to_list(), "std": df_temp_rolling_std.intentions.to_list()},
                               "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
-                              "couleur": CANDIDATS[candidat]["couleur"],}
+                              "couleur": CANDIDATS[candidat]["couleur"]}
 
-  dict_candidats["dernier_sondage"] = df["fin_enquete"].max()
-  dict_candidats["mise_a_jour"] = datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M")
+dict_candidats["dernier_sondage"] = df["fin_enquete"].max()
+dict_candidats["mise_a_jour"] = datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M")
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
         json.dump(dict_candidats, outfile)
