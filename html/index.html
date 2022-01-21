@@ -128,6 +128,19 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
 
 <script>
+    function hexToRgbA(hex, opacity){
+        var c;
+        if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+            c= hex.substring(1).split('');
+            if(c.length== 3){
+                c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+            }
+            c= '0x'+c.join('');
+            return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+opacity+')';
+        }
+        throw new Error('Bad Hex');
+    }
+
     var intentionsCandidatsMoyenneMobile14Jours;
     var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/intentionsCandidatsMoyenneMobile14Jours.json';
     var request = new XMLHttpRequest();
@@ -143,12 +156,15 @@
     function construireGraphique(){
       var traces = [];
       for (var candidat in intentionsCandidatsMoyenneMobile14Jours){
+
           let y = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["valeur"];
+          let y_std = intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["std"];
+          let color = intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"];
           traces.push({
             x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
             y: y,
             name: candidat,
-            line: {color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"], width: 3, 'shape': 'spline'},
+            line: {color: color, width: 3, 'shape': 'spline'},
             legendgroup: candidat,
             mode: 'lines',
             type: 'scatter'
@@ -158,10 +174,33 @@
             x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"]["fin_enquete"],
             y: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions"]["valeur"],
             name: candidat,
-            marker: {size: 4, color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"]},
+            marker: {size: 4, color: color},
             legendgroup: candidat,
             mode: 'markers',
             opacity: 0.2,
+            type: 'scatter'
+          })
+
+          traces.push({
+            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
+            y: y_std.map((value, idx) => value+y[idx]),
+            name: candidat,
+            line: {color: color, width: 0, 'shape': 'spline'},
+            legendgroup: candidat,
+            
+            mode: 'lines',
+            type: 'scatter'
+          })
+
+          traces.push({
+            x: intentionsCandidatsMoyenneMobile14Jours[candidat]["intentions_moy_14d"]["fin_enquete"],
+            y: y_std.map((value, idx) => -value+y[idx]),
+            name: candidat,
+            line: {color: color, width: 0, 'shape': 'spline'},
+            legendgroup: candidat,
+            fill: 'tonexty',
+            fillcolor: hexToRgbA(color, 0.1),
+            mode: 'lines',
             type: 'scatter'
           })
 
@@ -170,9 +209,9 @@
             y : y.slice(-1),
             mode: 'markers+text',
             text: candidat + " (" + y.slice(-1)[0].toFixed(0) + "%)",
-            textfont: {color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"]},
+            textfont: {color: color},
             textposition: 'middle right',
-            marker: {color: intentionsCandidatsMoyenneMobile14Jours[candidat]["couleur"], size: 10},
+            marker: {color: color, size: 10},
             legendgroup: candidat,
             showlegend: false  
           })

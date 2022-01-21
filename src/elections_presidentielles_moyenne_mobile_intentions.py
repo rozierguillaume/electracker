@@ -21,13 +21,15 @@ for candidat in CANDIDATS:
   df_temp = df[df["candidat"] == candidat]
   df_temp.index = pd.to_datetime(df_temp["fin_enquete"])
   df_temp_rolling = df_temp.resample("1d").mean()
-  df_temp_rolling = round(df_temp[["intentions"]].rolling('14d', min_periods=1).mean().dropna(), 2)
-  df_temp_rolling_std = round(df_temp[["intentions"]].rolling('14d', min_periods=1).std().dropna(), 2)
+  df_temp_rolling = round(df_temp_rolling[["intentions"]].rolling('14d', min_periods=1).mean().dropna(), 2)
+  df_temp_rolling_std = round(df_temp_rolling[["intentions"]].rolling('14d', min_periods=1).std().fillna(method="bfill"), 2)
   
   dict_candidats[candidat] = {"intentions_moy_14d": {"fin_enquete": df_temp_rolling.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp_rolling.intentions.to_list(), "std": df_temp_rolling_std.intentions.to_list()},
                               "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
                               "couleur": CANDIDATS[candidat]["couleur"]}
 
+print(df_temp_rolling)
+print(df_temp_rolling_std)
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
         json.dump(dict_candidats, outfile)
