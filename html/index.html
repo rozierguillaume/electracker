@@ -107,7 +107,8 @@
       var traces = [];
       for (var candidat in donnees["candidats"]){
           let y = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"];
-          let y_std = donnees["candidats"][candidat]["intentions_moy_14d"]["std"];
+          let y_sup = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_sup"];
+          let y_inf = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_inf"];
           let color = donnees["candidats"][candidat]["couleur"];
           traces.push({
             x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
@@ -132,7 +133,7 @@
 
           traces.push({
             x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
-            y: y_std.map((value, idx) => value+y[idx]),
+            y: y_sup,
             name: candidat,
             line: {color: color, width: 0, 'shape': 'spline'},
             legendgroup: candidat,
@@ -143,7 +144,7 @@
 
           traces.push({
             x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
-            y: y_std.map((value, idx) => -value+y[idx]),
+            y: y_inf,
             name: candidat,
             line: {color: color, width: 0, 'shape': 'spline'},
             legendgroup: candidat,
