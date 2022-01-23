@@ -25,8 +25,8 @@ for candidat in CANDIDATS:
   df_temp_rolling = df_temp[["intentions", "erreur_inf", "erreur_sup"]].rolling('14d', min_periods=1).mean().dropna()
   df_temp_rolling_std = df_temp[["intentions"]].rolling('14d', min_periods=1).std().fillna(method="bfill")
 
-  df_temp_rolling = round(df_temp_rolling.resample("1d").mean().dropna(), 2).rolling(window=3).mean()
-  df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=3).mean()
+  df_temp_rolling = round(df_temp_rolling.resample("1d").mean().dropna(), 2).rolling(window=3).mean().dropna()
+  df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=3).mean().dropna()
 
   #print(df_temp.columns)
   #nom_institut, commanditaire, debut_enquete, fin_enquete, intentions
