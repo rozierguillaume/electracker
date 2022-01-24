@@ -1,7 +1,6 @@
 import json 
 import pandas as pd
 import datetime
-from zoneinfo import ZoneInfo
 
 df = pd.read_csv("https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv")
 df = df[df["tour"] == "Premier tour"]
@@ -35,7 +34,7 @@ for candidat in CANDIDATS:
                               "couleur": CANDIDATS[candidat]["couleur"]}
 
 dict_donnees = {"dernier_sondage": df["fin_enquete"].max(), 
-                "mise_a_jour": datetime.datetime.now(ZoneInfo("Europe/Paris")).strftime(format="%Y-%m-%d %H:%M"),
+                "mise_a_jour": datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M"),
                 "candidats": dict_candidats}
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
