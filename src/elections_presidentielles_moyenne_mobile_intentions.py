@@ -27,9 +27,6 @@ for candidat in CANDIDATS:
 
   df_temp_rolling = round(df_temp_rolling.resample("1d").mean().dropna(), 2).rolling(window=7).mean().dropna()
   df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=7).mean().dropna()
-
-  #print(df_temp.columns)
-  #nom_institut, commanditaire, debut_enquete, fin_enquete, intentions
   
   dict_candidats[candidat] = {"intentions_moy_14d": {"fin_enquete": df_temp_rolling.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp_rolling.intentions.to_list(), "std": df_temp_rolling_std.intentions.to_list(), "erreur_inf": df_temp_rolling.erreur_inf.to_list(), "erreur_sup": df_temp_rolling.erreur_sup.to_list()},
                               "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
@@ -37,7 +34,7 @@ for candidat in CANDIDATS:
                               "couleur": CANDIDATS[candidat]["couleur"]}
 
 dict_donnees = {"dernier_sondage": df["fin_enquete"].max(), 
-                "mise_a_jour": datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M"),
+                "mise_a_jour": datetime.datetime.now(ZoneInfo("Europe/Paris")).strftime(format="%Y-%m-%d %H:%M"),
                 "candidats": dict_candidats}
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
