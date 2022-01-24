@@ -1,6 +1,7 @@
 import json 
 import pandas as pd
 import datetime
+from zoneinfo import ZoneInfo
 
 df = pd.read_csv("https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv")
 df = df[df["tour"] == "Premier tour"]
