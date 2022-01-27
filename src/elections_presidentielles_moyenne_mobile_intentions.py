@@ -18,6 +18,7 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Eric Zemmour": {"couleur": "#010038"}}
 
 dict_candidats = {}
+derniere_intention = pd.DataFrame(columns=["candidat", "intentions"])
 for candidat in CANDIDATS:
   df_temp = df[df["candidat"] == candidat]
   df_temp.index = pd.to_datetime(df_temp["fin_enquete"])
@@ -28,6 +29,8 @@ for candidat in CANDIDATS:
   df_temp_rolling = round(df_temp_rolling.resample("1d").mean().dropna(), 2).rolling(window=7).mean().dropna()
   df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=7).mean().dropna()
   
+  derniere_intention = derniere_intention.append({"candidat": candidat, "intentions": df_temp_rolling.intentions.to_list()[-1]}, ignore_index=True)
+
   dict_candidats[candidat] = {"intentions_moy_14d": {"fin_enquete": df_temp_rolling.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp_rolling.intentions.to_list(), "std": df_temp_rolling_std.intentions.to_list(), "erreur_inf": df_temp_rolling.erreur_inf.to_list(), "erreur_sup": df_temp_rolling.erreur_sup.to_list()},
                               "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
                               "derniers_sondages": [],
@@ -39,3 +42,25 @@ dict_donnees = {"dernier_sondage": df["fin_enquete"].max(),
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
         json.dump(dict_donnees, outfile)
+
+derniere_intention.sort_values(by="intentions", ascending=False, inplace=True)
+
+dict_derniers_sondages = {}
+for (idx, candidat_sorted) in enumerate(derniere_intention.candidat.values):
+  dict_derniers_sondages[candidat_sorted] = {"derniere_intention": round(derniere_intention.intentions.values[idx],1), "derniers_sondages": {}}
+
+  df_temp = df[df["candidat"] == candidat].sort_values(by="fin_enquete", ascending=False).reset_index()
+
+  for idx in range(0, 5):
+    sondage = df_temp.loc[idx, :]
+    dict_derniers_sondages[candidat_sorted]["derniers_sondages"][str(sondage["id"])] = {"fin_enquete": sondage["fin_enquete"], 
+                                                                                        "debut_enquete": sondage["debut_enquete"],
+                                                                                        "commanditaire": sondage["commanditaire"],
+                                                                                        "nom_institut": sondage["nom_institut"],
+                                                                                        "erreur_sup": sondage["erreur_sup"],
+                                                                                        "erreur_inf": sondage["erreur_inf"]}
+
+
+
+with open('data/output/derniersSondagesCandidats.json', 'w') as outfile:
+        json.dump(dict_derniers_sondages, outfile)
