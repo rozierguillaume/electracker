@@ -5,10 +5,11 @@ import json
 from urllib.request import urlopen
 import numpy as np
 
-CONSUMER_KEY = os.getenv('CONSUMER_KEY')
+CONSUMER_KEY = os.environ.get('CONSUMER_KEY')
+print(CONSUMER_KEY)
 CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
-ACCESS_KEY = os.getenv('ACCESS_KEY')
-ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+ACCESS_KEY = os.environ.get('ACCESS_KEY')
+ACCESS_SECRET = os.environ.get('ACCESS_SECRET')
 
 def hex_to_rgb(value):
     value = value.lstrip('#')
@@ -183,6 +184,7 @@ def get_message():
             message += "  " + str(idx) + ". " + candidat + " : " + str(intentions[-idx]) + "%\n"
     message += "electracker.fr"
     return message
+
 plot()
 message = get_message()
-tweet_image(message)
+#tweet_image(message)
