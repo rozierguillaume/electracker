@@ -3,7 +3,7 @@ name: Python Scripts
 # Controls when the action will run. 
 on:
   schedule:
-  - cron: "30 * * * *" # UTC time (-1 en hiver et -2 en été)
+  - cron: "30 19 * * *" # UTC time (-1 en hiver et -2 en été)
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,7 +27,13 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
     - name: Données Présidentielles
+      env:
+        CONSUMER_KEY: ${{ env.CONSUMER_KEY }}
+        CONSUMER_SECRET: ${{ env.CONSUMER_SECRET }}
+        ACCESS_KEY: ${{ env.ACCESS_KEY }}
+        ACCESS_SECRET: ${{ env.ACCESS_SECRET }}
       run: |
         python src/elections_presidentielles_moyenne_mobile_intentions.py
+        python src/tweet_chiffres_quotidiens.py
     - uses: stefanzweifel/git-auto-commit-action@v4
     
