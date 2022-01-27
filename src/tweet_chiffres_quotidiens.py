@@ -187,4 +187,4 @@ def get_message():
 
 plot()
 message = get_message()
-#tweet_image(message)
+tweet_image(message)
