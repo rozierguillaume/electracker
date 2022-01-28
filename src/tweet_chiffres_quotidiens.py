@@ -18,9 +18,21 @@ def hex_to_rgb(value):
 url = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/intentionsCandidatsMoyenneMobile14Jours.json'
 donnees = json.loads(urlopen(url).read())
 
+candidats = []
+intentions = []
+for idx, candidat in enumerate(donnees["candidats"]):
+    intentions += [round(donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"][-1], 1)]
+    candidats += [candidat]
+
+idx_sorted = np.argsort(intentions )
+intentions = np.array(intentions)[idx_sorted]
+candidats = np.array(candidats)[idx_sorted]
+    
 def plot():
     fig = go.Figure()
-    for candidat in donnees["candidats"]:
+    annotations = []
+
+    for candidat in candidats:
         y = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]
         y_sup = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_sup"]
         y_inf = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_inf"]
@@ -78,14 +90,34 @@ def plot():
                 x = [donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1]],
                 y = [y[-1]],
                 mode = 'markers+text',
-                text = candidat + " (" + str(round(y[-1], 1)) + "%)",
-                textfont = {"color": color},
+                text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
+                textfont = {"color": color, "size": 20},
                 textposition = 'middle right',
-                marker = {"color": color, "size": 10},
+                marker = {"color": color, "size": 15},
                 legendgroup = candidat,
                 showlegend = False  
             )
         )
+
+        annotations += [
+            {
+                "x": donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1],
+                "y": y[-1],
+                "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
+                "font": {"color": color, "size": 20},
+                "xanchor": "left",
+                "yanchor": "middle",
+                "ax": 30,
+                "ay": 0
+            }
+        ]
+
+    for idx in range(1, len(annotations)):
+        annotation = annotations[-idx]
+        annotation_prev = annotations[-idx-1]
+
+        if (annotation["y"] + annotation["ay"] - annotation_prev["y"] - annotation_prev["ay"]) < 1:
+            annotations[-idx-1]["ay"] = 15
 
     fig.update_layout(
         showlegend = False,
@@ -112,7 +144,9 @@ def plot():
               }
           }
         ],
-        annotations = [
+    )
+
+    annotations_other = [
           {
             "x": "2022-04-10",
             "y": 29,
@@ -144,7 +178,12 @@ def plot():
             "showarrow": False,
           }
         ]
-    )
+
+    for annotation in annotations:
+        fig.add_annotation(annotation)
+
+    for annotation in annotations_other:
+        fig.add_annotation(annotation)
 
     fig.write_image("img/plot_presidentielles.png", width=1200, height=800, scale=2)
     
@@ -189,16 +228,6 @@ def printable_taux(evol_intentions):
 
 def get_message_intentions():
     message = "Moyenne sondages (14 jours) : \n"
-
-    candidats = []
-    intentions = []
-    for idx, candidat in enumerate(donnees["candidats"]):
-        intentions += [round(donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"][-1], 1)]
-        candidats += [candidat]
-    
-    idx_sorted = np.argsort(intentions )
-    intentions = np.array(intentions)[idx_sorted]
-    candidats = np.array(candidats)[idx_sorted]
 
     for idx in range(1, len(candidats)+1):
         candidat = candidats[-idx]
