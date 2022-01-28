@@ -28,10 +28,10 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
     - name: Données Présidentielles
       env:
-        CONSUMER_KEY: ${{ env.CONSUMER_KEY }}
-        CONSUMER_SECRET: ${{ env.CONSUMER_SECRET }}
-        ACCESS_KEY: ${{ env.ACCESS_KEY }}
-        ACCESS_SECRET: ${{ env.ACCESS_SECRET }}
+        CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+        CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+        ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+        ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
       run: |
         echo blabla
         echo $CONSUMER_KEY
