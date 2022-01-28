@@ -6,8 +6,6 @@ from urllib.request import urlopen
 import numpy as np
 
 CONSUMER_KEY = os.getenv('CONSUMER_KEY')
-print(CONSUMER_KEY)
-print("consum")
 CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 ACCESS_KEY = os.getenv('ACCESS_KEY')
 ACCESS_SECRET = os.getenv('ACCESS_SECRET')
@@ -157,17 +155,40 @@ def twitter_api():
     api = tweepy.API(auth)
     return api
 
-def tweet_image(message):
+def tweet_intentions(message):
     try:
         api = twitter_api()
         filename = 'img/plot_presidentielles.png'
-        api.update_with_media(filename, status=message)
+        tweet = api.update_with_media(filename, status=message)
         print("Tweeted")
+        return tweet
     except:
         print("Error Tweet")
 
-def get_message():
-    message = "Moyenne sondages #Présidentielle2022 (14j) : \n"
+def tweet_evolution(message, previous):
+    try:
+        api = twitter_api()
+        tweet = api.update_status(status=message, in_reply_to_status_id=previous.id)
+        print("Tweeted")
+        return tweet
+    except:
+        print("Error Tweet")
+
+def printable_taux(evol_intentions):
+    taux_str = ""
+    if evol_intentions > 0.5:
+        taux_str = "↗️  +" + str(round(evol_intentions, 1))
+    elif evol_intentions < -0.5:
+        taux_str = "↘️  " + str(round(evol_intentions, 1))
+    elif evol_intentions < 0:
+        taux_str = "➡️  " + str(round(evol_intentions, 1))
+    else:
+        taux_str = "➡️  +" + str(round(evol_intentions, 1))
+    return taux_str
+
+
+def get_message_intentions():
+    message = "Moyenne sondages (14 jours) : \n"
 
     candidats = []
     intentions = []
@@ -184,8 +205,27 @@ def get_message():
         if(len(message)<240):
             message += "  " + str(idx) + ". " + candidat + " : " + str(intentions[-idx]) + "%\n"
     message += "electracker.fr"
+    return message, candidats
+
+def get_message_evolution_intentions(candidats):
+    message = "Évolution sur 14 jours : \n"
+
+    for idx in range(1, len(candidats)+1):
+        candidat = candidats[-idx]
+        intentions = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]
+        evol_intentions = intentions[-1] - intentions[-14-1]
+        if(len(message)<240):
+            suffix=""
+            if idx == 1:
+                suffix=" points"
+
+            message += "  " + str(idx) + ". " + candidat + " : " + printable_taux(evol_intentions) + suffix +"\n"
+    message += "electracker.fr"
     return message
 
 plot()
-message = get_message()
-tweet_image(message)
+message, candidats_sorted = get_message_intentions()
+message_evolution = get_message_evolution_intentions(candidats_sorted)
+
+original_tweet = tweet_intentions(message)
+second_tweet = tweet_evolution(message_evolution, original_tweet)
