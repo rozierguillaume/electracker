@@ -7,6 +7,7 @@ import numpy as np
 
 CONSUMER_KEY = os.getenv('CONSUMER_KEY')
 print(CONSUMER_KEY)
+print("consum")
 CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 ACCESS_KEY = os.getenv('ACCESS_KEY')
 ACCESS_SECRET = os.getenv('ACCESS_SECRET')
