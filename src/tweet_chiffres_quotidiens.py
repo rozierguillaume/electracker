@@ -16,7 +16,7 @@ def hex_to_rgb(value):
     return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'r') as file:
-    json.load(file)
+    donnees = json.load(file)
 
 candidats = []
 intentions = []
