@@ -6,8 +6,6 @@ from urllib.request import urlopen
 import numpy as np
 
 CONSUMER_KEY = os.getenv('CONSUMER_KEY')
-print(CONSUMER_KEY)
-print("consum")
 CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 ACCESS_KEY = os.getenv('ACCESS_KEY')
 ACCESS_SECRET = os.getenv('ACCESS_SECRET')
@@ -20,9 +18,21 @@ def hex_to_rgb(value):
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'r') as file:
     json.load(file)
 
+candidats = []
+intentions = []
+for idx, candidat in enumerate(donnees["candidats"]):
+    intentions += [round(donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"][-1], 1)]
+    candidats += [candidat]
+
+idx_sorted = np.argsort(intentions )
+intentions = np.array(intentions)[idx_sorted]
+candidats = np.array(candidats)[idx_sorted]
+    
 def plot():
     fig = go.Figure()
-    for candidat in donnees["candidats"]:
+    annotations = []
+
+    for candidat in candidats:
         y = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]
         y_sup = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_sup"]
         y_inf = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_inf"]
@@ -80,14 +90,34 @@ def plot():
                 x = [donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1]],
                 y = [y[-1]],
                 mode = 'markers+text',
-                text = candidat + " (" + str(round(y[-1], 1)) + "%)",
-                textfont = {"color": color},
+                text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
+                textfont = {"color": color, "size": 20},
                 textposition = 'middle right',
-                marker = {"color": color, "size": 10},
+                marker = {"color": color, "size": 15},
                 legendgroup = candidat,
                 showlegend = False  
             )
         )
+
+        annotations += [
+            {
+                "x": donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1],
+                "y": y[-1],
+                "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
+                "font": {"color": color, "size": 20},
+                "xanchor": "left",
+                "yanchor": "middle",
+                "ax": 30,
+                "ay": 0
+            }
+        ]
+
+    for idx in range(1, len(annotations)):
+        annotation = annotations[-idx]
+        annotation_prev = annotations[-idx-1]
+
+        if (annotation["y"] + annotation["ay"] - annotation_prev["y"] - annotation_prev["ay"]) < 1:
+            annotations[-idx-1]["ay"] = 15
 
     fig.update_layout(
         showlegend = False,
@@ -114,7 +144,9 @@ def plot():
               }
           }
         ],
-        annotations = [
+    )
+
+    annotations_other = [
           {
             "x": "2022-04-10",
             "y": 29,
@@ -146,7 +178,12 @@ def plot():
             "showarrow": False,
           }
         ]
-    )
+
+    for annotation in annotations:
+        fig.add_annotation(annotation)
+
+    for annotation in annotations_other:
+        fig.add_annotation(annotation)
 
     fig.write_image("img/plot_presidentielles.png", width=1200, height=800, scale=2)
     
@@ -157,35 +194,67 @@ def twitter_api():
     api = tweepy.API(auth)
     return api
 
-def tweet_image(message):
+def tweet_intentions(message):
     try:
         api = twitter_api()
         filename = 'img/plot_presidentielles.png'
-        api.update_with_media(filename, status=message)
+        tweet = api.update_with_media(filename, status=message)
         print("Tweeted")
+        return tweet
     except:
         print("Error Tweet")
 
-def get_message():
-    message = "Moyenne sondages #Présidentielle2022 (14j) : \n"
+def tweet_evolution(message, previous):
+    try:
+        api = twitter_api()
+        tweet = api.update_status(status=message, in_reply_to_status_id=previous.id)
+        print("Tweeted")
+        return tweet
+    except:
+        print("Error Tweet")
 
-    candidats = []
-    intentions = []
-    for idx, candidat in enumerate(donnees["candidats"]):
-        intentions += [round(donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"][-1], 1)]
-        candidats += [candidat]
-    
-    idx_sorted = np.argsort(intentions )
-    intentions = np.array(intentions)[idx_sorted]
-    candidats = np.array(candidats)[idx_sorted]
+def printable_taux(evol_intentions):
+    taux_str = ""
+    if evol_intentions > 0.5:
+        taux_str = "↗️  +" + str(round(evol_intentions, 1))
+    elif evol_intentions < -0.5:
+        taux_str = "↘️  " + str(round(evol_intentions, 1))
+    elif evol_intentions < 0:
+        taux_str = "➡️  " + str(round(evol_intentions, 1))
+    else:
+        taux_str = "➡️  +" + str(round(evol_intentions, 1))
+    return taux_str
+
+
+def get_message_intentions():
+    message = "Moyenne sondages (14 jours) : \n"
 
     for idx in range(1, len(candidats)+1):
         candidat = candidats[-idx]
         if(len(message)<240):
             message += "  " + str(idx) + ". " + candidat + " : " + str(intentions[-idx]) + "%\n"
     message += "electracker.fr"
+    return message, candidats
+
+def get_message_evolution_intentions(candidats):
+    message = "Évolution sur 14 jours : \n"
+
+    for idx in range(1, len(candidats)+1):
+        candidat = candidats[-idx]
+        intentions = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]
+        evol_intentions = intentions[-1] - intentions[-14-1]
+        if(len(message)<240):
+            suffix=""
+            if idx == 1:
+                suffix=" points"
+
+            message += "  " + str(idx) + ". " + candidat + " : " + printable_taux(evol_intentions) + suffix +"\n"
+    message += "electracker.fr"
     return message
 
 plot()
-message = get_message()
-tweet_image(message)
+message, candidats_sorted = get_message_intentions()
+message_evolution = get_message_evolution_intentions(candidats_sorted)
+
+original_tweet = tweet_intentions(message)
+second_tweet = tweet_evolution(message_evolution, original_tweet)
