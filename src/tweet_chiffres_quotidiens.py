@@ -175,7 +175,7 @@ def plot():
             "y": 1.05,
             "xref": "paper",
             "yref": "paper",
-            "text": "Aggrégation de l'ensemble des sondages • @ElecTracker • electracker.fr",
+            "text": f"Aggrégation de l'ensemble des sondages (Ipsos, Ifop, Opinionway...) • @ElecTracker • electracker.fr • Données NSPPolls • dernier sondage : {donnees['candidats'][candidat]['intentions_moy_14d']['fin_enquete'][-1]}",
             "font": {"size": 15},
             "xanchor": "center",
             "showarrow": False,
@@ -264,7 +264,7 @@ def export_table_html(candidats):
     def ligne_sondage(liste):
         text = ""
         for sondage in liste:
-            text += f"{liste[sondage]['intention']} • Du {liste[sondage]['debut_enquete']} au {liste[sondage]['fin_enquete']}"
+            text += f" {liste[sondage]['intentions']}% • (intervalle : {liste[sondage]['erreur_inf']}% - {liste[sondage]['erreur_sup']}%) • {liste[sondage]['nom_institut']} {liste[sondage]['commanditaire']} • Du {liste[sondage]['debut_enquete']} au {liste[sondage]['fin_enquete']}"
             text += "<br>"
         return text
 
@@ -282,5 +282,5 @@ message, candidats_sorted = get_message_intentions()
 message_evolution = get_message_evolution_intentions(candidats_sorted)
 export_table_html(candidats_sorted)
 
-#original_tweet = tweet_intentions(message)
-#second_tweet = tweet_evolution(message_evolution, original_tweet)
+original_tweet = tweet_intentions(message)
+second_tweet = tweet_evolution(message_evolution, original_tweet)

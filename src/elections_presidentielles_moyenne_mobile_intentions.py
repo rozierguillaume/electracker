@@ -18,7 +18,7 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Eric Zemmour": {"couleur": "#010038"}}
 
 dict_candidats = {}
-derniere_intention = pd.DataFrame(columns=["candidat", "intentions"])
+derniere_intention = pd.DataFrame() #columns=["candidat", "intentions"])
 for candidat in CANDIDATS:
   df_temp = df[df["candidat"] == candidat]
   df_temp.index = pd.to_datetime(df_temp["fin_enquete"])
@@ -49,17 +49,17 @@ dict_derniers_sondages = {}
 for (idx, candidat_sorted) in enumerate(derniere_intention.candidat.values):
   dict_derniers_sondages[candidat_sorted] = {"derniere_intention": round(derniere_intention.intentions.values[idx],1), "derniers_sondages": {}}
 
-  df_temp = df[df["candidat"] == candidat].sort_values(by="fin_enquete", ascending=False).reset_index()
+  df_temp = df[df["candidat"] == candidat_sorted].sort_values(by="fin_enquete", ascending=False).reset_index()
 
-  for idx in range(0, 5):
+  for idx in range(0, 10):
     sondage = df_temp.loc[idx, :]
     dict_derniers_sondages[candidat_sorted]["derniers_sondages"][str(sondage["id"])] = {"fin_enquete": sondage["fin_enquete"], 
                                                                                         "debut_enquete": sondage["debut_enquete"],
                                                                                         "commanditaire": sondage["commanditaire"],
                                                                                         "nom_institut": sondage["nom_institut"],
-                                                                                        "erreur_sup": sondage["erreur_sup"],
-                                                                                        "erreur_inf": sondage["erreur_inf"]}
-
+                                                                                        "intentions": sondage["intentions"],
+                                                                                        "erreur_sup": round(sondage["erreur_sup"], 1),
+                                                                                        "erreur_inf": round(sondage["erreur_inf"], 1)}
 
 
 with open('data/output/derniersSondagesCandidats.json', 'w') as outfile:
