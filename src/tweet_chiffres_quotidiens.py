@@ -252,9 +252,24 @@ def get_message_evolution_intentions(candidats):
     message += "electracker.fr"
     return message
 
+def export_table_html(candidats):
+    table_html = ""
+
+    def title(text):
+        return f"<h3>{text} • {donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]}%</h3>"
+
+    def ligne_sondage(donnees_candidat):
+        return donnees_candidat[]
+
+
+    for candidat in candidats:
+        table_html += title(candidat)
+        table_html += ligne_sondage(donnees["candidats"][candidat])
+
 plot()
 message, candidats_sorted = get_message_intentions()
 message_evolution = get_message_evolution_intentions(candidats_sorted)
+export_table_html(candidats_sorted)
 
-original_tweet = tweet_intentions(message)
-second_tweet = tweet_evolution(message_evolution, original_tweet)
+#original_tweet = tweet_intentions(message)
+#second_tweet = tweet_evolution(message_evolution, original_tweet)
