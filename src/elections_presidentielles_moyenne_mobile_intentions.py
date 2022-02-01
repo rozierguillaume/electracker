@@ -46,7 +46,7 @@ with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as ou
 derniere_intention.sort_values(by="intentions", ascending=False, inplace=True)
 
 dict_derniers_sondages = {}
-for (idx, candidat_sorted) in enumerate(derniere_intention.candidat.values):
+for (idx, candidat_sorted) in enumerate(reversed(derniere_intention.candidat.values)):
   dict_derniers_sondages[candidat_sorted] = {"derniere_intention": round(derniere_intention.intentions.values[idx],1), "derniers_sondages": {}}
 
   df_temp = df[df["candidat"] == candidat_sorted].sort_values(by="fin_enquete", ascending=False).reset_index()
