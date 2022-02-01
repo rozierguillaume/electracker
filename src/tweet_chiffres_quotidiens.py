@@ -18,6 +18,9 @@ def hex_to_rgb(value):
 with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'r') as file:
     donnees = json.load(file)
 
+with open('data/output/derniersSondagesCandidats.json', 'r') as file:
+    derniers_sondages = json.load(file)
+
 candidats = []
 intentions = []
 for idx, candidat in enumerate(donnees["candidats"]):
@@ -256,15 +259,23 @@ def export_table_html(candidats):
     table_html = ""
 
     def title(text):
-        return f"<h3>{text} • {donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]}%</h3>"
+        return f"<h3>{text} • {round(donnees['candidats'][candidat]['intentions_moy_14d']['valeur'][-1], 1)}%</h3>"
 
-    def ligne_sondage(donnees_candidat):
-        return donnees_candidat[]
+    def ligne_sondage(liste):
+        text = ""
+        for sondage in liste:
+            text += f"{liste[sondage]['intention']} • Du {liste[sondage]['debut_enquete']} au {liste[sondage]['fin_enquete']}"
+            text += "<br>"
+        return text
 
 
     for candidat in candidats:
         table_html += title(candidat)
-        table_html += ligne_sondage(donnees["candidats"][candidat])
+        table_html += ligne_sondage(derniers_sondages[candidat]["derniers_sondages"])
+        table_html += "<br>"
+
+    with open('html/derniers_sondages.html', 'w') as f:
+        f.write(table_html)
 
 plot()
 message, candidats_sorted = get_message_intentions()

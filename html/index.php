@@ -71,6 +71,8 @@
       <h2>Derniers sondages</h2>
       <br>
 
+      <?php include(__DIR__ . '/derniers_sondages.html'); ?>
+
       <h2 id="about">À propos</h2>
       ElecTracker agrège les sondages des élections présidentielles en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
       <br><br>
