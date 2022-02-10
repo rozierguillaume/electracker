@@ -242,6 +242,7 @@ def get_message_intentions():
         if(len(message)<240):
             message += "  " + str(idx) + ". " + candidat + " : " + str(intentions[-idx]) + "%\n"
     message += "electracker.fr"
+    message = message[:265]+"..."
     return message, candidats
 
 def get_message_evolution_intentions(candidats):
@@ -258,6 +259,7 @@ def get_message_evolution_intentions(candidats):
 
             message += "  " + str(idx) + ". " + candidat + " : " + printable_taux(evol_intentions) + suffix +"\n"
     message += "electracker.fr"
+    message = message[:265]+"..."
     return message
 
 def export_table_html(candidats):
@@ -286,6 +288,6 @@ plot()
 message, candidats_sorted = get_message_intentions()
 message_evolution = get_message_evolution_intentions(candidats_sorted)
 export_table_html(candidats_sorted)
-
+print(message)
 original_tweet = tweet_intentions(message)
 second_tweet = tweet_evolution(message_evolution, original_tweet)
