@@ -101,26 +101,31 @@ def plot():
                 showlegend = False  
             )
         )
+        if y[-1]>0.5:
+            annotations += [
+                {
+                    "x": donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1],
+                    "y": y[-1],
+                    "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
+                    "font": {"color": color, "size": 20},
+                    "xanchor": "left",
+                    "yanchor": "middle",
+                    "ax": 30,
+                    "ay": max(0.8, y[-1]),
+                    "yref": "y",
+                    "ayref": "y"
+                }
+            ]
 
-        annotations += [
-            {
-                "x": donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1],
-                "y": y[-1],
-                "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
-                "font": {"color": color, "size": 20},
-                "xanchor": "left",
-                "yanchor": "middle",
-                "ax": 30,
-                "ay": 0
-            }
-        ]
-
-    for idx in range(1, len(annotations)):
-        annotation = annotations[-idx]
-        annotation_prev = annotations[-idx-1]
-
-        if (annotation["y"] + annotation["ay"] - annotation_prev["y"] - annotation_prev["ay"]) < 1:
-            annotations[-idx-1]["ay"] = 15
+    for idx in range(0, len(annotations)-1):
+        annotation = annotations[idx] # Macron
+        annotation_prev = annotations[idx+1] # MLP
+        diff = - annotation["ay"] + annotation_prev["ay"]
+        if (diff) < 1:
+            #annotations[-idx-1]["ay"] = 1 #max(1-diff, 0)
+            annotations[idx+1]["ayref"] = "y"
+            annotations[idx+1]["yref"] = "y"
+            annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
 
     fig.update_layout(
         showlegend = False,

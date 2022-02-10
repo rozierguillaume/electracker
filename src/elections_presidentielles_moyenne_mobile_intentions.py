@@ -7,7 +7,7 @@ df = df[df["tour"] == "Premier tour"]
 df = df.sort_values(by="fin_enquete")
 df = df[df["fin_enquete"]>"2021-09-01"]
 
-CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"}, 
+CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Emmanuel Macron": {"couleur": "#0095eb"}, 
             "Yannick Jadot": {"couleur": "#0bb029"},
             "Jean-Luc Mélenchon": {"couleur": "#de001e"},
@@ -15,7 +15,12 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Valérie Pécresse": {"couleur": "#0242e3"},
             "Anne Hidalgo": {"couleur": "#b339a4"},
             "Christiane Taubira": {"couleur": "#c7a71a"},
-            "Eric Zemmour": {"couleur": "#010038"}}
+            "Eric Zemmour": {"couleur": "#010038"},
+            "Nathalie Arthaud": {"couleur": "#8f0007"},
+            "Jean Lassalle": {"couleur": "#c96800"},
+            "Philippe Poutou": {"couleur": "#82001a"},
+            "François Asselineau": {"couleur": "#12004f"}            
+            }
 
 dict_candidats = {}
 derniere_intention = pd.DataFrame() #columns=["candidat", "intentions"])
