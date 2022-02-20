@@ -41,11 +41,12 @@ def tweet_intentions(message):
     try:
         api = twitter_api()
         filename = 'img/plot_presidentielles.png'
-        tweet = api.update_with_media(filename, status=message)
+        tweet = api.update_status_with_media(status=message, filename=filename)
         print("Tweeted")
         return tweet
-    except:
+    except Exception as e:
         print("Error Tweet")
+        print(e)
 
 def tweet_evolution(message, previous):
     try:
@@ -76,11 +77,11 @@ def get_message_intentions():
         candidat = candidats[-idx]
         ligne = "  " + str(idx) + ". " + candidat + " : " + str(intentions[-idx]) + "%\n"
 
-        if(len(message)+len(ligne)<260):
+        if(len(message)+len(ligne)<250):
             message += ligne
 
     message += "electracker.fr"
-    message = message[:275]
+    message = message[:270]
     return message, candidats
 
 def get_message_evolution_intentions(candidats):
@@ -96,11 +97,11 @@ def get_message_evolution_intentions(candidats):
             suffix=" points"
         ligne = "  " + str(idx) + ". " + candidat + " : " + printable_taux(evol_intentions) + suffix +"\n"
 
-        if(len(message)+len(ligne)<260):
+        if(len(message)+len(ligne)<250):
             message += ligne
 
     message += "electracker.fr"
-    message = message[:275]
+    message = message[:270]
     return message
 
 def export_table_html(candidats):
