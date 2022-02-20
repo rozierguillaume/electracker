@@ -19,7 +19,8 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Nathalie Arthaud": {"couleur": "#8f0007"},
             "Jean Lassalle": {"couleur": "#c96800"},
             "Philippe Poutou": {"couleur": "#82001a"},
-            "François Asselineau": {"couleur": "#12004f"}            
+            "François Asselineau": {"couleur": "#12004f"},
+            "Nicolas Dupont-Aignan": {"couleur": "#3a84c4"}            
             }
 
 dict_candidats = {}
