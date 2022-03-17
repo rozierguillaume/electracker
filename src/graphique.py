@@ -2,6 +2,7 @@ import os
 from plotly import graph_objects as go
 import json
 import numpy as np
+from datetime import datetime, timedelta
 
 def hex_to_rgb(value):
     value = value.lstrip('#')
@@ -120,16 +121,19 @@ def plot():
             annotations[idx+1]["yref"] = "y"
             annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
 
+    date_max_graphique = datetime.strptime(max(donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"]), "%Y-%m-%d")
+    temps_max_graphique = date_max_graphique + timedelta(days=70)
+
     fig.update_layout(
         showlegend = False,
         margin = {"t": 80, "r": 20, "l": 50, "b": 30},
         legend = {"orientation": "h"},
         yaxis = {
           "ticksuffix": "%",
-          "range": [0, 30]
+          "range": [0, 35]
         },
         xaxis = {
-          "range": ["2021-10-01", "2022-04-14"] 
+          "range": ["2021-10-01", temps_max_graphique] 
         },
         shapes = [
           {
@@ -137,7 +141,7 @@ def plot():
               "x0": "2022-04-10",
               "y0": 0,
               "x1": "2022-04-10",
-              "y1": 30,
+              "y1": 35,
               "line":{
                   "color": 'rgb(0, 0, 0)',
                   "width": 2,
@@ -150,7 +154,7 @@ def plot():
     annotations_other = [
           {
             "x": "2022-04-10",
-            "y": 29,
+            "y": 34,
             "text": "1er Tour",
             "xanchor": "right",
             "ax": -30,

@@ -14,12 +14,10 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Fabien Roussel": {"couleur": "#940014"},
             "Valérie Pécresse": {"couleur": "#0242e3"},
             "Anne Hidalgo": {"couleur": "#b339a4"},
-            "Christiane Taubira": {"couleur": "#c7a71a"},
             "Eric Zemmour": {"couleur": "#010038"},
             "Nathalie Arthaud": {"couleur": "#8f0007"},
             "Jean Lassalle": {"couleur": "#c96800"},
             "Philippe Poutou": {"couleur": "#82001a"},
-            "François Asselineau": {"couleur": "#12004f"},
             "Nicolas Dupont-Aignan": {"couleur": "#3a84c4"}            
             }
 
@@ -32,8 +30,8 @@ for candidat in CANDIDATS:
   df_temp_rolling = df_temp[["intentions", "erreur_inf", "erreur_sup"]].rolling('10d', min_periods=1).mean().shift(-5).dropna()
   df_temp_rolling_std = df_temp[["intentions"]].rolling('10d', min_periods=1).std().shift(-5).dropna()
 
-  df_temp_rolling = round(df_temp_rolling.resample("1d").mean().dropna(), 2).rolling(window=7).mean().dropna()
-  df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=7).mean().dropna()
+  df_temp_rolling = round(df_temp_rolling.resample("1d").mean().dropna(), 2).rolling(window=3, center=True).mean().dropna()
+  df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=3, center=True).mean().dropna()
   
   derniere_intention = derniere_intention.append({"candidat": candidat, "intentions": df_temp_rolling.intentions.to_list()[-1]}, ignore_index=True)
 
