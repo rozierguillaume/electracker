@@ -6,7 +6,7 @@ from loess import loess_1d
 import numpy as np
 from plotly import graph_objects as go
 
-df = pd.read_csv("data/input/sondages_avril.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv")
 df = df[df["tour"] == "Premier tour"]
 df = df.sort_values(by="fin_enquete")
 df = df[df["fin_enquete"]>"2021-09-01"]
