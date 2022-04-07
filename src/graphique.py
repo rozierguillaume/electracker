@@ -9,7 +9,7 @@ def hex_to_rgb(value):
     lv = len(value)
     return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
-with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'r') as file:
+with open('data/output/intentionsCandidatsMoyenneMobile14JoursLoess.json', 'r') as file:
     donnees = json.load(file)
 
 with open('data/output/derniersSondagesCandidats.json', 'r') as file:
@@ -18,7 +18,7 @@ with open('data/output/derniersSondagesCandidats.json', 'r') as file:
 candidats = []
 intentions = []
 for idx, candidat in enumerate(donnees["candidats"]):
-    intentions += [round(donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"][-1], 1)]
+    intentions += [round(donnees["candidats"][candidat]["intentions_loess"]["valeur"][-1], 1)]
     candidats += [candidat]
 
 idx_sorted = np.argsort(intentions )
@@ -30,14 +30,14 @@ def plot():
     annotations = []
 
     for candidat in candidats:
-        y = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]
-        y_sup = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_sup"]
-        y_inf = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_inf"]
+        y = donnees["candidats"][candidat]["intentions_loess"]["valeur"]
+        y_sup = donnees["candidats"][candidat]["intentions_loess"]["erreur_sup"]
+        y_inf = donnees["candidats"][candidat]["intentions_loess"]["erreur_inf"]
         color = donnees["candidats"][candidat]["couleur"]
 
         fig.add_trace(
             go.Scatter(
-                x=donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
+                x=donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                 y=y,
                 name = candidat,
                 line = {"color": color, "width": 3, "shape": 'spline'},
@@ -60,7 +60,7 @@ def plot():
 
         fig.add_trace(
             go.Scatter(
-                x = donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
+                x = donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                 y = y_sup,
                 name = candidat,
                 line = {"color": color, "width": 0, "shape": "spline"},
@@ -71,7 +71,7 @@ def plot():
 
         fig.add_trace(
             go.Scatter(
-                x = donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
+                x = donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                 y = y_inf,
                 name = candidat,
                 line = {"color": color, "width": 0, "shape": 'spline'},
@@ -84,7 +84,7 @@ def plot():
 
         fig.add_trace(
             go.Scatter(
-                x = [donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1]],
+                x = [donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1]],
                 y = [y[-1]],
                 mode = 'markers+text',
                 text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
@@ -98,7 +98,7 @@ def plot():
         if y[-1]>0.5:
             annotations += [
                 {
-                    "x": donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"][-1],
+                    "x": donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
                     "y": y[-1],
                     "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
                     "font": {"color": color, "size": 20},
@@ -121,7 +121,7 @@ def plot():
             annotations[idx+1]["yref"] = "y"
             annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
 
-    date_max_graphique = datetime.strptime(max(donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"]), "%Y-%m-%d")
+    date_max_graphique = datetime.strptime(max(donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"]), "%Y-%m-%d")
     temps_max_graphique = date_max_graphique + timedelta(days=70)
 
     fig.update_layout(
@@ -177,7 +177,7 @@ def plot():
             "y": 1.05,
             "xref": "paper",
             "yref": "paper",
-            "text": f"Aggrégation de l'ensemble des sondages (Ipsos, Ifop, Opinionway...) • @ElecTracker • electracker.fr • Données NSPPolls • dernier sondage : {donnees['candidats'][candidat]['intentions_moy_14d']['fin_enquete'][-1]}",
+            "text": f"Aggrégation de l'ensemble des sondages (Ipsos, Ifop, Opinionway...) • @ElecTracker • electracker.fr • Données NSPPolls • dernier sondage : {donnees['candidats'][candidat]['intentions_loess']['fin_enquete'][-1]}",
             "font": {"size": 15},
             "xanchor": "center",
             "showarrow": False,
