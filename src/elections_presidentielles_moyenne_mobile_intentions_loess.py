@@ -1,6 +1,10 @@
-import json 
+import json
+from sqlite3 import Timestamp 
 import pandas as pd
 import datetime
+from loess import loess_1d
+import numpy as np
+from plotly import graph_objects as go
 
 df = pd.read_csv("https://raw.githubusercontent.com/nsppolls/nsppolls/master/presidentielle.csv")
 df = df[df["tour"] == "Premier tour"]
@@ -17,12 +21,13 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Eric Zemmour": {"couleur": "#010038"},
             "Nathalie Arthaud": {"couleur": "#8f0007"},
             "Jean Lassalle": {"couleur": "#c96800"},
-            "Philippe Poutou": {"couleur": "#82001a"},         
-            "Nicolas Dupont-Aignan": {"couleur": "#3a84c4"}
+            "Philippe Poutou": {"couleur": "#82001a"},
+            "Nicolas Dupont-Aignan": {"couleur": "#3a84c4"}            
             }
 
 dict_candidats = {}
 derniere_intention = pd.DataFrame() #columns=["candidat", "intentions"])
+
 for candidat in CANDIDATS:
   df_temp = df[df["candidat"] == candidat]
   df_temp.index = pd.to_datetime(df_temp["fin_enquete"])
@@ -34,17 +39,31 @@ for candidat in CANDIDATS:
   df_temp_rolling_std = round(df_temp_rolling_std.resample("1d").mean().dropna(), 2).rolling(window=3, center=True).mean().dropna()
   
   derniere_intention = derniere_intention.append({"candidat": candidat, "intentions": df_temp_rolling.intentions.to_list()[-1]}, ignore_index=True)
+  fin_enquete_ts = pd.to_datetime(df_temp["fin_enquete"]).astype(np.int64) // 10 ** 9
 
-  dict_candidats[candidat] = {"intentions_moy_14d": {"fin_enquete": df_temp_rolling.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp_rolling.intentions.to_list(), "std": df_temp_rolling_std.intentions.to_list(), "erreur_inf": df_temp_rolling.erreur_inf.to_list(), "erreur_sup": df_temp_rolling.erreur_sup.to_list()},
-                              "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
-                              "derniers_sondages": [],
-                              "couleur": CANDIDATS[candidat]["couleur"]}
+  try:
+    xout, yout, wout = loess_1d.loess_1d(fin_enquete_ts, df_temp.intentions.values, xnew=None, degree=1, frac=0.2,
+                              npoints=None, rotate=False, sigy=None)
+
+    _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_inf.values, xnew=None, degree=1, frac=0.2,
+                              npoints=None, rotate=False, sigy=None)
+    _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_sup.values, xnew=None, degree=1, frac=0.2,
+                              npoints=None, rotate=False, sigy=None)
+
+    xout_dt = [datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d') for date in xout]
+
+    dict_candidats[candidat] = {"intentions_loess": {"fin_enquete": xout_dt, "valeur": list(yout.astype(float)), "std": df_temp_rolling_std.intentions.to_list(), "erreur_inf": list(yout_erreur_inf.astype(float)), "erreur_sup": list(yout_erreur_sup.astype(float))},
+                                "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
+                                "derniers_sondages": [],
+                                "couleur": CANDIDATS[candidat]["couleur"]}
+  except Exception as e:
+    print(e)
 
 dict_donnees = {"dernier_sondage": df["fin_enquete"].max(), 
                 "mise_a_jour": datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M"),
                 "candidats": dict_candidats}
 
-with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'w') as outfile:
+with open('data/output/intentionsCandidatsMoyenneMobile14JoursLoess.json', 'w') as outfile:
         json.dump(dict_donnees, outfile)
 
 derniere_intention.sort_values(by="intentions", ascending=False, inplace=True)
