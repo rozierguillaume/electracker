@@ -68,10 +68,13 @@
       <p>Dernier sondage : <span id="dernier_sondage">-/-</span>. Mise à jour : <span id="mise_a_jour">-/-</span>.</p>
       <div id="myDiv" style="width: 90vw; height: 80vw; max-height: 700px; max-width: 1100px;"></div>
 
-      <h2>Derniers sondages</h2>
+      <h2>Second tour</h2>
+      <img width="80%" src="https://raw.githubusercontent.com/rozierguillaume/electracker/main/img/plot_presidentielles_deuxieme_tour_macron_lepen.png"></img>
       <br>
+      <img width="80%" src="https://raw.githubusercontent.com/rozierguillaume/electracker/main/img/plot_presidentielles_deuxieme_tour_macron_melenchon.png"></img>
+      <br>
+      <img width="80%" src="https://raw.githubusercontent.com/rozierguillaume/electracker/main/img/plot_presidentielles_deuxieme_tour_macron_zemmour.png"></img>
 
-      <?php include(__DIR__ . '/derniers_sondages.html'); ?>
 
       <h2 id="about">À propos</h2>
       ElecTracker agrège les sondages des élections présidentielles en France. <a href="https://github.com/nsppolls/nsppolls">Source des données : NSPPolls</a>.
@@ -93,7 +96,7 @@
     }
 
     var donnees;
-    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/intentionsCandidatsMoyenneMobile14Jours.json';
+    var requestURL = 'https://raw.githubusercontent.com/rozierguillaume/electracker/main/data/output/intentionsCandidatsMoyenneMobile14JoursLoess.json';
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
@@ -108,13 +111,13 @@
     function construireGraphique(){
       var traces = [];
       for (var candidat in donnees["candidats"]){
-          let y = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"];
-          let y_sup = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_sup"];
-          let y_inf = donnees["candidats"][candidat]["intentions_moy_14d"]["erreur_inf"];
+          let y = donnees["candidats"][candidat]["intentions_loess"]["valeur"];
+          let y_sup = donnees["candidats"][candidat]["intentions_loess"]["erreur_sup"];
+          let y_inf = donnees["candidats"][candidat]["intentions_loess"]["erreur_inf"];
           let color = donnees["candidats"][candidat]["couleur"];
           
           traces.push({
-            x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
+            x: donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
             y: y,
             name: candidat,
             line: {color: color, width: 3, 'shape': 'spline'},
@@ -135,7 +138,7 @@
           })
 
           traces.push({
-            x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
+            x: donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
             y: y_sup,
             name: candidat,
             line: {color: color, width: 0, 'shape': 'spline'},
@@ -146,7 +149,7 @@
           })
 
           traces.push({
-            x: donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"],
+            x: donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
             y: y_inf,
             name: candidat,
             line: {color: color, width: 0, 'shape': 'spline'},
@@ -158,7 +161,7 @@
           })
 
           traces.push({
-            x : donnees["candidats"][candidat]["intentions_moy_14d"]["fin_enquete"].slice(-1),
+            x : donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"].slice(-1),
             y : y.slice(-1),
             mode: 'markers+text',
             text: candidat + " (" + y.slice(-1)[0].toFixed(0) + "%)",
@@ -178,10 +181,10 @@
         legend: {"orientation": "h"},
         yaxis: {
           ticksuffix: "%",
-          range: [0, 30]
+          range: [0, 35]
         },
         xaxis: {
-          range: ["2021-10-01", "2022-04-14"] //moment().add(20, 'days').format("YYYY-MM-DD")
+          range: ["2021-11-01", "2022-05-30"] //moment().add(20, 'days').format("YYYY-MM-DD")
         },
         shapes: [
           {
@@ -192,7 +195,19 @@
               y1: 30,
               line:{
                   color: 'rgb(0, 0, 0)',
-                  width: 2,
+                  width: 1,
+                  dash:'dot'
+              }
+          },
+          {
+              type: 'line',
+              x0: "2022-04-24",
+              y0: 0,
+              x1: "2022-04-24",
+              y1: 30,
+              line:{
+                  color: 'rgb(0, 0, 0)',
+                  width: 1,
                   dash:'dot'
               }
           }

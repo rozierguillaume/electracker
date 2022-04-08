@@ -14,13 +14,11 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Fabien Roussel": {"couleur": "#940014"},
             "Valérie Pécresse": {"couleur": "#0242e3"},
             "Anne Hidalgo": {"couleur": "#b339a4"},
-            "Christiane Taubira": {"couleur": "#c7a71a"},
             "Eric Zemmour": {"couleur": "#010038"},
             "Nathalie Arthaud": {"couleur": "#8f0007"},
             "Jean Lassalle": {"couleur": "#c96800"},
             "Philippe Poutou": {"couleur": "#82001a"},
-            "François Asselineau": {"couleur": "#12004f"},
-            "Nicolas Dupont-Aignan": {"couleur": "#3a84c4"}            
+            "Nicolas Dupont-Aignan": {"couleur": "#3a84c4"}           
             }
 
 dict_candidats = {}
