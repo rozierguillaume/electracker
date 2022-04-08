@@ -3,7 +3,7 @@ name: Python Scripts
 # Controls when the action will run. 
 on:
   schedule:
-  - cron: "0 8,12 * * *" # UTC time (-1 en hiver et -2 en été)
+  - cron: "0 * * * *" # UTC time (-1 en hiver et -2 en été)
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,5 +29,9 @@ jobs:
     - name: Données Présidentielles
       run: |
         python src/elections_presidentielles_moyenne_mobile_intentions.py
+        python src/elections_presidentielles_moyenne_mobile_intentions_loess.py
+        python src/elections_presidentielles_moyenne_mobile_intentions_loess_second_tour.py
+        python src/graphique.py
+        python src/graphique_deuxieme_tour.py
     - uses: stefanzweifel/git-auto-commit-action@v4
     
