@@ -242,5 +242,5 @@ graphique.plot(title_suffix="_macron_melenchon")
 graphique.switch_hypothese("Hypothèse Macron / Zemmour")
 graphique.plot(title_suffix="_macron_zemmour")
 
-graphique.switch_hypothese("Hypothèse Mélenchon / Le Pen")
-graphique.plot(title_suffix="_macron_lepen")
+#graphique.switch_hypothese("Hypothèse Mélenchon / Le Pen")
+#graphique.plot(title_suffix="_macron_lepen")
