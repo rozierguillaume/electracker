@@ -164,7 +164,7 @@
             x : donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"].slice(-1),
             y : y.slice(-1),
             mode: 'markers+text',
-            text: candidat + " (" + y.slice(-1)[0].toFixed(0) + "%)",
+            text: candidat + " (" + y.slice(-1)[0].toFixed(1) + "%)",
             textfont: {color: color},
             textposition: 'middle right',
             marker: {color: color, size: 10},
