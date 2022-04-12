@@ -39,7 +39,7 @@ selenium == 4.1.0
 # electracker/src/tweet_chiffres_quotidiens.py: 1
 # electracker/src/violin/présidentielles.py: 12
 # electracker/src/violin/présidentielles_old.py: 12
-tweepy == 3.10.0
+tweepy == 4.8.0
 
 # electracker/src/export_img.py: 5
 webdriver_manager == 3.5.2
