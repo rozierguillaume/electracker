@@ -33,8 +33,8 @@ jobs:
         ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
       run: |
-        python src/elections_presidentielles_moyenne_mobile_intentions.py
-        python src/graphique.py
+        python src/elections_presidentielles_moyenne_mobile_intentions_loess_second_tour.py
+        python src/graphique_deuxieme_tour.py
         python src/tweet_chiffres_quotidiens.py
     - uses: stefanzweifel/git-auto-commit-action@v4
     
