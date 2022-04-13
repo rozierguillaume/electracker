@@ -9,7 +9,7 @@ from plotly import graph_objects as go
 import dateparser
 
 df = pd.read_csv("https://raw.githubusercontent.com/nsppolls/nsppolls/master/reports.csv", parse_dates=['fin_enquete'], date_parser=dateparser.parse)
-df["hypothese"] = df["candidat_T1"] + " " + df["choix_T2"]
+df = df.sort_values(by="fin_enquete")
 
 
 CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},

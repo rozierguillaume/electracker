@@ -44,8 +44,9 @@ class Graphique():
                     x=self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                     y=y,
                     name = candidat,
-                    line = {"color": color, "width": 3, "shape": 'spline', "dash": "dot"},
+                    line = {"color": color, "width": 50, "shape": 'spline'},
                     legendgroup = candidat,
+                    opacity=0.15,
                     mode = 'lines',
                 )
             )
@@ -55,7 +56,7 @@ class Graphique():
                     x = self.donnees["candidats"][candidat]["intentions"]["fin_enquete"],
                     y = self.donnees["candidats"][candidat]["intentions"]["valeur"],
                     name = candidat,
-                    marker = {"size": 5, "color": color},
+                    marker = {"size": 8, "color": color},
                     legendgroup = candidat,
                     mode = 'markers',
                     opacity = 0.8,
@@ -78,7 +79,7 @@ class Graphique():
             if y[-1]>0.5:
                 annotations += [
                     {
-                        "x": self.donnees["candidats"][candidat]["intentions"]["fin_enquete"][-1],
+                        "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
                         "y": y[-1],
                         "text": candidat + " (" + str(round(y[-1], 2)) + "%)",
                         "font": {"color": color, "size": 20},
