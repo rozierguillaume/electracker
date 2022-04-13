@@ -24,7 +24,6 @@ dict_candidats = {}
 derniere_intention = pd.DataFrame() #columns=["candidat", "intentions"])
 
 df["hypothese"] = df["hypothese"].fillna("hypothèse confirmée")
-print(df)
 
 for hypothèse in HYPOTHÈSES:
 
