@@ -28,10 +28,9 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
     - name: Données Présidentielles
       run: |
-        python src/elections_presidentielles_moyenne_mobile_intentions.py
-        python src/elections_presidentielles_moyenne_mobile_intentions_loess.py
         python src/elections_presidentielles_moyenne_mobile_intentions_loess_second_tour.py
-        python src/graphique.py
         python src/graphique_deuxieme_tour.py
+        python src/elections_presidentielles_loess_reports_voix.py
+        python src/graphique_reports.py
     - uses: stefanzweifel/git-auto-commit-action@v4
     
