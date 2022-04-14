@@ -56,8 +56,27 @@ for candidat in CANDIDATS:
                                 "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
                                 "derniers_sondages": [],
                                 "couleur": CANDIDATS[candidat]["couleur"]}
-  except Exception as e:
-    print(e)
+  except Exception as e1:
+    try:
+      xout, yout, wout = loess_1d.loess_1d(fin_enquete_ts, df_temp.intentions.values, xnew=None, degree=1, frac=0.5,
+                              npoints=None, rotate=False, sigy=None)
+
+      _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_inf.values, xnew=None, degree=1, frac=0.5,
+                                npoints=None, rotate=False, sigy=None)
+      _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_sup.values, xnew=None, degree=1, frac=0.5,
+                                npoints=None, rotate=False, sigy=None)
+
+      xout_dt = [datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d') for date in xout]
+
+      dict_candidats[candidat] = {"intentions_loess": {"fin_enquete": xout_dt, "valeur": list(yout.astype(float)), "std": df_temp_rolling_std.intentions.to_list(), "erreur_inf": list(yout_erreur_inf.astype(float)), "erreur_sup": list(yout_erreur_sup.astype(float))},
+                                  "intentions": {"fin_enquete": df_temp.index.strftime('%Y-%m-%d').to_list(), "valeur": df_temp.intentions.to_list()},
+                                  "derniers_sondages": [],
+                                  "couleur": CANDIDATS[candidat]["couleur"]}
+
+    except Exception as e2:
+      print(e2)
+
+    print(e1)
 
 dict_donnees = {"dernier_sondage": df["fin_enquete"].max(), 
                 "mise_a_jour": datetime.datetime.now().strftime(format="%Y-%m-%d %H:%M"),
