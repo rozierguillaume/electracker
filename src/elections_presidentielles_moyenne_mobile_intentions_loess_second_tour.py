@@ -12,7 +12,7 @@ df = df[df["tour"] == "Deuxième tour"]
 df = df.sort_values(by="fin_enquete")
 df = df[df["fin_enquete"]>"2021-09-01"]
 
-HYPOTHÈSES = ["Hypothèse Macron / Le Pen", "Hypothèse Macron / Mélenchon", "Hypothèse Macron / Zemmour", "Hypothèse Mélenchon / Le Pen"]
+HYPOTHÈSES = ["Hypothèse Macron / Le Pen"]
 
 CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
             "Emmanuel Macron": {"couleur": "#0095eb"}, 
@@ -23,9 +23,11 @@ CANDIDATS = {"Marine Le Pen": {"couleur": "#04006e"},
 dict_candidats = {}
 derniere_intention = pd.DataFrame() #columns=["candidat", "intentions"])
 
+df["hypothese"] = df["hypothese"].fillna("hypothèse confirmée")
+
 for hypothèse in HYPOTHÈSES:
 
-  df_temp_hypothese = df[df["hypothese"] == hypothèse]
+  df_temp_hypothese = df[df["hypothese"].isin([hypothèse, "hypothèse confirmée"])]
   dict_hypothèses = {}
 
   for candidat in df_temp_hypothese.candidat.unique():
@@ -46,13 +48,13 @@ for hypothèse in HYPOTHÈSES:
     
     fin_enquete_ts = pd.to_datetime(df_temp["fin_enquete"]).astype(np.int64) // 10 ** 9
 
-    def calculer_sondages_candidat(frac=0.2):
+    def calculer_sondages_candidat(frac=0.15):
         xout, yout, wout = loess_1d.loess_1d(fin_enquete_ts, df_temp.intentions.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
 
-        _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_inf.values, xnew=None, degree=1, frac=0.2,
+        _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_inf.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
-        _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_sup.values, xnew=None, degree=1, frac=0.2,
+        _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_sup.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
 
         xout_dt = [datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d') for date in xout]

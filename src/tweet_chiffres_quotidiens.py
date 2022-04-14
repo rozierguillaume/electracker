@@ -15,16 +15,17 @@ def hex_to_rgb(value):
     lv = len(value)
     return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
-with open('data/output/intentionsCandidatsMoyenneMobile14Jours.json', 'r') as file:
+with open('data/output/intentionsCandidatsMoyenneMobile14JoursLoessDeuxiemeTour.json', 'r') as file:
     donnees = json.load(file)
+    donnees = donnees["hypotheses"]["Hypothèse Macron / Le Pen"]
 
 with open('data/output/derniersSondagesCandidats.json', 'r') as file:
     derniers_sondages = json.load(file)
 
 candidats = []
 intentions = []
-for idx, candidat in enumerate(donnees["candidats"]):
-    intentions += [round(donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"][-1], 1)]
+for idx, candidat in enumerate(["Emmanuel Macron", "Marine Le Pen"]):
+    intentions += [round(donnees["candidats"][candidat]["intentions_loess"]["valeur"][-1], 1)]
     candidats += [candidat]
 
 idx_sorted = np.argsort(intentions )
@@ -40,7 +41,7 @@ def twitter_api():
 def tweet_intentions(message):
     try:
         api = twitter_api()
-        filename = 'img/plot_presidentielles.png'
+        filename = 'img/plot_presidentielles_deuxieme_tour_macron_lepen.png'
         tweet = api.update_status_with_media(status=message, filename=filename)
         print("Tweeted")
         return tweet
@@ -71,7 +72,7 @@ def printable_taux(evol_intentions):
 
 
 def get_message_intentions():
-    message = "Moyenne sondages (10 jours) : \n"
+    message = "#Présidentielle2022\nMoyenne des sondages du second tour : \n"
 
     for idx in range(1, len(candidats)+1):
         candidat = candidats[-idx]
@@ -85,12 +86,12 @@ def get_message_intentions():
     return message, candidats
 
 def get_message_evolution_intentions(candidats):
-    message = "Évolution sur 14 jours : \n"
+    message = "Évolution sur 7 jours : \n"
 
     for idx in range(1, len(candidats)+1):
         candidat = candidats[-idx]
-        intentions = donnees["candidats"][candidat]["intentions_moy_14d"]["valeur"]
-        evol_intentions = intentions[-1] - intentions[-14-1]
+        intentions = donnees["candidats"][candidat]["intentions_loess"]["valeur"]
+        evol_intentions = intentions[-1] - intentions[-7-1]
         
         suffix=""
         if idx == 1:
@@ -108,7 +109,7 @@ def export_table_html(candidats):
     table_html = ""
 
     def title(text):
-        return f"<h3>{text} • {round(donnees['candidats'][candidat]['intentions_moy_14d']['valeur'][-1], 1)}%</h3>"
+        return f"<h3>{text} • {round(donnees['candidats'][candidat]['intentions_loess']['valeur'][-1], 1)}%</h3>"
 
     def ligne_sondage(liste):
         text = ""

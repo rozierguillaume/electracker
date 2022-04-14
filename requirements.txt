@@ -5,6 +5,8 @@ kaleido == 0.1.0
 # electracker/src/elections_presidentielles_moyenne_mobile_intentions_loess.py: 5
 loess == 2.1.2
 
+dateparser
+
 # electracker/src/elections_presidentielles_moyenne_mobile_intentions_loess.py: 6
 # electracker/src/graphique.py: 4
 # electracker/src/tweet_chiffres_quotidiens.py: 6
@@ -39,7 +41,7 @@ selenium == 4.1.0
 # electracker/src/tweet_chiffres_quotidiens.py: 1
 # electracker/src/violin/présidentielles.py: 12
 # electracker/src/violin/présidentielles_old.py: 12
-tweepy == 3.10.0
+tweepy == 4.8.0
 
 # electracker/src/export_img.py: 5
 webdriver_manager == 3.5.2

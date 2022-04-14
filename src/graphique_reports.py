@@ -8,18 +8,16 @@ from datetime import datetime, timedelta
 class Graphique():
 
     def __init__(self):
-        with open('data/output/intentionsCandidatsMoyenneMobile14JoursLoessDeuxiemeTour.json', 'r') as file:
+        with open('data/output/intentionsCandidatsLoessReportsVoix.json', 'r') as file:
             self.donnees_json = json.load(file)
 
     def switch_hypothese(self, hypothese: str):
-        print(hypothese)
         self.candidats = []
         self.intentions = []
         self.donnees = self.donnees_json["hypotheses"][hypothese]
-
-        for idx, candidat in enumerate(self.donnees["candidats"]):
-            self.intentions += [round(self.donnees["candidats"][candidat]["intentions_loess"]["valeur"][-1], 1)]
-            self.candidats += [candidat]
+        for idx, choix_T2 in enumerate(self.donnees["candidats"]):
+            self.intentions += [round(self.donnees["candidats"][choix_T2]["intentions"]["valeur"][-1], 1)]
+            self.candidats += [choix_T2]
 
         idx_sorted = np.argsort(self.intentions )
         self.intentions = np.array(self.intentions)[idx_sorted]
@@ -30,17 +28,15 @@ class Graphique():
         lv = len(value)
         return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
         
-    def plot(self, title_suffix="", zoom=False):
+    def plot(self, title_suffix="", candidat_T1="", couleur_candidat_T1="black"):
         fig = go.Figure()
         annotations = []
 
-        date_max_graphique = datetime.strptime(max(self.donnees["candidats"][self.candidats[0]]["intentions_loess"]["fin_enquete"]), "%Y-%m-%d")
-        temps_max_graphique = date_max_graphique + timedelta(days=50)
+        date_max_graphique = datetime.strptime(max(self.donnees["candidats"][self.candidats[0]]["intentions"]["fin_enquete"]), "%Y-%m-%d")
+        temps_max_graphique = date_max_graphique + timedelta(days=15)
 
         for candidat in self.candidats:
             y = self.donnees["candidats"][candidat]["intentions_loess"]["valeur"]
-            y_sup = self.donnees["candidats"][candidat]["intentions_loess"]["erreur_sup"]
-            y_inf = self.donnees["candidats"][candidat]["intentions_loess"]["erreur_inf"]
             color = self.donnees["candidats"][candidat]["couleur"]
 
             fig.add_trace(
@@ -48,8 +44,9 @@ class Graphique():
                     x=self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                     y=y,
                     name = candidat,
-                    line = {"color": color, "width": 3, "shape": 'spline'},
+                    line = {"color": color, "width": 50, "shape": 'spline'},
                     legendgroup = candidat,
+                    opacity=0.15,
                     mode = 'lines',
                 )
             )
@@ -59,56 +56,32 @@ class Graphique():
                     x = self.donnees["candidats"][candidat]["intentions"]["fin_enquete"],
                     y = self.donnees["candidats"][candidat]["intentions"]["valeur"],
                     name = candidat,
-                    marker = {"size": 4, "color": color},
+                    marker = {"size": 8, "color": color},
                     legendgroup = candidat,
                     mode = 'markers',
-                    opacity = 0.3,
+                    opacity = 0.8,
                 )
             )
 
-            fig.add_trace(
-                go.Scatter(
-                    x = self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
-                    y = y_sup,
-                    name = candidat,
-                    line = {"color": color, "width": 0, "shape": "spline"},
-                    legendgroup = candidat,
-                    mode = 'lines',
-                )
-            )
-
-            fig.add_trace(
-                go.Scatter(
-                    x = self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
-                    y = y_inf,
-                    name = candidat,
-                    line = {"color": color, "width": 0, "shape": 'spline'},
-                    legendgroup = candidat,
-                    fill = 'tonexty',
-                    fillcolor = "rgba" + str(self.hex_to_rgb(color) + (0.18,)),
-                    mode = 'lines',
-                )
-            )
-
-            fig.add_trace(
-                go.Scatter(
-                    x = [self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1]],
-                    y = [y[-1]],
-                    mode = 'markers+text',
-                    text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
-                    textfont = {"color": color, "size": 20},
-                    textposition = 'middle right',
-                    marker = {"color": color, "size": 15},
-                    legendgroup = candidat,
-                    showlegend = False  
-                )
-            )
+            # fig.add_trace(
+            #     go.Scatter(
+            #         x = [self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1]],
+            #         y = [y[-1]],
+            #         mode = 'markers+text',
+            #         text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
+            #         textfont = {"color": color, "size": 20},
+            #         textposition = 'middle right',
+            #         marker = {"color": color, "size": 8},
+            #         legendgroup = candidat,
+            #         showlegend = False  
+            #     )
+            # )
             if y[-1]>0.5:
                 annotations += [
                     {
                         "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
                         "y": y[-1],
-                        "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
+                        "text": candidat + " (" + str(round(y[-1], 2)) + "%)",
                         "font": {"color": color, "size": 20},
                         "xanchor": "left",
                         "yanchor": "middle",
@@ -123,16 +96,12 @@ class Graphique():
             annotation = annotations[idx] # Macron
             annotation_prev = annotations[idx+1] # MLP
             diff = - annotation["ay"] + annotation_prev["ay"]
-            if (diff) < 1:
+            if (diff) < 3:
                 #annotations[-idx-1]["ay"] = 1 #max(1-diff, 0)
                 annotations[idx+1]["ayref"] = "y"
                 annotations[idx+1]["yref"] = "y"
-                annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
+                annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(3-diff, 0) #max(1-diff, 0)
 
-
-        range_yaxis = [0, 100]
-        if zoom:
-            range_yaxis=[35, 65]
 
         fig.update_layout(
             showlegend = False,
@@ -140,10 +109,10 @@ class Graphique():
             legend = {"orientation": "h"},
             yaxis = {
             "ticksuffix": "%",
-            "range": range_yaxis
+            "range": [0, 100]
             },
             xaxis = {
-            "range": ["2022-01-01", temps_max_graphique] 
+            "range": ["2022-04-09", temps_max_graphique] 
             },
             shapes = [
             {
@@ -210,8 +179,8 @@ class Graphique():
                 "y": 1.1,
                 "xref": "paper",
                 "yref": "paper",
-                "text": "Sondages de l'élection présidentielle 2022 • Deuxième tour",
-                "font": {"size": 25},
+                "text": f"Intention de vote au 2nd tour des électeurs <b>{candidat_T1}</b> du 1er tour",
+                "font": {"size": 25, "color": couleur_candidat_T1},
                 "xanchor": "center",
                 "showarrow": False,
             },
@@ -220,7 +189,7 @@ class Graphique():
                 "y": 1.05,
                 "xref": "paper",
                 "yref": "paper",
-                "text": f"Aggrégation de l'ensemble des sondages (Ipsos, Ifop, Opinionway...) • @ElecTracker • electracker.fr • Données NSPPolls • dernier sondage : {self.donnees['candidats'][candidat]['intentions_loess']['fin_enquete'][-1]}",
+                "text": f"Aggrégation de l'ensemble des sondages (Ipsos, Ifop, Opinionway...) • @ElecTracker • electracker.fr • Données NSPPolls • dernier sondage : {self.donnees['candidats'][candidat]['intentions']['fin_enquete'][-1]}",
                 "font": {"size": 15},
                 "xanchor": "center",
                 "showarrow": False,
@@ -233,18 +202,27 @@ class Graphique():
         for annotation in annotations_other:
             fig.add_annotation(annotation)
 
-        fig.write_image(f"img/plot_presidentielles_deuxieme_tour{title_suffix}.png", width=1200, height=800, scale=2)
+        fig.write_image(f"img/plot_presidentielles_deuxieme_tour_reports{title_suffix}.png", width=1200, height=800, scale=2)
 
 graphique = Graphique()
 
-graphique.switch_hypothese("Hypothèse Macron / Le Pen")
-graphique.plot(title_suffix="_macron_lepen")
+graphique.switch_hypothese("Jean-Luc Mélenchon")
+graphique.plot(title_suffix="_melenchon", candidat_T1="Jean-Luc Mélenchon", couleur_candidat_T1=graphique.donnees["couleur"])
 
-#graphique.switch_hypothese("Hypothèse Macron / Mélenchon")
-graphique.plot(title_suffix="_macron_lepen_zoom", zoom=True)
+graphique.switch_hypothese("Yannick Jadot")
+graphique.plot(title_suffix="_jadot", candidat_T1="Yannick Jadot", couleur_candidat_T1=graphique.donnees["couleur"])
 
-#graphique.switch_hypothese("Hypothèse Macron / Zemmour")
-#graphique.plot(title_suffix="_macron_zemmour")
+graphique.switch_hypothese("Valérie Pécresse")
+graphique.plot(title_suffix="_pecresse", candidat_T1="Valérie Pécresse", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Eric Zemmour")
+graphique.plot(title_suffix="_zemmour", candidat_T1="Éric Zemmour", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Marine Le Pen")
+graphique.plot(title_suffix="_lepen", candidat_T1="Marine Le Pen", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Emmanuel Macron")
+graphique.plot(title_suffix="_macron", candidat_T1="Emmanuel Macron", couleur_candidat_T1=graphique.donnees["couleur"])
 
 #graphique.switch_hypothese("Hypothèse Mélenchon / Le Pen")
 #graphique.plot(title_suffix="_macron_lepen")
