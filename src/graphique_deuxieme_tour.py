@@ -129,6 +129,23 @@ class Graphique():
                 annotations[idx+1]["yref"] = "y"
                 annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
 
+        fig.add_trace(
+                go.Scatter(
+                    x = ["2022-04-24", "2022-04-24"],
+                    y = [33.9, 66.1],
+                    mode = 'markers+text',
+                    name = "Score 2017",
+                    text=["  Résultat 2017 (33.9%)", "  Résultat 2017 (66.1%)"],
+                    textfont = {"color": "rgba(0, 0, 0, 1)", "size": 10},
+                    marker_symbol="x-thin",
+                    textposition = 'middle right',
+                    marker = {"color": "black", "size": 15, "line_color": "black", "line_width": 2},
+                    legendgroup = "score 2017",
+                    opacity=0.3,
+                    showlegend = False  
+                )
+            )
+            
 
         range_yaxis = [0, 100]
         if zoom:
