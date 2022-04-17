@@ -61,7 +61,7 @@ for candidat_T1 in df.candidat_T1.unique():
       calculer_sondages_candidat()
     except Exception as e:
       try:
-        calculer_sondages_candidat(frac=1)
+        calculer_sondages_candidat(frac=0.8)
       except Exception as e:
         fin_enquete_dt = [date.strftime('%Y-%m-%d') for date in df_temp["fin_enquete"].to_list()]
         dict_candidats_T1[choix_T2] = {"intentions_loess": {"fin_enquete": [], "valeur": [], "erreur_inf": [], "erreur_sup": []},

@@ -44,7 +44,7 @@ class Graphique():
                     x=self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                     y=y,
                     name = candidat,
-                    line = {"color": color, "width": 50, "shape": 'spline'},
+                    line = {"color": color, "width": 80, "shape": 'spline'},
                     legendgroup = candidat,
                     opacity=0.15,
                     mode = 'lines',
@@ -81,7 +81,7 @@ class Graphique():
                     {
                         "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
                         "y": y[-1],
-                        "text": candidat + " (" + str(round(y[-1], 2)) + "%)",
+                        "text": candidat + " (" + str(int(round(y[-1], 0))) + "%)",
                         "font": {"color": color, "size": 20},
                         "xanchor": "left",
                         "yanchor": "middle",
@@ -206,23 +206,20 @@ class Graphique():
 
 graphique = Graphique()
 
-graphique.switch_hypothese("Jean-Luc Mélenchon")
-graphique.plot(title_suffix="_melenchon", candidat_T1="Jean-Luc Mélenchon", couleur_candidat_T1=graphique.donnees["couleur"])
-
-graphique.switch_hypothese("Yannick Jadot")
-graphique.plot(title_suffix="_jadot", candidat_T1="Yannick Jadot", couleur_candidat_T1=graphique.donnees["couleur"])
-
-graphique.switch_hypothese("Valérie Pécresse")
-graphique.plot(title_suffix="_pecresse", candidat_T1="Valérie Pécresse", couleur_candidat_T1=graphique.donnees["couleur"])
-
-graphique.switch_hypothese("Eric Zemmour")
-graphique.plot(title_suffix="_zemmour", candidat_T1="Éric Zemmour", couleur_candidat_T1=graphique.donnees["couleur"])
+graphique.switch_hypothese("Emmanuel Macron")
+graphique.plot(title_suffix="_macron", candidat_T1="Emmanuel Macron", couleur_candidat_T1=graphique.donnees["couleur"])
 
 graphique.switch_hypothese("Marine Le Pen")
 graphique.plot(title_suffix="_lepen", candidat_T1="Marine Le Pen", couleur_candidat_T1=graphique.donnees["couleur"])
 
-graphique.switch_hypothese("Emmanuel Macron")
-graphique.plot(title_suffix="_macron", candidat_T1="Emmanuel Macron", couleur_candidat_T1=graphique.donnees["couleur"])
+graphique.switch_hypothese("Jean-Luc Mélenchon")
+graphique.plot(title_suffix="_melenchon", candidat_T1="Jean-Luc Mélenchon", couleur_candidat_T1=graphique.donnees["couleur"])
 
-#graphique.switch_hypothese("Hypothèse Mélenchon / Le Pen")
-#graphique.plot(title_suffix="_macron_lepen")
+graphique.switch_hypothese("Eric Zemmour")
+graphique.plot(title_suffix="_zemmour", candidat_T1="Éric Zemmour", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Valérie Pécresse")
+graphique.plot(title_suffix="_pecresse", candidat_T1="Valérie Pécresse", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Yannick Jadot")
+graphique.plot(title_suffix="_jadot", candidat_T1="Yannick Jadot", couleur_candidat_T1=graphique.donnees["couleur"])
