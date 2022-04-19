@@ -40,7 +40,7 @@ for candidat_T1 in df.candidat_T1.unique():
   
     fin_enquete_ts = df_temp["fin_enquete"].astype(np.int64) // 10 ** 9
 
-    def calculer_sondages_candidat(frac=0.2):
+    def calculer_sondages_candidat(frac=0.4):
         xout, yout, wout = loess_1d.loess_1d(fin_enquete_ts.values, df_temp.part.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
 
@@ -61,7 +61,7 @@ for candidat_T1 in df.candidat_T1.unique():
       calculer_sondages_candidat()
     except Exception as e:
       try:
-        calculer_sondages_candidat(frac=0.8)
+        calculer_sondages_candidat(frac=0.9)
       except Exception as e:
         fin_enquete_dt = [date.strftime('%Y-%m-%d') for date in df_temp["fin_enquete"].to_list()]
         dict_candidats_T1[choix_T2] = {"intentions_loess": {"fin_enquete": [], "valeur": [], "erreur_inf": [], "erreur_sup": []},

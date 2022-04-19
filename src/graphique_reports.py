@@ -12,6 +12,7 @@ class Graphique():
             self.donnees_json = json.load(file)
 
     def switch_hypothese(self, hypothese: str):
+        print(hypothese)
         self.candidats = []
         self.intentions = []
         self.donnees = self.donnees_json["hypotheses"][hypothese]
@@ -34,7 +35,7 @@ class Graphique():
 
         date_max_graphique = datetime.strptime(max(self.donnees["candidats"][self.candidats[0]]["intentions"]["fin_enquete"]), "%Y-%m-%d")
         temps_max_graphique = date_max_graphique + timedelta(days=15)
-        print(self.candidats)
+
         for candidat in self.candidats:
             y = self.donnees["candidats"][candidat]["intentions_loess"]["valeur"]
             color = self.donnees["candidats"][candidat]["couleur"]
@@ -76,21 +77,25 @@ class Graphique():
             #         showlegend = False  
             #     )
             # )
-            if y[-1]>0.5:
-                annotations += [
-                    {
-                        "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
-                        "y": y[-1],
-                        "text": candidat + " (" + str(int(round(y[-1], 0))) + "%)",
-                        "font": {"color": color, "size": 20},
-                        "xanchor": "left",
-                        "yanchor": "middle",
-                        "ax": 30,
-                        "ay": max(0.8, y[-1]),
-                        "yref": "y",
-                        "ayref": "y"
-                    }
-                ]
+            try:
+                if y[-1]>0.5:
+                    annotations += [
+                        {
+                            "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
+                            "y": y[-1],
+                            "text": candidat + " (" + str(int(round(y[-1], 0))) + "%)",
+                            "font": {"color": color, "size": 20},
+                            "xanchor": "left",
+                            "yanchor": "middle",
+                            "ax": 30,
+                            "ay": max(0.8, y[-1]),
+                            "yref": "y",
+                            "ayref": "y"
+                        }
+                    ]
+            except:
+                print("error y")
+                pass
 
         for idx in range(0, len(annotations)-1):
             annotation = annotations[idx] # Macron
