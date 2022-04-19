@@ -33,7 +33,7 @@ for candidat_T1 in df.candidat_T1.unique():
 
   df_candidat_T1 = df[df["candidat_T1"] == candidat_T1]
   dict_candidats_T1 = {}
-
+  print(df_candidat_T1.choix_T2.unique())
   for choix_T2 in df_candidat_T1.choix_T2.unique():
     print(f"{candidat_T1} -> {choix_T2}")
     df_temp = df_candidat_T1[df_candidat_T1["choix_T2"] == choix_T2]

@@ -36,7 +36,6 @@ class Graphique():
 
         date_max_graphique = datetime.strptime(max(self.donnees["candidats"][self.candidats[0]]["intentions_loess"]["fin_enquete"]), "%Y-%m-%d")
         temps_max_graphique = date_max_graphique + timedelta(days=50)
-
         for candidat in self.candidats:
             y = self.donnees["candidats"][candidat]["intentions_loess"]["valeur"]
             y_sup = self.donnees["candidats"][candidat]["intentions_loess"]["erreur_sup"]

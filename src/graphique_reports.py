@@ -34,7 +34,7 @@ class Graphique():
 
         date_max_graphique = datetime.strptime(max(self.donnees["candidats"][self.candidats[0]]["intentions"]["fin_enquete"]), "%Y-%m-%d")
         temps_max_graphique = date_max_graphique + timedelta(days=15)
-
+        print(self.candidats)
         for candidat in self.candidats:
             y = self.donnees["candidats"][candidat]["intentions_loess"]["valeur"]
             color = self.donnees["candidats"][candidat]["couleur"]
@@ -223,3 +223,6 @@ graphique.plot(title_suffix="_pecresse", candidat_T1="Valérie Pécresse", coule
 
 graphique.switch_hypothese("Yannick Jadot")
 graphique.plot(title_suffix="_jadot", candidat_T1="Yannick Jadot", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Abstention")
+graphique.plot(title_suffix="_abstention", candidat_T1="Abstention", couleur_candidat_T1=graphique.donnees["couleur"])
