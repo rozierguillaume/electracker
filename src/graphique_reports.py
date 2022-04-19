@@ -224,5 +224,8 @@ graphique.plot(title_suffix="_lepen", candidat_T1="Marine Le Pen", couleur_candi
 graphique.switch_hypothese("Emmanuel Macron")
 graphique.plot(title_suffix="_macron", candidat_T1="Emmanuel Macron", couleur_candidat_T1=graphique.donnees["couleur"])
 
+graphique.switch_hypothese("Abstebtion")
+graphique.plot(title_suffix="_abstention", candidat_T1="Abstention", couleur_candidat_T1=graphique.donnees["couleur"])
+
 #graphique.switch_hypothese("Hypothèse Mélenchon / Le Pen")
 #graphique.plot(title_suffix="_macron_lepen")
