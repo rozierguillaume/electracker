@@ -4,6 +4,11 @@ import json
 import numpy as np
 from datetime import datetime, timedelta
 
+resultats={
+    "Emmanuel Macron": 58,
+    "Marine Le Pen": 42
+}
+
 
 class Graphique():
 
@@ -42,6 +47,17 @@ class Graphique():
             y_sup = self.donnees["candidats"][candidat]["intentions_loess"]["erreur_sup"]
             y_inf = self.donnees["candidats"][candidat]["intentions_loess"]["erreur_inf"]
             color = self.donnees["candidats"][candidat]["couleur"]
+
+            fig.add_trace(
+                go.Scatter(
+                    x=["2022-04-24"],
+                    y=[resultats[candidat]],
+                    name = candidat,
+                    marker = {"color": color, "size": 15},
+                    legendgroup = candidat,
+                    mode = 'markers',
+                )
+            )
 
             fig.add_trace(
                 go.Scatter(
@@ -98,7 +114,7 @@ class Graphique():
                     text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
                     textfont = {"color": color, "size": 20},
                     textposition = 'middle right',
-                    marker = {"color": color, "size": 15},
+                    marker = {"color": color, "size": 5},
                     legendgroup = candidat,
                     showlegend = False  
                 )

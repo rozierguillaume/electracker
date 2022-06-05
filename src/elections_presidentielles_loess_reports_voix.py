@@ -44,15 +44,10 @@ for candidat_T1 in df.candidat_T1.unique():
         xout, yout, wout = loess_1d.loess_1d(fin_enquete_ts.values, df_temp.part.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
 
-        _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts.values, (df_temp.part-2).values, xnew=None, degree=1, frac=frac,
-                                  npoints=None, rotate=False, sigy=None)
-        _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts.values, (df_temp.part+2).values, xnew=None, degree=1, frac=frac,
-                                  npoints=None, rotate=False, sigy=None)
-
         xout_dt = [datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d') for date in xout]
         fin_enquete_dt = [date.strftime('%Y-%m-%d') for date in df_temp["fin_enquete"].to_list()]
 
-        dict_candidats_T1[choix_T2] = {"intentions_loess": {"fin_enquete": xout_dt, "valeur": list(yout.astype(float)), "erreur_inf": list(yout_erreur_inf.astype(float)), "erreur_sup": list(yout_erreur_sup.astype(float))},
+        dict_candidats_T1[choix_T2] = {"intentions_loess": {"fin_enquete": xout_dt, "valeur": list(yout.astype(float))},
                                     "intentions": {"fin_enquete": fin_enquete_dt, "valeur": df_temp.part.to_list()},
                                     "derniers_sondages": [],
                                     "couleur": CANDIDATS[choix_T2]["couleur"]}
@@ -61,10 +56,10 @@ for candidat_T1 in df.candidat_T1.unique():
       calculer_sondages_candidat()
     except Exception as e:
       try:
-        calculer_sondages_candidat(frac=1)
+        calculer_sondages_candidat(frac=0.9)
       except Exception as e:
         fin_enquete_dt = [date.strftime('%Y-%m-%d') for date in df_temp["fin_enquete"].to_list()]
-        dict_candidats_T1[choix_T2] = {"intentions_loess": {"fin_enquete": [], "valeur": [], "erreur_inf": [], "erreur_sup": []},
+        dict_candidats_T1[choix_T2] = {"intentions_loess": {"fin_enquete": [], "valeur": []},
                                     "intentions": {"fin_enquete": fin_enquete_dt, "valeur": df_temp.part.to_list()},
                                     "derniers_sondages": [],
                                     "couleur": CANDIDATS[choix_T2]["couleur"]}
