@@ -48,13 +48,13 @@ for hypothèse in HYPOTHÈSES:
     
     fin_enquete_ts = pd.to_datetime(df_temp["fin_enquete"]).astype(np.int64) // 10 ** 9
 
-    def calculer_sondages_candidat(frac=0.2):
+    def calculer_sondages_candidat(frac=0.15):
         xout, yout, wout = loess_1d.loess_1d(fin_enquete_ts, df_temp.intentions.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
 
-        _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_inf.values, xnew=None, degree=1, frac=0.2,
+        _, yout_erreur_inf, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_inf.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
-        _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_sup.values, xnew=None, degree=1, frac=0.2,
+        _, yout_erreur_sup, _ = loess_1d.loess_1d(fin_enquete_ts, df_temp.erreur_sup.values, xnew=None, degree=1, frac=frac,
                                   npoints=None, rotate=False, sigy=None)
 
         xout_dt = [datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d') for date in xout]

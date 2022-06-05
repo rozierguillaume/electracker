@@ -35,13 +35,12 @@ class Graphique():
         lv = len(value)
         return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
         
-    def plot(self, title_suffix=""):
+    def plot(self, title_suffix="", zoom=False):
         fig = go.Figure()
         annotations = []
 
         date_max_graphique = datetime.strptime(max(self.donnees["candidats"][self.candidats[0]]["intentions_loess"]["fin_enquete"]), "%Y-%m-%d")
-        temps_max_graphique = date_max_graphique + timedelta(days=70)
-
+        temps_max_graphique = date_max_graphique + timedelta(days=50)
         for candidat in self.candidats:
             y = self.donnees["candidats"][candidat]["intentions_loess"]["valeur"]
             y_sup = self.donnees["candidats"][candidat]["intentions_loess"]["erreur_sup"]
@@ -78,7 +77,7 @@ class Graphique():
                     marker = {"size": 4, "color": color},
                     legendgroup = candidat,
                     mode = 'markers',
-                    opacity = 0.2,
+                    opacity = 0.3,
                 )
             )
 
@@ -101,7 +100,7 @@ class Graphique():
                     line = {"color": color, "width": 0, "shape": 'spline'},
                     legendgroup = candidat,
                     fill = 'tonexty',
-                    fillcolor = "rgba" + str(self.hex_to_rgb(color) + (0.12,)),
+                    fillcolor = "rgba" + str(self.hex_to_rgb(color) + (0.18,)),
                     mode = 'lines',
                 )
             )
@@ -145,6 +144,27 @@ class Graphique():
                 annotations[idx+1]["yref"] = "y"
                 annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
 
+        fig.add_trace(
+                go.Scatter(
+                    x = ["2022-04-24", "2022-04-24"],
+                    y = [33.9, 66.1],
+                    mode = 'markers+text',
+                    name = "Score 2017",
+                    text=["  Résultat 2017 (33.9%)", "  Résultat 2017 (66.1%)"],
+                    textfont = {"color": "rgba(0, 0, 0, 1)", "size": 10},
+                    marker_symbol="x-thin",
+                    textposition = 'middle right',
+                    marker = {"color": "black", "size": 15, "line_color": "black", "line_width": 2},
+                    legendgroup = "score 2017",
+                    opacity=0.3,
+                    showlegend = False  
+                )
+            )
+            
+
+        range_yaxis = [0, 100]
+        if zoom:
+            range_yaxis=[35, 65]
 
         fig.update_layout(
             showlegend = False,
@@ -152,7 +172,7 @@ class Graphique():
             legend = {"orientation": "h"},
             yaxis = {
             "ticksuffix": "%",
-            "range": [0, 100]
+            "range": range_yaxis
             },
             xaxis = {
             "range": ["2022-01-01", temps_max_graphique] 
@@ -253,7 +273,7 @@ graphique.switch_hypothese("Hypothèse Macron / Le Pen")
 graphique.plot(title_suffix="_macron_lepen")
 
 #graphique.switch_hypothese("Hypothèse Macron / Mélenchon")
-#graphique.plot(title_suffix="_macron_melenchon")
+graphique.plot(title_suffix="_macron_lepen_zoom", zoom=True)
 
 #graphique.switch_hypothese("Hypothèse Macron / Zemmour")
 #graphique.plot(title_suffix="_macron_zemmour")

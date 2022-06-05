@@ -15,6 +15,20 @@ with open('data/output/intentionsCandidatsMoyenneMobile14JoursLoess.json', 'r') 
 with open('data/output/derniersSondagesCandidats.json', 'r') as file:
     derniers_sondages = json.load(file)
 
+resultats = {"Marine Le Pen": 23.15,
+            "Emmanuel Macron": 27.84, 
+            "Yannick Jadot": 4.63,
+            "Jean-Luc Mélenchon": 21.95,
+            "Fabien Roussel": 2.28,
+            "Valérie Pécresse": 4.78,
+            "Anne Hidalgo": 1.75,
+            "Eric Zemmour": 7.07,
+            "Nathalie Arthaud": 0.56,
+            "Jean Lassalle": 3.13,
+            "Philippe Poutou": 0.77,
+            "Nicolas Dupont-Aignan": 2.06           
+            }
+
 candidats = []
 intentions = []
 for idx, candidat in enumerate(donnees["candidats"]):
@@ -69,6 +83,7 @@ def plot():
             )
         )
 
+
         fig.add_trace(
             go.Scatter(
                 x = donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
@@ -90,26 +105,42 @@ def plot():
                 text = "", #candidat + " (" + str(round(y[-1], 1)) + "%)",
                 textfont = {"color": color, "size": 20},
                 textposition = 'middle right',
-                marker = {"color": color, "size": 15},
+                marker = {"color": color, "size": 2},
                 legendgroup = candidat,
                 showlegend = False  
             )
         )
+
+        fig.add_trace(
+            go.Scatter(
+                x = ["2022-04-10"],
+                y = [resultats[candidat]],
+                name = "Résultat" + candidat,
+                marker = {"size": 15, "color": color},
+                legendgroup = "resultats",
+                mode = 'markers',
+            )
+        )
+
+        print(candidat)
+        print(y[-1]-resultats[candidat])
+
         if y[-1]>0.5:
             annotations += [
                 {
-                    "x": donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
-                    "y": y[-1],
-                    "text": candidat + " (" + str(round(y[-1], 1)) + "%)",
+                    "x": "2022-04-10",
+                    "y": resultats[candidat],
+                    "text": candidat + " (" + str(resultats[candidat]) + "%)",
                     "font": {"color": color, "size": 20},
                     "xanchor": "left",
                     "yanchor": "middle",
                     "ax": 30,
-                    "ay": max(0.8, y[-1]),
+                    "ay": max(0.8, resultats[candidat]),
                     "yref": "y",
                     "ayref": "y"
                 }
             ]
+
 
     for idx in range(0, len(annotations)-1):
         annotation = annotations[idx] # Macron
@@ -122,7 +153,7 @@ def plot():
             annotations[idx+1]["ay"] = annotations[idx+1]["y"] + max(1-diff, 0) #max(1-diff, 0)
 
     date_max_graphique = datetime.strptime(max(donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"]), "%Y-%m-%d")
-    temps_max_graphique = date_max_graphique + timedelta(days=70)
+    temps_max_graphique = date_max_graphique + timedelta(days=75)
 
     fig.update_layout(
         showlegend = False,
@@ -133,7 +164,7 @@ def plot():
           "range": [0, 35]
         },
         xaxis = {
-          "range": ["2021-10-01", temps_max_graphique] 
+          "range": ["2022-01-01", temps_max_graphique] 
         },
         shapes = [
           {

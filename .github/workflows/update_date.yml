@@ -2,8 +2,8 @@ name: Python Scripts
 
 # Controls when the action will run. 
 on:
-  schedule:
-  - cron: "0 18 * * *" # UTC time (-1 en hiver et -2 en été)
+  #schedule:
+  #- cron: "15 * * * *" # UTC time (-1 en hiver et -2 en été)
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

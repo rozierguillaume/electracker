@@ -12,6 +12,7 @@ class Graphique():
             self.donnees_json = json.load(file)
 
     def switch_hypothese(self, hypothese: str):
+        print(hypothese)
         self.candidats = []
         self.intentions = []
         self.donnees = self.donnees_json["hypotheses"][hypothese]
@@ -44,7 +45,7 @@ class Graphique():
                     x=self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"],
                     y=y,
                     name = candidat,
-                    line = {"color": color, "width": 50, "shape": 'spline'},
+                    line = {"color": color, "width": 80, "shape": 'spline'},
                     legendgroup = candidat,
                     opacity=0.15,
                     mode = 'lines',
@@ -76,21 +77,25 @@ class Graphique():
             #         showlegend = False  
             #     )
             # )
-            if y[-1]>0.5:
-                annotations += [
-                    {
-                        "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
-                        "y": y[-1],
-                        "text": candidat + " (" + str(round(y[-1], 2)) + "%)",
-                        "font": {"color": color, "size": 20},
-                        "xanchor": "left",
-                        "yanchor": "middle",
-                        "ax": 30,
-                        "ay": max(0.8, y[-1]),
-                        "yref": "y",
-                        "ayref": "y"
-                    }
-                ]
+            try:
+                if y[-1]>0.5:
+                    annotations += [
+                        {
+                            "x": self.donnees["candidats"][candidat]["intentions_loess"]["fin_enquete"][-1],
+                            "y": y[-1],
+                            "text": candidat + " (" + str(int(round(y[-1], 0))) + "%)",
+                            "font": {"color": color, "size": 20},
+                            "xanchor": "left",
+                            "yanchor": "middle",
+                            "ax": 30,
+                            "ay": max(0.8, y[-1]),
+                            "yref": "y",
+                            "ayref": "y"
+                        }
+                    ]
+            except:
+                print("error y")
+                pass
 
         for idx in range(0, len(annotations)-1):
             annotation = annotations[idx] # Macron
@@ -206,23 +211,23 @@ class Graphique():
 
 graphique = Graphique()
 
-graphique.switch_hypothese("Jean-Luc Mélenchon")
-graphique.plot(title_suffix="_melenchon", candidat_T1="Jean-Luc Mélenchon", couleur_candidat_T1=graphique.donnees["couleur"])
-
-graphique.switch_hypothese("Yannick Jadot")
-graphique.plot(title_suffix="_jadot", candidat_T1="Yannick Jadot", couleur_candidat_T1=graphique.donnees["couleur"])
-
-graphique.switch_hypothese("Valérie Pécresse")
-graphique.plot(title_suffix="_pecresse", candidat_T1="Valérie Pécresse", couleur_candidat_T1=graphique.donnees["couleur"])
-
-graphique.switch_hypothese("Eric Zemmour")
-graphique.plot(title_suffix="_zemmour", candidat_T1="Éric Zemmour", couleur_candidat_T1=graphique.donnees["couleur"])
+graphique.switch_hypothese("Emmanuel Macron")
+graphique.plot(title_suffix="_macron", candidat_T1="Emmanuel Macron", couleur_candidat_T1=graphique.donnees["couleur"])
 
 graphique.switch_hypothese("Marine Le Pen")
 graphique.plot(title_suffix="_lepen", candidat_T1="Marine Le Pen", couleur_candidat_T1=graphique.donnees["couleur"])
 
-graphique.switch_hypothese("Emmanuel Macron")
-graphique.plot(title_suffix="_macron", candidat_T1="Emmanuel Macron", couleur_candidat_T1=graphique.donnees["couleur"])
+graphique.switch_hypothese("Jean-Luc Mélenchon")
+graphique.plot(title_suffix="_melenchon", candidat_T1="Jean-Luc Mélenchon", couleur_candidat_T1=graphique.donnees["couleur"])
 
-#graphique.switch_hypothese("Hypothèse Mélenchon / Le Pen")
-#graphique.plot(title_suffix="_macron_lepen")
+graphique.switch_hypothese("Eric Zemmour")
+graphique.plot(title_suffix="_zemmour", candidat_T1="Éric Zemmour", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Valérie Pécresse")
+graphique.plot(title_suffix="_pecresse", candidat_T1="Valérie Pécresse", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Yannick Jadot")
+graphique.plot(title_suffix="_jadot", candidat_T1="Yannick Jadot", couleur_candidat_T1=graphique.donnees["couleur"])
+
+graphique.switch_hypothese("Abstention")
+graphique.plot(title_suffix="_abstention", candidat_T1="Abstention", couleur_candidat_T1=graphique.donnees["couleur"])
